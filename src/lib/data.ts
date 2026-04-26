@@ -41,11 +41,11 @@ export interface CartItem {
 }
 
 export const CHARM_POSITIONS = [
-  { x: -140, y: -50 },
-  { x: -70,  y: -100 },
-  { x: 0,    y: -110 },
-  { x: 70,   y: -100 },
-  { x: 140,  y: -50 },
+  { x: -170, y: -55 },
+  { x: -90,  y: -115 },
+  { x: 0,    y: -135 },
+  { x: 90,   y: -115 },
+  { x: 170,  y: -55 },
 ] as const;
 
 export const FLOAT_DURATIONS = [3.8, 4.2, 3.5, 4.8, 3.2] as const;
@@ -54,18 +54,22 @@ export const FLOAT_DURATIONS = [3.8, 4.2, 3.5, 4.8, 3.2] as const;
 
 export const PRODUCTS = [
   { id: 1, name: 'Blossom set', price: '€28', collarColor: '#F4B5C0', bg: '#FAF0F5',
+    image: '/In_a_minimalist_style_a_delicate_pink_hzs32ACd.webp',
     badge: 'New arrival', badgeColor: '#3a7a3a', badgeBg: '#eef7ee',
     desc: 'Blush collar, five interchangeable charms.',
     charms: [{ bg: '#A8D5A2', e: '🌿' }, { bg: '#B8D8F4', e: '⭐' }, { bg: '#F9E4A0', e: '☀️' }, { bg: '#D4B8F4', e: '🌸' }] },
   { id: 2, name: 'Sage set', price: '€28', collarColor: '#A8D5A2', bg: '#EEF5EE',
+    image: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp',
     badge: undefined, badgeColor: undefined, badgeBg: undefined,
     desc: 'Fresh and earthy. Botanical charms.',
     charms: [{ bg: '#F4B5C0', e: '🌸' }, { bg: '#D4B8F4', e: '🦋' }, { bg: '#F9E4A0', e: '🍃' }] },
   { id: 3, name: 'Sky set', price: '€28', collarColor: '#B8D8F4', bg: '#EEF2F9',
+    image: '/A_yellow_star-shaped_charm_is_attached_to_a_pink_jWdEg3nN.webp',
     badge: 'Waterproof', badgeColor: '#2a5080', badgeBg: '#ddeeff',
     desc: 'For the adventurous pup. Fully waterproof.',
     charms: [{ bg: '#D4B8F4', e: '💎' }, { bg: '#A8D5A2', e: '🌊' }, { bg: '#F4B5C0', e: '🐾' }] },
   { id: 4, name: 'Honey set', price: '€28', collarColor: '#F9E4A0', bg: '#FDF6E3',
+    image: '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
     badge: 'Summer drop', badgeColor: '#8a6010', badgeBg: '#fdf0d0',
     desc: 'Warm and sunny. Seasonal summer charms.',
     charms: [{ bg: '#F4B5C0', e: '🌻' }, { bg: '#A8D5A2', e: '🍀' }, { bg: '#D4B8F4', e: '⭐' }] },

@@ -1,28 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SocialTicker } from './landing/SocialTicker';
 import { LandingNav } from './landing/LandingNav';
-import { HeroCream, HeroBold } from './landing/Hero';
+import { FloatingHero } from './ui/hero-floating';
 import { FeaturesStrip } from './landing/FeaturesStrip';
-import { HowItWorks } from './landing/HowItWorks';
 import { ProductGrid } from './landing/ProductGrid';
 import { CharmGrid } from './landing/CharmGrid';
-import { About } from './landing/About';
+import { PhotoSlider } from './landing/PhotoSlider';
+import { BentoSection } from './BentoSection';
 import { Reviews } from './landing/Reviews';
 import { LandingFooter } from './landing/LandingFooter';
 import { StickyCTA } from './landing/StickyCTA';
 import { ExitModal } from './landing/ExitModal';
 
-type Variant = 'cream' | 'bold';
-
 export function LandingPage() {
-  const [variant, setVariant] = useState<Variant>('cream');
-  const [heroSize, setHeroSize] = useState(72);
-  const [showReviews, setShowReviews] = useState(true);
+  const [cartCount] = useState(0);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [exitShown, setExitShown] = useState(false);
+  const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fn = () => setShowStickyCTA(window.scrollY > 500);
@@ -39,62 +38,97 @@ export function LandingPage() {
     return () => document.removeEventListener('mouseleave', fn);
   }, [exitShown]);
 
+  useEffect(() => {
+    if (!pageRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const mm = gsap.matchMedia();
+
+    mm.add(
+      {
+        allowMotion: '(prefers-reduced-motion: no-preference)',
+        reduceMotion: '(prefers-reduced-motion: reduce)'
+      },
+      (context) => {
+        const { allowMotion } = context.conditions as { allowMotion?: boolean };
+        if (!allowMotion) return;
+
+        const q = gsap.utils.selector(pageRef);
+        const sections = q('[data-animate="section"]');
+        const cards = q('[data-animate="card"]');
+        const photoSlider = q('[data-parallax="photo-slider"]');
+
+        sections.forEach((section) => {
+          gsap.from(section, {
+            autoAlpha: 0,
+            y: 40,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 82%',
+              toggleActions: 'play none none reverse'
+            }
+          });
+        });
+
+        ScrollTrigger.batch(cards, {
+          start: 'top 88%',
+          once: true,
+          onEnter: (batch) => {
+            gsap.from(batch, {
+              autoAlpha: 0,
+              y: 24,
+              duration: 0.55,
+              ease: 'power2.out',
+              stagger: 0.08,
+              overwrite: 'auto',
+              clearProps: 'transform,opacity,visibility'
+            });
+          }
+        });
+
+        if (photoSlider[0]) {
+          gsap.fromTo(
+            photoSlider[0],
+            { y: 18 },
+            {
+              y: -18,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: photoSlider[0],
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+              }
+            }
+          );
+        }
+      }
+    );
+
+    return () => {
+      mm.revert();
+    };
+  }, []);
+
   return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif" }}>
+    <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif" }}>
       <SocialTicker />
-      <LandingNav />
+      <LandingNav cartCount={cartCount} />
 
-      {variant === 'cream'
-        ? <HeroCream heroSize={heroSize} />
-        : <HeroBold heroSize={heroSize} />}
+      <FloatingHero />
 
-      <FeaturesStrip variant={variant} />
-      <HowItWorks />
-      <ProductGrid />
-      <CharmGrid />
-      <About variant={variant} />
-      {showReviews && <Reviews />}
-      <LandingFooter />
+      <div data-animate="section"><FeaturesStrip variant="cream" /></div>
+      <div data-animate="section"><ProductGrid /></div>
+      <div data-animate="section"><CharmGrid /></div>
+      <div data-animate="section" data-parallax="photo-slider"><PhotoSlider /></div>
+      <div data-animate="section"><BentoSection isDark={false} /></div>
+      <div data-animate="section"><Reviews /></div>
+      <div data-animate="section"><LandingFooter /></div>
 
       <StickyCTA visible={showStickyCTA} />
       {showExitModal && <ExitModal onClose={() => setShowExitModal(false)} />}
-
-      {/* Tweaks panel */}
-      <div style={{
-        position: 'fixed', bottom: 24, left: 24, zIndex: 200,
-        display: 'flex', flexDirection: 'column', gap: 8,
-        background: 'rgba(250,247,242,0.95)', backdropFilter: 'blur(12px)',
-        border: '1px solid #E8E3DC', borderRadius: 16, padding: '16px 20px',
-        boxShadow: '0 4px 24px rgba(61,53,48,0.12)',
-        minWidth: 200,
-      }}>
-        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 4 }}>Tweaks</div>
-
-        <div style={{ display: 'flex', gap: 6 }}>
-          {(['cream', 'bold'] as Variant[]).map(v => (
-            <button key={v} onClick={() => setVariant(v)} style={{
-              flex: 1, fontSize: 12, fontWeight: 500, padding: '6px 10px', borderRadius: 8, cursor: 'pointer',
-              border: 'none', transition: 'all 150ms',
-              background: variant === v ? '#3D3530' : '#F3EDE6',
-              color: variant === v ? '#FAF7F2' : '#9B948F',
-              fontFamily: "'DM Sans',sans-serif",
-            }}>
-              {v === 'cream' ? '☀️ Cream' : '🌙 Dark'}
-            </button>
-          ))}
-        </div>
-
-        <div>
-          <div style={{ fontSize: 11, color: '#9B948F', marginBottom: 4 }}>Hero size: {heroSize}px</div>
-          <input type="range" min={48} max={96} step={4} value={heroSize} onChange={e => setHeroSize(+e.target.value)}
-            style={{ width: '100%', accentColor: '#A8D5A2' }} />
-        </div>
-
-        <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-          <input type="checkbox" checked={showReviews} onChange={e => setShowReviews(e.target.checked)} style={{ accentColor: '#A8D5A2' }} />
-          <span style={{ fontSize: 12, color: '#6B6460', fontFamily: "'DM Sans',sans-serif" }}>Show reviews</span>
-        </label>
-      </div>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function HowItWorks() {
 
   return (
     <section id="how" style={{ background: '#FAF0F5', padding: isMobile ? '60px 20px' : '100px 40px' }}>
-      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 16 }}>How it works</div>
           <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 48, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.1 }}>

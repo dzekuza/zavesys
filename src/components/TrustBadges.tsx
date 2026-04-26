@@ -12,7 +12,7 @@ export function TrustBadges({ isDark }: { isDark: boolean }) {
   ];
 
   return (
-    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center', padding: '16px 0 4px' }}>
+    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', padding: '16px 0 4px', flexShrink: 0 }}>
       {badges.map(b => (
         <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={{ fontSize: 13, color: iconColor }}>{b.icon}</span>

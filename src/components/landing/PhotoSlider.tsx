@@ -1,0 +1,44 @@
+'use client';
+
+import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
+
+const ROW_ONE = [
+  '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
+  '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp',
+  '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp',
+  '/In_a_cute_and_playful_style_pastel-colored_dog_plHj2W1q.webp',
+  '/A_yellow_star-shaped_charm_is_attached_to_a_pink_jWdEg3nN.webp',
+  '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp',
+];
+
+const ROW_TWO = [
+  '/In_a_minimalist_style_a_delicate_pink_hzs32ACd.webp',
+  '/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp',
+  '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
+  '/A_woman_with_brown_hair_runs_along_a_sandy_beach_pMc16cB6.webp',
+  '/A_yellow_star-shaped_object_is_attached_to_a_GDnMbdUH.webp',
+  '/A_man_sits_at_an_outdoor_cafe_with_a_French_BfuQAh4h.webp',
+];
+
+export function PhotoSlider() {
+  return (
+    <section style={{ background: '#FAF7F2', padding: '80px 0', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <InfiniteSlider gap={16} duration={30}>
+          {ROW_ONE.map((src) => (
+            <div key={src} style={{ width: 280, height: 340, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
+              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+          ))}
+        </InfiniteSlider>
+        <InfiniteSlider gap={16} duration={30} reverse>
+          {ROW_TWO.map((src) => (
+            <div key={src} style={{ width: 280, height: 340, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
+              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+          ))}
+        </InfiniteSlider>
+      </div>
+    </section>
+  );
+}

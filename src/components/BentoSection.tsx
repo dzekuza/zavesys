@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { REVIEWS } from '@/lib/data';
 
 export function BentoSection({ isDark }: { isDark: boolean }) {
   const w = useWindowWidth();
@@ -32,7 +31,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
         <div style={{ gridColumn: isMobile ? 'span 1' : isTablet ? 'span 6' : 'span 7', borderRadius: 20, background: '#A8D5A2', padding: '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 260 }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(42,90,37,0.6)', marginBottom: 14 }}>The material</div>
-            <div style={{ fontSize: 32, fontWeight: 500, letterSpacing: '-0.02em', color: '#2a5a25', lineHeight: 1.2, marginBottom: 16 }}>
+            <div style={{ fontFamily: "'Mouse Memoirs','DM Sans',sans-serif", fontSize: 48, fontWeight: 400, letterSpacing: '0.01em', color: '#2a5a25', lineHeight: 1.05, marginBottom: 16 }}>
               Waterproof.<br />No odor. No stains.
             </div>
             <div style={{ fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: 1.7, maxWidth: 380 }}>
@@ -50,7 +49,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
         <div style={{ gridColumn: isMobile ? 'span 1' : isTablet ? 'span 6' : 'span 5', borderRadius: 20, background: '#3D3530', padding: '40px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 260 }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', marginBottom: 14 }}>Origin</div>
-            <div style={{ fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em', color: '#FAF7F2', lineHeight: 1.2, marginBottom: 12 }}>
+            <div style={{ fontFamily: "'Mouse Memoirs','DM Sans',sans-serif", fontSize: 48, fontWeight: 400, letterSpacing: '0.01em', color: '#FAF7F2', lineHeight: 1.05, marginBottom: 12 }}>
               Handmade in<br />Vilnius, Lithuania.
             </div>
             <div style={{ fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: 1.7 }}>
@@ -66,7 +65,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
         <div style={{ gridColumn: isMobile ? 'span 1' : isTablet ? 'span 3' : 'span 5', borderRadius: 20, background: cardBg, border: `1px solid ${border}`, padding: '32px 32px 28px' }}>
           <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, marginBottom: 16 }}>Sizing guide</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
-            <div style={{ fontSize: 48, fontWeight: 500, letterSpacing: '-0.03em', color: textPrimary, lineHeight: 1 }}>{sizeLabel}</div>
+            <div style={{ fontFamily: "'Mouse Memoirs','DM Sans',sans-serif", fontSize: 48, fontWeight: 400, letterSpacing: '0.01em', color: textPrimary, lineHeight: 1 }}>{sizeLabel}</div>
             <div style={{ fontSize: 15, color: textSecondary }}>{sizingNeck} cm</div>
           </div>
           <div style={{ fontSize: 13, color: textMuted, marginBottom: 20 }}>{sizeBreed}</div>
@@ -92,7 +91,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
         <div style={{ gridColumn: isMobile ? 'span 1' : isTablet ? 'span 3' : 'span 4', borderRadius: 20, background: '#F4B5C0', padding: '32px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,20,30,0.45)', marginBottom: 14 }}>Charm system</div>
-            <div style={{ fontSize: 26, fontWeight: 500, letterSpacing: '-0.02em', color: 'rgba(61,20,30,0.85)', lineHeight: 1.2, marginBottom: 10 }}>Snaps on in 5 seconds.</div>
+            <div style={{ fontFamily: "'Mouse Memoirs','DM Sans',sans-serif", fontSize: 48, fontWeight: 400, letterSpacing: '0.01em', color: 'rgba(61,20,30,0.85)', lineHeight: 1.05, marginBottom: 10 }}>Snaps on in 5 seconds.</div>
             <div style={{ fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: 1.6 }}>Magnetic connector. No clips. No tools. No fuss.</div>
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 20, alignItems: 'center' }}>
@@ -117,24 +116,6 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           ))}
         </div>
 
-        {/* Reviews */}
-        {REVIEWS.map((r, i) => (
-          <div key={i} style={{ gridColumn: isMobile ? 'span 1' : 'span 4', borderRadius: 20, background: cardBg, border: `1px solid ${border}`, padding: '28px 28px' }}>
-            <div style={{ display: 'flex', gap: 2, marginBottom: 14 }}>
-              {Array.from({ length: r.rating }).map((_, j) => <span key={j} style={{ color: '#F9E4A0', fontSize: 15 }}>★</span>)}
-            </div>
-            <p style={{ fontSize: 14, color: textPrimary, lineHeight: 1.75, marginBottom: 18, fontStyle: 'italic' }}>"{r.text}"</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: ['#F4B5C0', '#A8D5A2', '#B8D8F4'][i], display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 500, color: '#3D3530' }}>
-                {r.name[0]}
-              </div>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 500, color: textPrimary }}>{r.name}</div>
-                <div style={{ fontSize: 11, color: textMuted }}>{r.dog}</div>
-              </div>
-            </div>
-          </div>
-        ))}
       </div>
     </section>
   );

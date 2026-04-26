@@ -6,9 +6,12 @@ import { COLLARS, SIZES, CartItem, Collar } from '@/lib/data';
 import { Nav } from './Nav';
 import { CollarStage } from './CollarStage';
 import { ConfigPanel } from './ConfigPanel';
+import { ProductInfoCard } from './ProductInfoCard';
 import { MiniCart } from './MiniCart';
 import { BentoSection } from './BentoSection';
 import { UpsellModal } from './UpsellModal';
+import { PhotoSlider } from './landing/PhotoSlider';
+import { Reviews } from './landing/Reviews';
 
 export function ProductConfigurator() {
   const [isDark, setIsDark] = useState(false);
@@ -56,7 +59,17 @@ export function ProductConfigurator() {
     <div style={{ background: pageBg, minHeight: '100vh', transition: 'background 400ms', fontFamily: "'DM Sans',sans-serif" }}>
       <Nav isDark={isDark} cartCount={cart.length} onCartOpen={() => setCartOpen(true)} />
 
-      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', minHeight: '100vh', paddingTop: 0, alignItems: 'flex-start' }}>
+      <div
+        style={{
+          display: isMobile ? 'flex' : 'grid',
+          flexDirection: isMobile ? 'column' : undefined,
+          gridTemplateColumns: isMobile ? undefined : 'minmax(0, 1fr) 400px',
+          columnGap: isMobile ? undefined : 24,
+          minHeight: '100vh',
+          paddingTop: 0,
+          alignItems: 'start'
+        }}
+      >
         <CollarStage collar={collar} selectedCharms={selectedCharms} isDark={isDark} engraving={engraving} />
         <ConfigPanel
           collar={collar} setCollar={setCollar}
@@ -67,9 +80,14 @@ export function ProductConfigurator() {
           isDark={isDark}
           showEngraving={showEngraving}
         />
+        <div style={{ gridColumn: isMobile ? undefined : 2 }}>
+          <ProductInfoCard isDark={isDark} />
+        </div>
       </div>
 
       <BentoSection isDark={isDark} />
+      <PhotoSlider />
+      <Reviews />
 
       <footer style={{ background: '#3D3530', padding: isMobile ? '32px 24px' : '40px 60px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
         <div style={{ fontSize: 20, fontWeight: 500, letterSpacing: '-0.03em', color: '#FAF7F2', display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -83,33 +101,6 @@ export function ProductConfigurator() {
       {cartOpen && <MiniCart items={cart} onClose={() => setCartOpen(false)} onRemove={removeFromCart} />}
       {showUpsell && <UpsellModal collar={collar} onClose={handleUpsellClose} onAddCharms={handleAddCharms} />}
 
-      {/* Dark mode toggle for dev/demo */}
-      <div style={{ position: 'fixed', bottom: 24, left: 24, zIndex: 200, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <button
-          onClick={() => setIsDark(d => !d)}
-          style={{
-            background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(61,53,48,0.08)',
-            border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(61,53,48,0.12)'}`,
-            borderRadius: 100, padding: '8px 16px', cursor: 'pointer',
-            fontSize: 12, fontWeight: 500, color: isDark ? '#FAF7F2' : '#3D3530',
-            fontFamily: "'DM Sans',sans-serif", backdropFilter: 'blur(8px)',
-          }}
-        >
-          {isDark ? '☀️ Light' : '🌙 Dark'}
-        </button>
-        <button
-          onClick={() => setShowEngraving(s => !s)}
-          style={{
-            background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(61,53,48,0.08)',
-            border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(61,53,48,0.12)'}`,
-            borderRadius: 100, padding: '8px 16px', cursor: 'pointer',
-            fontSize: 12, fontWeight: 500, color: isDark ? '#FAF7F2' : '#3D3530',
-            fontFamily: "'DM Sans',sans-serif", backdropFilter: 'blur(8px)',
-          }}
-        >
-          {showEngraving ? '✏️ Hide engraving' : '✏️ Show engraving'}
-        </button>
-      </div>
     </div>
   );
 }

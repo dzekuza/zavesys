@@ -6,7 +6,7 @@ import { COLLARS, SIZES, CartItem, Collar } from '@/lib/data';
 import { Nav } from './Nav';
 import { CollarStage } from './CollarStage';
 import { ConfigPanel } from './ConfigPanel';
-import { ProductInfoCard } from './ProductInfoCard';
+import { ProductInfoTabs } from './ProductInfoTabs';
 import { MiniCart } from './MiniCart';
 import { BentoSection } from './BentoSection';
 import { UpsellModal } from './UpsellModal';
@@ -80,10 +80,8 @@ export function ProductConfigurator() {
           isDark={isDark}
           showEngraving={showEngraving}
         />
-        <div style={{ gridColumn: isMobile ? undefined : 2 }}>
-          <ProductInfoCard isDark={isDark} />
-        </div>
       </div>
+      <ProductInfoTabs isDark={isDark} />
 
       <BentoSection isDark={isDark} />
       <PhotoSlider />

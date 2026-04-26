@@ -62,56 +62,48 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         <path d="M260 40C320 120 290 240 180 270C70 300 20 210 60 130C100 50 200 30 260 40Z" stroke="#B8D8F4" strokeWidth="1.5" fill="none" strokeDasharray="8 6" />
       </svg>
 
-      {/* ── FLOATING IMAGES ── */}
+      {/* ── FLOATING IMAGES — left column ── */}
 
-      {/* Sage charm — top left */}
-      <div className="float-c" style={{ position: "absolute", left: "30%", top: "10%", width: 120, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 40 }}>
+      {/* Sage charm — top left edge */}
+      <div className="float-c" style={{ position: "absolute", left: "2%", top: "8%", width: 110, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 40 }}>
         <img src="/charm-z.png" alt="Sage charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Star charm — mid left */}
-      <div className="float-d" style={{ position: "absolute", left: "24%", top: "55%", width: 100, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 40 }}>
-        <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
-      </div>
-
-      {/* Heart charm — top right */}
-      <div className="float-e" style={{ position: "absolute", right: "27%", top: "12%", width: 100, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 40 }}>
-        <img src="/charm-heart.png" alt="Heart charm" style={{ width: "100%", height: "auto", display: "block" }} />
-      </div>
-
-      {/* Paw charm — mid right */}
-      <div className="float-f" style={{ position: "absolute", right: "24%", top: "57%", width: 108, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 40 }}>
-        <img src="/charm-paw.png" alt="Paw charm" style={{ width: "100%", height: "auto", display: "block" }} />
-      </div>
-
-      {/* Flower charm — mid left */}
-      <div className="float-a" style={{ position: "absolute", left: "20%", top: "22%", width: 96, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 40, animationDelay: "1.2s" }}>
+      {/* Flower charm — mid left edge */}
+      <div className="float-a" style={{ position: "absolute", left: "1%", top: "36%", width: 92, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 40, animationDelay: "1.2s" }}>
         <img src="/charm-flower.png" alt="Flower charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Star charm — mid right, smaller */}
-      <div className="float-b" style={{ position: "absolute", right: "19%", top: "28%", width: 80, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 40, animationDelay: "0.9s" }}>
+      {/* Star charm — lower left edge */}
+      <div className="float-d" style={{ position: "absolute", left: "2%", top: "62%", width: 96, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 40 }}>
         <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Heart charm — lower centre-left */}
-      <div className="float-c" style={{ position: "absolute", left: "38%", top: "60%", width: 76, filter: "drop-shadow(0 8px 18px rgba(244,181,192,0.4))", zIndex: 40, animationDelay: "1.6s" }}>
+      {/* ── FLOATING IMAGES — right column ── */}
+
+      {/* Heart charm — top right edge */}
+      <div className="float-e" style={{ position: "absolute", right: "2%", top: "10%", width: 96, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 40 }}>
         <img src="/charm-heart.png" alt="Heart charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Paw charm — top centre-right */}
-      <div className="float-d" style={{ position: "absolute", right: "36%", top: "8%", width: 80, filter: "drop-shadow(0 8px 18px rgba(184,216,244,0.4))", zIndex: 40, animationDelay: "0.3s" }}>
+      {/* Star charm — mid right edge */}
+      <div className="float-b" style={{ position: "absolute", right: "1%", top: "38%", width: 78, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 40, animationDelay: "0.9s" }}>
+        <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
+      </div>
+
+      {/* Paw charm — lower right edge */}
+      <div className="float-f" style={{ position: "absolute", right: "2%", top: "60%", width: 104, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 40 }}>
         <img src="/charm-paw.png" alt="Paw charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* ── HAND-DRAWN ANNOTATIONS ── */}
-      <svg style={{ position: "absolute", top: 80, right: "calc(50% + 160px)", pointerEvents: "none" }} width="130" height="70" viewBox="0 0 130 70" fill="none">
+      <svg style={{ position: "absolute", top: "14%", left: "11%", pointerEvents: "none" }} width="130" height="70" viewBox="0 0 130 70" fill="none">
         <text x="4" y="22" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,22)">made for</text>
         <text x="4" y="44" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,44)">your pup ♥</text>
         <path d="M 80 50 C 90 60, 100 62, 108 70" stroke="#9B948F" strokeWidth="1.4" fill="none" strokeLinecap="round" />
       </svg>
 
-      <svg style={{ position: "absolute", top: "58%", left: "calc(50% + 80px)", pointerEvents: "none" }} width="120" height="56" viewBox="0 0 120 56" fill="none">
+      <svg style={{ position: "absolute", top: "62%", right: "10%", pointerEvents: "none" }} width="120" height="56" viewBox="0 0 120 56" fill="none">
         <text x="4" y="22" fontFamily="'Caveat',cursive" fontSize="17" fill="#A8D5A2" transform="rotate(3,4,22)">swap in 5 sec!</text>
         <path d="M 10 30 C 6 42, 8 50, 16 54" stroke="#A8D5A2" strokeWidth="1.4" fill="none" strokeLinecap="round" />
         <path d="M 16 54 L 9 48 M 16 54 L 22 47" stroke="#A8D5A2" strokeWidth="1.4" strokeLinecap="round" />
@@ -161,7 +153,12 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         {/* CTAs */}
         <motion.div
           custom={0.4} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gap: 10,
+            width: "100%"
+          }}
         >
           <Link
             href="/configure"

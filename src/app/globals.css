@@ -3,8 +3,8 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Mouse Memoirs';
-  src: url('/MouseMemoirs-Regular.ttf') format('truetype');
+  font-family: 'Luckiest Guy';
+  src: url('/LuckiestGuy-Regular.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -62,7 +62,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: 'Mouse Memoirs', 'DM Sans', sans-serif !important;
+  font-family: 'Luckiest Guy', 'DM Sans', sans-serif !important;
   font-weight: 400 !important;
   letter-spacing: 0.01em;
 }

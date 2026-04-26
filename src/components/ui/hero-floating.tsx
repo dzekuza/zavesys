@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 const MARQUEE_IMAGES = [
   "/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp",
@@ -33,6 +34,9 @@ const FADE_UP = {
 };
 
 export function FloatingHero({ className }: FloatingHeroProps) {
+  const w = useWindowWidth() ?? 1200;
+  const isMobile = w < 768;
+
   return (
     <section
       className={cn("relative w-full h-screen overflow-hidden flex items-center justify-center", className)}
@@ -109,16 +113,16 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         <path d="M 16 54 L 9 48 M 16 54 L 22 47" stroke="#A8D5A2" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
 
-      {/* ── CENTRE TEXT CARD ── */}
+      {/* ── CENTRE TEXT ── */}
       <motion.div
         initial="hidden"
         animate="show"
         variants={{ hidden: { opacity: 0, scale: 0.94, y: 16 }, show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
         style={{
-          position: "relative", zIndex: 30, textAlign: "left",
-          maxWidth: 520, padding: "40px 36px",
-          background: "rgba(250,247,242,0.85)",
-          borderRadius: 24, backdropFilter: "blur(8px)",
+          position: "relative", zIndex: 30,
+          textAlign: isMobile ? "center" : "left",
+          maxWidth: 520,
+          padding: isMobile ? "0 24px" : "0",
         }}
       >
         {/* Badge */}
@@ -132,20 +136,20 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         {/* Headline */}
         <motion.h1
           custom={0.2} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ fontFamily: "'Mouse Memoirs', sans-serif", fontSize: "clamp(62px, 9vw, 78px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 20 }}
+          style={{ fontFamily: "'Luckiest Guy', sans-serif", fontSize: "clamp(62px, 9vw, 78px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 20 }}
         >
           Collars made<br />for <span style={{ color: "#A8D5A2" }}>them.</span>
         </motion.h1>
 
         {/* Wavy underline */}
-        <svg style={{ display: "block", margin: "-8px 0 20px", width: 110 }} viewBox="0 0 110 14" fill="none">
+        <svg style={{ display: "block", margin: isMobile ? "-8px auto 20px" : "-8px 0 20px", width: 110 }} viewBox="0 0 110 14" fill="none">
           <path d="M2 9 C18 2,34 14,50 7 S82 2,108 9" stroke="#A8D5A2" strokeWidth="2.5" fill="none" strokeLinecap="round" />
         </svg>
 
         {/* Subtext */}
         <motion.p
           custom={0.3} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: "0 0 36px" }}
+          style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: isMobile ? "0 auto 36px" : "0 0 36px" }}
         >
           Waterproof. Personalised. Swappable charms in five seconds flat.
         </motion.p>

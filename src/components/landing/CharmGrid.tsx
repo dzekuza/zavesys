@@ -31,7 +31,7 @@ export function CharmGrid() {
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 80, alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 16 }}>The charm collection</div>
-            <h2 style={{ fontFamily: "'Mouse Memoirs',sans-serif", fontSize: 48, fontWeight: 400, color: '#3D3530', letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: "'Luckiest Guy',sans-serif", fontSize: 48, fontWeight: 400, color: '#3D3530', letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: 20 }}>
               Your dog. Your style.
             </h2>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: '#6B6460', lineHeight: 1.7, marginBottom: 32, maxWidth: 380 }}>

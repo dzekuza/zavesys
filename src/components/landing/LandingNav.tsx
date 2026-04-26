@@ -111,7 +111,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
               href={link.href}
               onClick={() => setMenuOpen(false)}
               style={{
-                fontFamily: "'Mouse Memoirs',sans-serif",
+                fontFamily: "'Luckiest Guy',sans-serif",
                 fontSize: 'clamp(36px, 8vw, 64px)',
                 fontWeight: 400,
                 color: '#3D3530',

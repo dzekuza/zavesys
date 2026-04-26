@@ -65,42 +65,42 @@ export function FloatingHero({ className }: FloatingHeroProps) {
       {/* ── FLOATING IMAGES ── */}
 
       {/* Sage charm — top left */}
-      <div className="float-c" style={{ position: "absolute", left: "30%", top: "10%", width: 120, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 10 }}>
+      <div className="float-c" style={{ position: "absolute", left: "30%", top: "10%", width: 120, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 40 }}>
         <img src="/charm-z.png" alt="Sage charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Star charm — mid left */}
-      <div className="float-d" style={{ position: "absolute", left: "24%", top: "55%", width: 100, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 10 }}>
+      <div className="float-d" style={{ position: "absolute", left: "24%", top: "55%", width: 100, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 40 }}>
         <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Heart charm — top right */}
-      <div className="float-e" style={{ position: "absolute", right: "27%", top: "12%", width: 100, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 10 }}>
+      <div className="float-e" style={{ position: "absolute", right: "27%", top: "12%", width: 100, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 40 }}>
         <img src="/charm-heart.png" alt="Heart charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Paw charm — mid right */}
-      <div className="float-f" style={{ position: "absolute", right: "24%", top: "57%", width: 108, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 10 }}>
+      <div className="float-f" style={{ position: "absolute", right: "24%", top: "57%", width: 108, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 40 }}>
         <img src="/charm-paw.png" alt="Paw charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Flower charm — mid left */}
-      <div className="float-a" style={{ position: "absolute", left: "20%", top: "22%", width: 96, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 10, animationDelay: "1.2s" }}>
+      <div className="float-a" style={{ position: "absolute", left: "20%", top: "22%", width: 96, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 40, animationDelay: "1.2s" }}>
         <img src="/charm-flower.png" alt="Flower charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Star charm — mid right, smaller */}
-      <div className="float-b" style={{ position: "absolute", right: "19%", top: "28%", width: 80, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 10, animationDelay: "0.9s" }}>
+      <div className="float-b" style={{ position: "absolute", right: "19%", top: "28%", width: 80, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 40, animationDelay: "0.9s" }}>
         <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Heart charm — lower centre-left */}
-      <div className="float-c" style={{ position: "absolute", left: "38%", top: "60%", width: 76, filter: "drop-shadow(0 8px 18px rgba(244,181,192,0.4))", zIndex: 10, animationDelay: "1.6s" }}>
+      <div className="float-c" style={{ position: "absolute", left: "38%", top: "60%", width: 76, filter: "drop-shadow(0 8px 18px rgba(244,181,192,0.4))", zIndex: 40, animationDelay: "1.6s" }}>
         <img src="/charm-heart.png" alt="Heart charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Paw charm — top centre-right */}
-      <div className="float-d" style={{ position: "absolute", right: "36%", top: "8%", width: 80, filter: "drop-shadow(0 8px 18px rgba(184,216,244,0.4))", zIndex: 10, animationDelay: "0.3s" }}>
+      <div className="float-d" style={{ position: "absolute", right: "36%", top: "8%", width: 80, filter: "drop-shadow(0 8px 18px rgba(184,216,244,0.4))", zIndex: 40, animationDelay: "0.3s" }}>
         <img src="/charm-paw.png" alt="Paw charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 

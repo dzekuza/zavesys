@@ -4,21 +4,6 @@ import { useState } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { ALL_CHARMS } from '@/lib/data';
 
-const CHARM_IMAGE_BY_ID: Record<string, string> = {
-  c1: '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
-  c2: '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
-  c3: '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
-  c4: '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
-  c5: '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
-  c6: '/charms/004_A_light_blue_paw_print_shaped_object_is_centrally_0i_pOMaJ Background Removed.png',
-  c7: '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
-  c8: '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
-  c9: '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png',
-  c10: '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
-  c11: '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png',
-  c12: '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png'
-}
-
 export function CharmGrid() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
@@ -47,7 +32,7 @@ export function CharmGrid() {
               <div style={{ marginTop: 28, display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ width: 44, height: 44, borderRadius: '50%', background: selectedCharm.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <img
-                    src={encodeURI(CHARM_IMAGE_BY_ID[selectedCharm.id])}
+                    src={encodeURI(selectedCharm.image)}
                     alt=""
                     aria-hidden="true"
                     style={{ width: 24, height: 24, objectFit: 'contain' }}
@@ -77,7 +62,7 @@ export function CharmGrid() {
                 }}
               >
                 <img
-                  src={encodeURI(CHARM_IMAGE_BY_ID[c.id])}
+                  src={encodeURI(c.image)}
                   alt=""
                   aria-hidden="true"
                   style={{ width: isMobile ? 62 : 86, height: isMobile ? 62 : 86, objectFit: 'contain' }}

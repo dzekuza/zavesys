@@ -28,12 +28,16 @@ Two independent user flows, each with its own orchestrator:
 
 **Landing page** (`/`) → `src/app/page.tsx` → `LandingPage.tsx`
 Assembles `src/components/landing/` subcomponents. GSAP scroll animations are wired here via `data-animate="section"` and `data-animate="card"` attributes on wrapper divs. `StickyCTA` and `ExitModal` are toggled by scroll/mouseleave state owned by `LandingPage`.
+Render order: `SocialTicker → LandingNav → FloatingHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → BentoSection → Reviews → FAQ → LandingFooter`.
 
 **Configurator** (`/configure`) → `src/app/configure/page.tsx` → `ProductConfigurator.tsx`
 Owns all cart/selection state and passes it down to `CollarStage` (visual preview), `ConfigPanel` (4-step selection UI), `MiniCart`, and `UpsellModal`. State shape: `selectedCollar`, `selectedCharms: (string|null)[]`, `size`, `engraving`, `cartItems: CartItem[]`.
 
 **Products page** (`/products`) → `src/app/products/page.tsx`
-Self-contained page component with local `SimpleNav` and `CollarCard`/`CharmCard` helpers defined at module level in the same file.
+Self-contained page component with local `SimpleNav` and `CollarCard`/`CharmCard` helpers defined at module level in the same file. Has a server-component `src/app/products/layout.tsx` sibling that injects metadata + JSON-LD schema — this is the pattern for adding SEO to a `'use client'` page without restructuring it.
+
+**Guide pages** (`/guide/*`) → `src/app/guide/*/page.tsx`
+Fully server-rendered — **no `'use client'`**. These are the only pages in the project that are not client components. Do not add `'use client'` to them. Current guides: `how-to-measure-dog-collar`, `silicone-vs-nylon-dog-collars`.
 
 ## Data layer
 
@@ -58,6 +62,12 @@ The `isDark` boolean prop on many components (e.g. `BentoSection`, `CollarStage`
 ## Responsive pattern
 
 `src/hooks/useWindowWidth.ts` returns `number | undefined` (undefined on SSR). All callers must use `useWindowWidth() ?? 1200` to default to desktop layout on first render — this is intentional to avoid hydration mismatches. Do not change the fallback value without updating all callers.
+
+## SEO infrastructure
+
+Static files in `public/`: `robots.txt` (AI bot allowlist), `llms.txt` (AI agent context), `pricing.md` (machine-readable pricing).
+`src/app/sitemap.ts` — Next.js App Router sitemap, auto-generates `/sitemap.xml`. Add new routes here when creating pages.
+JSON-LD schema is injected via `<script type="application/ld+json" dangerouslySetInnerHTML=…>` in server components (`layout.tsx` for site-wide schemas, `page.tsx` for page-level schemas). Never inject schema inside `'use client'` components.
 
 ## Fonts
 

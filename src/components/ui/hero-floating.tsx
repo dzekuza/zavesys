@@ -120,8 +120,9 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         variants={{ hidden: { opacity: 0, scale: 0.94, y: 16 }, show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
         style={{
           position: "relative", zIndex: 30,
-          textAlign: isMobile ? "center" : "left",
+          textAlign: "center",
           maxWidth: 520,
+          margin: "0 auto",
           padding: isMobile ? "0 24px" : "0",
         }}
       >
@@ -149,7 +150,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         {/* Subtext */}
         <motion.p
           custom={0.3} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: isMobile ? "0 auto 36px" : "0 0 36px" }}
+          style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: "0 auto 36px" }}
         >
           Waterproof. Personalised. Swappable charms in five seconds flat.
         </motion.p>

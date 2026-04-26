@@ -25,7 +25,7 @@ export function ProductConfigurator() {
   const [cartOpen, setCartOpen] = useState(false);
   const [showUpsell, setShowUpsell] = useState(false);
 
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   const pageBg = isDark ? '#2A1E18' : '#FAF7F2';

@@ -9,7 +9,7 @@ interface NavProps {
 }
 
 export function Nav({ isDark, cartCount, onCartOpen }: NavProps) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   return (

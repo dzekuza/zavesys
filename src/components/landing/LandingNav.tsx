@@ -10,12 +10,12 @@ interface LandingNavProps {
 
 export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
   const [scrolled, setScrolled] = useState(false);
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', fn);
+    window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 

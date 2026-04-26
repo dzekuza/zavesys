@@ -20,7 +20,7 @@ const CHARM_IMAGE_BY_ID: Record<string, string> = {
 }
 
 export function CharmGrid() {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [selected, setSelected] = useState<string | null>(null);
   const selectedCharm = ALL_CHARMS.find(c => c.id === selected);

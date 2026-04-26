@@ -3,7 +3,7 @@
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function About({ variant }: { variant: 'cream' | 'bold' }) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const bg = variant === 'bold' ? '#3D3530' : '#A8D5A2';
   const textPrimary = variant === 'bold' ? '#FAF7F2' : '#2a5a25';

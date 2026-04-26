@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SocialTicker } from './landing/SocialTicker';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
@@ -20,96 +18,82 @@ export function LandingPage() {
   const [cartCount] = useState(0);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
-  const [exitShown, setExitShown] = useState(false);
+  const exitShown = useRef(false);
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fn = () => setShowStickyCTA(window.scrollY > 500);
-    window.addEventListener('scroll', fn);
+    window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
   useEffect(() => {
-    if (exitShown) return;
     const fn = (e: MouseEvent) => {
-      if (e.clientY < 20) { setShowExitModal(true); setExitShown(true); }
+      if (e.clientY < 20 && !exitShown.current) {
+        setShowExitModal(true);
+        exitShown.current = true;
+      }
     };
     document.addEventListener('mouseleave', fn);
     return () => document.removeEventListener('mouseleave', fn);
-  }, [exitShown]);
+  }, []);
 
   useEffect(() => {
     if (!pageRef.current) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mm: any = null;
 
-    gsap.registerPlugin(ScrollTrigger);
-    const mm = gsap.matchMedia();
+    Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(
+      ([{ gsap }, { ScrollTrigger }]) => {
+        if (!pageRef.current) return;
+        gsap.registerPlugin(ScrollTrigger);
+        mm = gsap.matchMedia();
 
-    mm.add(
-      {
-        allowMotion: '(prefers-reduced-motion: no-preference)',
-        reduceMotion: '(prefers-reduced-motion: reduce)'
-      },
-      (context) => {
-        const { allowMotion } = context.conditions as { allowMotion?: boolean };
-        if (!allowMotion) return;
+        mm.add(
+          {
+            allowMotion: '(prefers-reduced-motion: no-preference)',
+            reduceMotion: '(prefers-reduced-motion: reduce)',
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (context: any) => {
+            const { allowMotion } = context.conditions as { allowMotion?: boolean };
+            if (!allowMotion) return;
 
-        const q = gsap.utils.selector(pageRef);
-        const sections = q('[data-animate="section"]');
-        const cards = q('[data-animate="card"]');
-        const photoSlider = q('[data-parallax="photo-slider"]');
+            const q = gsap.utils.selector(pageRef);
+            const sections = q('[data-animate="section"]');
+            const cards = q('[data-animate="card"]');
+            const photoSlider = q('[data-parallax="photo-slider"]');
 
-        sections.forEach((section) => {
-          gsap.from(section, {
-            autoAlpha: 0,
-            y: 40,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 82%',
-              toggleActions: 'play none none reverse'
-            }
-          });
-        });
-
-        ScrollTrigger.batch(cards, {
-          start: 'top 88%',
-          once: true,
-          onEnter: (batch) => {
-            gsap.from(batch, {
-              autoAlpha: 0,
-              y: 24,
-              duration: 0.55,
-              ease: 'power2.out',
-              stagger: 0.08,
-              overwrite: 'auto',
-              clearProps: 'transform,opacity,visibility'
+            sections.forEach((section) => {
+              gsap.from(section, {
+                autoAlpha: 0, y: 40, duration: 0.8, ease: 'power2.out',
+                scrollTrigger: { trigger: section, start: 'top 82%', toggleActions: 'play none none reverse' },
+              });
             });
-          }
-        });
 
-        if (photoSlider[0]) {
-          gsap.fromTo(
-            photoSlider[0],
-            { y: 18 },
-            {
-              y: -18,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: photoSlider[0],
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1
-              }
+            ScrollTrigger.batch(cards, {
+              start: 'top 88%',
+              once: true,
+              onEnter: (batch) => {
+                gsap.from(batch, {
+                  autoAlpha: 0, y: 24, duration: 0.55, ease: 'power2.out',
+                  stagger: 0.08, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
+                });
+              },
+            });
+
+            if (photoSlider[0]) {
+              gsap.fromTo(photoSlider[0], { y: 18 }, {
+                y: -18, ease: 'none',
+                scrollTrigger: { trigger: photoSlider[0], start: 'top bottom', end: 'bottom top', scrub: 1 },
+              });
             }
-          );
-        }
+          }
+        );
       }
     );
 
-    return () => {
-      mm.revert();
-    };
+    return () => { mm?.revert(); };
   }, []);
 
   return (

@@ -66,7 +66,7 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 export function ProductGrid() {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const isTablet = w < 1024;
 

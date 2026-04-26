@@ -35,7 +35,7 @@ const INFO_TABS = [
 type ProductInfoTabId = typeof INFO_TABS[number]['id']
 
 export function ProductInfoTabs ({ isDark }: ProductInfoTabsProps) {
-  const windowWidth = useWindowWidth()
+  const windowWidth = useWindowWidth() ?? 1200
   const isMobile = windowWidth < 768
   const [activeTab, setActiveTab] = useState<ProductInfoTabId>(INFO_TABS[0].id)
 

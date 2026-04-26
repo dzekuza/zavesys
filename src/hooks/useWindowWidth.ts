@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 
-export function useWindowWidth() {
-  const [width, setWidth] = useState(1200);
+export function useWindowWidth(): number | undefined {
+  const [width, setWidth] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     setWidth(window.innerWidth);
     const fn = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', fn);
+    window.addEventListener('resize', fn, { passive: true });
     return () => window.removeEventListener('resize', fn);
   }, []);
 

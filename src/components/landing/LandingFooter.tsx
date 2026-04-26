@@ -9,7 +9,7 @@ const FOOTER_COLS = [
 ];
 
 export function LandingFooter() {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   return (

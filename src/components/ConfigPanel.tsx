@@ -27,7 +27,7 @@ export function ConfigPanel({
   collar, setCollar, selectedCharms, toggleCharm,
   size, setSize, engraving, setEngraving, onAddToCart, isDark, showEngraving,
 }: ConfigPanelProps) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [step, setStep] = useState<Step>(0);
 

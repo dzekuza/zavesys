@@ -7,7 +7,7 @@ import { PRODUCTS, ALL_CHARMS, Product } from '@/lib/data';
 type Filter = 'all' | 'collars' | 'charms';
 
 function SimpleNav() {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   return (
     <header style={{
@@ -103,7 +103,7 @@ function CollarCard({ product }: { product: Product }) {
 }
 
 export default function ProductsPage() {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const isTablet = w < 1024;
   const [filter, setFilter] = useState<Filter>('all');

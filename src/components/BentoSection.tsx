@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function BentoSection({ isDark }: { isDark: boolean }) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const isTablet = w < 1024;
 

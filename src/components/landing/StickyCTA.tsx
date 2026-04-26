@@ -3,7 +3,7 @@
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   return (

@@ -37,7 +37,7 @@ function Pill({ children, onClick, variant = 'primary', size = 'md' }: {
 }
 
 export function HeroCream({ heroSize }: { heroSize: number }) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [activeCharm, setActiveCharm] = useState(0);
 
@@ -101,7 +101,7 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
 }
 
 export function HeroBold({ heroSize }: { heroSize: number }) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [activeCollar, setActiveCollar] = useState(0);
   const c = BOLD_COLLARS[activeCollar];

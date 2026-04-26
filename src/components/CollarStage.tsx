@@ -71,7 +71,7 @@ interface CollarStageProps {
 }
 
 export function CollarStage({ collar, selectedCharms, isDark, engraving }: CollarStageProps) {
-  const w = useWindowWidth();
+  const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [activeView, setActiveView] = useState(0);
   const selectedCharmCount = selectedCharms.filter(Boolean).length;

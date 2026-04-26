@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 interface NavProps {
@@ -19,7 +20,7 @@ export function Nav({ isDark, cartCount, onCartOpen }: NavProps) {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: isMobile ? '0 16px' : '0 40px', transition: 'background 400ms',
     }}>
-      <a
+      <Link
         href="/"
         style={{
           fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500,
@@ -31,9 +32,9 @@ export function Nav({ isDark, cartCount, onCartOpen }: NavProps) {
         onMouseLeave={e => (e.currentTarget.style.color = isDark ? 'rgba(250,247,242,0.5)' : '#9B948F')}
       >
         ← Back to shop
-      </a>
+      </Link>
 
-      <a
+      <Link
         href="/"
         aria-label="Žavesys home"
         style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
@@ -43,7 +44,7 @@ export function Nav({ isDark, cartCount, onCartOpen }: NavProps) {
           alt="Žavesys"
           style={{ height: 32, width: 'auto', display: 'block' }}
         />
-      </a>
+      </Link>
 
       <button
         onClick={onCartOpen}

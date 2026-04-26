@@ -105,7 +105,8 @@ function CharmsStep({
         onBlur={e => (e.target.style.borderColor = borderColor)}
       />
 
-      {/* Grid */}
+      {/* Grid — max 3 rows visible, scroll for more */}
+      <div style={{ overflowY: 'auto', maxHeight: 276, paddingRight: 2 }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
         {filtered.map(c => {
           const isSelected = selectedCharms.includes(c.id);
@@ -144,6 +145,7 @@ function CharmsStep({
             No charms found
           </div>
         )}
+      </div>
       </div>
     </div>
   );

@@ -58,7 +58,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
               </button>
             </div>
             <div style={{ textAlign: 'center', marginTop: 14, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#9B948F' }}>
-              <span onClick={onClose} style={{ cursor: 'pointer', textDecoration: 'underline' }}>No thanks, I'll pay full price</span>
+              <span onClick={onClose} style={{ cursor: 'pointer', textDecoration: 'underline' }}>No thanks, I&apos;ll pay full price</span>
             </div>
           </>
         ) : (
@@ -71,7 +71,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
                 style={{ width: 40, height: 40, objectFit: 'contain' }}
               />
             </div>
-            <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 24, fontWeight: 500, color: '#3D3530', marginBottom: 10 }}>You're in!</h2>
+            <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 24, fontWeight: 500, color: '#3D3530', marginBottom: 10 }}>You&apos;re in!</h2>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7, marginBottom: 24 }}>Check your inbox for your 10% off code. Valid on your first order.</p>
             <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Shop now →</button>
           </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const FOOTER_COLS = [
@@ -30,9 +31,9 @@ export function LandingFooter() {
       <div style={{ maxWidth: 1160, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '2fr 1fr 1fr 1fr', gap: isMobile ? 24 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
-            <a href="/" aria-label="Žavesys home" style={{ display: 'inline-flex', marginBottom: 16 }}>
+            <Link href="/" aria-label="Žavesys home" style={{ display: 'inline-flex', marginBottom: 16 }}>
               <img src="/pawcharms.svg" alt="Žavesys" style={{ height: 32, width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
-            </a>
+            </Link>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.5)', lineHeight: 1.7, maxWidth: 260 }}>Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.</p>
             <div style={{ marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(250,247,242,0.35)', fontStyle: 'italic' }}>Vandeniui atspari.</div>
           </div>

@@ -17,10 +17,10 @@ export function About({ variant }: { variant: 'cream' | 'bold' }) {
           Made with care,<br />here in Lithuania.
         </h2>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: textSecondary, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 20px' }}>
-          Žavesys means "enchantment" in Lithuanian — and that's exactly what we wanted to create. Each collar is handcrafted in Vilnius, made from waterproof materials that hold up to mud, rain, and lakes without odor or staining.
+          Žavesys means &ldquo;enchantment&rdquo; in Lithuanian — and that&apos;s exactly what we wanted to create. Each collar is handcrafted in Vilnius, made from waterproof materials that hold up to mud, rain, and lakes without odor or staining.
         </p>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: textSecondary, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 48px' }}>
-          The charm system was born from a simple idea: your dog's collar should be as unique as they are, and changing it should take five seconds, not five minutes.
+          The charm system was born from a simple idea: your dog&apos;s collar should be as unique as they are, and changing it should take five seconds, not five minutes.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
           <button style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: '#A8D5A2', color: '#2a5a25', border: '2px solid transparent', transition: 'all 150ms' }}>

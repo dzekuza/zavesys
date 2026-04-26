@@ -51,7 +51,7 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
             <span style={{ color: '#A8D5A2' }}>Yours.</span>
           </h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: '#6B6460', lineHeight: 1.7, maxWidth: 400, marginBottom: 40 }}>
-            Snap on a charm, change your dog's look. Five seconds. That's it.
+            Snap on a charm, change your dog&apos;s look. Five seconds. That&apos;s it.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <a href="/configure" style={{ textDecoration: 'none' }}><Pill size="lg">Shop collars</Pill></a>
@@ -116,7 +116,7 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
             Snap it on.<br />Show it off.
           </h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: 'rgba(250,247,242,0.65)', lineHeight: 1.7, maxWidth: 400, marginBottom: 40 }}>
-            Waterproof dog collars with snap-on charms. Change your dog's look in five seconds.
+            Waterproof dog collars with snap-on charms. Change your dog&apos;s look in five seconds.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 40 }}>
             <a href="/configure" style={{ textDecoration: 'none' }}><Pill size="lg">Shop collars</Pill></a>

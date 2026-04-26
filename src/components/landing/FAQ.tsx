@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const FAQS = [
@@ -28,7 +28,6 @@ const FAQS = [
 
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
-  const answerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
@@ -97,11 +96,8 @@ export function FAQ() {
             </button>
             <div
               id={`faq-answer-${i}`}
-              ref={(element) => {
-                answerRefs.current[i] = element;
-              }}
               style={{
-                maxHeight: open === i ? `${answerRefs.current[i]?.scrollHeight ?? 0}px` : '0px',
+                maxHeight: open === i ? '400px' : '0px',
                 opacity: open === i ? 1 : 0,
                 overflow: 'hidden',
                 transition: 'max-height 320ms ease, opacity 220ms ease'

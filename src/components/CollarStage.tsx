@@ -15,7 +15,6 @@ import {
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  arrayMove,
   horizontalListSortingStrategy,
   useSortable,
 } from '@dnd-kit/sortable';
@@ -138,7 +137,7 @@ function SortableSlot({
   );
 }
 
-function DragPreview({ charmId, slotSize, charmSize, isMobile }: { charmId: string; slotSize: number; charmSize: number; isMobile: boolean }) {
+function DragPreview({ charmId, slotSize, charmSize }: { charmId: string; slotSize: number; charmSize: number }) {
   const charm = ALL_CHARMS.find(c => c.id === charmId);
   if (!charm) return null;
   return (
@@ -176,6 +175,7 @@ export function CollarStage({ collar, selectedCharms, isDark, moveCharm, onClear
   const charmSize = isMobile ? 120 : 150;
   const [mounted, setMounted] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   const sensors = useSensors(
@@ -251,7 +251,7 @@ export function CollarStage({ collar, selectedCharms, isDark, moveCharm, onClear
             </SortableContext>
             <DragOverlay>
               {activeId && activeCharmId ? (
-                <DragPreview charmId={activeCharmId} slotSize={slotSize} charmSize={charmSize} isMobile={isMobile} />
+                <DragPreview charmId={activeCharmId} slotSize={slotSize} charmSize={charmSize} />
               ) : null}
             </DragOverlay>
           </DndContext>

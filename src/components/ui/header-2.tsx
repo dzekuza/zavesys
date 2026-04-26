@@ -8,8 +8,6 @@ import { useScroll } from '@/components/ui/use-scroll';
 export function Header() {
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
-  const headerBaseClass =
-    'sticky top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent md:rounded-md md:border md:transition-all md:ease-out'
   const navBaseClass =
     'flex h-14 w-full items-center justify-between px-4 text-foreground md:h-12 md:transition-all md:ease-out'
 

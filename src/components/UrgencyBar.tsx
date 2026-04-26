@@ -8,7 +8,9 @@ export function UrgencyBar({ collar, isDark }: { collar: Collar; isDark: boolean
   const [viewers, setViewers] = useState(9);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCount(Math.floor(Math.random() * 8) + 3);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setViewers(Math.floor(Math.random() * 12) + 6);
   }, []);
 

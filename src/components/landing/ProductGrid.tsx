@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { PRODUCTS, Product } from '@/lib/data';
 
@@ -78,7 +79,7 @@ export function ProductGrid() {
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 12 }}>Collar sets</div>
             <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 40, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.1 }}>Shop all collars</h2>
           </div>
-          <a href="/products" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#9B948F', textDecoration: 'none' }}>View all →</a>
+          <Link href="/products" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#9B948F', textDecoration: 'none' }}>View all →</Link>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : isTablet ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: isMobile ? 16 : 24 }}>
           {PRODUCTS.map(p => <ProductCard key={p.id} product={p} />)}

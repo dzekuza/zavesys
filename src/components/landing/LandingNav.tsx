@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
@@ -46,9 +47,9 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: isMobile ? '0 20px' : '0 40px',
       }}>
-        <a href="/" aria-label="Žavesys home" style={{ display: 'flex', alignItems: 'center' }}>
+        <Link href="/" aria-label="Žavesys home" style={{ display: 'flex', alignItems: 'center' }}>
           <img src="/pawcharms.svg" alt="Žavesys" style={{ height: 32, width: 'auto', display: 'block' }} />
-        </a>
+        </Link>
 
         {!isMobile && (
           <nav style={{ display: 'flex', gap: 32 }}>

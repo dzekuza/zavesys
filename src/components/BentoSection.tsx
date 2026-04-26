@@ -8,7 +8,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
   const isMobile = w < 768;
   const isTablet = w < 1024;
 
-  const bg = isDark ? '#2A1E18' : '#F3EDE6';
+  const bg = isDark ? '#2A1E18' : '#FAF7F2';
   const cardBg = isDark ? 'rgba(255,255,255,0.05)' : 'white';
   const cardBgAlt = isDark ? 'rgba(255,255,255,0.03)' : '#FAF7F2';
   const border = isDark ? 'rgba(255,255,255,0.08)' : '#E8E3DC';

@@ -78,7 +78,7 @@ export function ProductGrid() {
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 12 }}>Collar sets</div>
             <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 40, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.1 }}>Shop all collars</h2>
           </div>
-          <a href="#" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#9B948F', textDecoration: 'none' }}>View all →</a>
+          <a href="/products" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#9B948F', textDecoration: 'none' }}>View all →</a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : isTablet ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: isMobile ? 16 : 24 }}>
           {PRODUCTS.map(p => <ProductCard key={p.id} product={p} />)}

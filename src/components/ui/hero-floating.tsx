@@ -140,7 +140,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         {/* Headline */}
         <motion.h1
           custom={0.2} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(48px, 5.5vw, 72px)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.05, color: "#3D3530", marginBottom: 20 }}
+          style={{ fontFamily: "'Mouse Memoirs', sans-serif", fontSize: "clamp(52px, 6vw, 74px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 20 }}
         >
           Collars made<br />for <span style={{ color: "#A8D5A2" }}>them.</span>
         </motion.h1>
@@ -161,19 +161,19 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         {/* CTAs */}
         <motion.div
           custom={0.4} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}
+          style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}
         >
           <Link
             href="/configure"
-            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "14px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "inline-block", transition: "background 150ms" }}
+            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}
           >
             Build your collar →
           </Link>
           <Link
-            href="/"
-            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "14px 32px", borderRadius: 100, border: "2px solid #A8D5A2", color: "#A8D5A2", textDecoration: "none", background: "transparent", display: "inline-block", transition: "background 150ms" }}
+            href="/products"
+            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "14px 32px", borderRadius: 100, border: "2px solid #A8D5A2", color: "#A8D5A2", textDecoration: "none", background: "transparent", display: "block", textAlign: "center", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#D4EDD1")}
             onMouseOut={e => (e.currentTarget.style.background = "transparent")}
           >

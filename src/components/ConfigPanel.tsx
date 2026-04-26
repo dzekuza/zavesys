@@ -1,31 +1,160 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { Collar, COLLARS, ALL_CHARMS, SIZES } from '@/lib/data';
-import { UrgencyBar } from './UrgencyBar';
 import { TrustBadges } from './TrustBadges';
+
+const MOBILE_FEATURES = [
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_green_drop_shape_with_a_subtle_curve_on_qVGIeFtL Background Removed.png', text: 'Water-proof' },
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_simple_circular_graphic_depicts_a_clock_face_8DikilGN Background Removed.png', text: 'Easy to use' },
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/In_a_flat_design_style_a_light_green_heart_shape_mhu_5XWt Background Removed.png', text: 'Eco-friendly' },
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_blue_icon_depicts_a_simple_square_box_k_3i4pxx Background Removed.png', text: 'Free returns' },
+];
 
 interface ConfigPanelProps {
   collar: Collar;
   setCollar: (c: Collar) => void;
   selectedCharms: (string | null)[];
   toggleCharm: (id: string) => void;
+  moveCharm: (fromIndex: number, toIndex: number) => void;
   size: string;
   setSize: (s: string) => void;
-  engraving: string;
-  setEngraving: (v: string) => void;
   onAddToCart: () => void;
   isDark: boolean;
-  showEngraving: boolean;
 }
 
-const STEPS = ['Colour', 'Charms', 'Size', 'Engraving'] as const;
-type Step = 0 | 1 | 2 | 3;
+type CharmTab = 'all' | 'letter' | 'icon';
+
+function CharmsStep({
+  selectedCharms, toggleCharm, textMuted, textSecondary, textPrimary, borderColor, isDark,
+}: {
+  selectedCharms: (string | null)[];
+  toggleCharm: (id: string) => void;
+  textMuted: string;
+  textSecondary: string;
+  textPrimary: string;
+  borderColor: string;
+  isDark: boolean;
+}) {
+  const [query, setQuery] = useState('');
+  const [tab, setTab] = useState<CharmTab>('all');
+  const selectedCount = selectedCharms.filter(Boolean).length;
+
+  const filtered = useMemo(() => {
+    let list = tab === 'all' ? [...ALL_CHARMS] : ALL_CHARMS.filter(c => c.category === tab);
+    if (query.trim()) list = list.filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
+    return list;
+  }, [query, tab]);
+
+  const TABS: { id: CharmTab; label: string }[] = [
+    { id: 'all', label: 'All' },
+    { id: 'letter', label: 'Letters' },
+    { id: 'icon', label: 'Icons' },
+  ];
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted }}>
+          Choose charms
+        </div>
+        <div style={{ fontSize: 12, fontWeight: 400, color: textSecondary }}>
+          {selectedCount > 0 ? `${selectedCount} selected` : <span style={{ color: textMuted, fontStyle: 'italic' }}>optional</span>}
+        </div>
+      </div>
+
+      {/* Category tabs */}
+      <div style={{ display: 'flex', gap: 6 }}>
+        {TABS.map(t => {
+          const active = tab === t.id;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              style={{
+                padding: '6px 14px', borderRadius: 20, border: 'none', cursor: 'pointer',
+                fontSize: 12, fontWeight: 500, fontFamily: "'DM Sans',sans-serif",
+                background: active ? textPrimary : (isDark ? 'rgba(255,255,255,0.07)' : '#EDE8E2'),
+                color: active ? (isDark ? '#3D3530' : '#FAF7F2') : textMuted,
+                transition: 'background-color 150ms ease-out, color 150ms ease-out',
+              }}
+            >
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Search */}
+      <input
+        type="search"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        placeholder="Search charms…"
+        style={{
+          width: '100%', boxSizing: 'border-box',
+          padding: '9px 12px', borderRadius: 10,
+          border: `1.5px solid ${borderColor}`,
+          background: isDark ? 'rgba(255,255,255,0.06)' : '#F8F5F1',
+          color: textPrimary, fontSize: 13,
+          fontFamily: "'DM Sans',sans-serif",
+          outline: 'none', transition: 'border-color 150ms ease-out',
+        }}
+        onFocus={e => (e.target.style.borderColor = '#A8D5A2')}
+        onBlur={e => (e.target.style.borderColor = borderColor)}
+      />
+
+      {/* Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+        {filtered.map(c => {
+          const isSelected = selectedCharms.includes(c.id);
+          const isFull = selectedCount >= 5 && !isSelected; // max 5 slots on collar
+          return (
+            <button
+              key={c.id}
+              className={!isFull ? 'btn-press' : undefined}
+              onClick={() => !isFull && toggleCharm(c.id)}
+              title={c.name}
+              style={{
+                borderRadius: 14,
+                background: isDark ? 'rgba(255,255,255,0.06)' : '#F0EBE5',
+                cursor: isFull ? 'not-allowed' : 'pointer',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
+                padding: '10px 6px 8px',
+                opacity: isFull ? 0.3 : 1,
+                outline: 'none',
+                border: isSelected ? `2px solid ${textPrimary}` : '2px solid transparent',
+                transition: 'border-color 120ms ease-out, opacity 150ms ease-out, transform 100ms ease-out',
+                boxShadow: isSelected ? `0 0 0 1px rgba(61,53,48,0.08)` : 'none',
+              }}
+            >
+              <img
+                src={encodeURI(c.image)}
+                alt=""
+                aria-hidden="true"
+                style={{ width: 52, height: 52, objectFit: 'contain' }}
+              />
+              <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2 }}>{c.name}</span>
+            </button>
+          );
+        })}
+        {filtered.length === 0 && (
+          <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: textMuted }}>
+            No charms found
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const STEPS = ['Colour', 'Charms', 'Size'] as const;
+type Step = 0 | 1 | 2;
 
 export function ConfigPanel({
-  collar, setCollar, selectedCharms, toggleCharm,
-  size, setSize, engraving, setEngraving, onAddToCart, isDark, showEngraving,
+  collar, setCollar, selectedCharms, toggleCharm, moveCharm,
+  size, setSize, onAddToCart, isDark,
 }: ConfigPanelProps) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
@@ -37,43 +166,47 @@ export function ConfigPanel({
   const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : '#6B6460';
   const textMuted = isDark ? 'rgba(250,247,242,0.35)' : '#9B948F';
   const divider = isDark ? 'rgba(255,255,255,0.08)' : '#F0EBE5';
-  const stepCount = showEngraving ? 4 : 3;
-  const isLast = step === (showEngraving ? 3 : 2);
+  const isLast = step === 2;
 
   const next = () => {
-    if (step < stepCount - 1) setStep(s => (s + 1) as Step);
+    if (step < 2) setStep(s => (s + 1) as Step);
   };
   const back = () => {
     if (step > 0) setStep(s => (s - 1) as Step);
   };
 
-  const visibleSteps = showEngraving ? STEPS : STEPS.slice(0, 3);
-
   return (
     <div
       className="config-panel"
       style={{
-        width: isMobile ? 'auto' : 400, flexShrink: 0, alignSelf: isMobile ? 'stretch' : 'flex-end',
+        width: isMobile ? '100%' : 400, flexShrink: 0, alignSelf: isMobile ? 'stretch' : 'flex-end',
         height: 'auto',
-        maxHeight: isMobile ? '80vh' : 'none',
-        position: 'sticky', top: isMobile ? 0 : 80,
-        overflowY: 'hidden', overscrollBehavior: 'contain',
+        position: isMobile ? 'relative' : 'sticky',
+        top: isMobile ? 'auto' : 80,
         zIndex: 100,
         background: panelBg, backdropFilter: 'blur(24px)',
         borderRadius: 24,
         border: `1px solid ${borderColor}`,
-        margin: isMobile ? '0 12px 16px' : '80px 24px 24px 0',
-        padding: isMobile ? '20px 20px 32px' : '24px 28px 28px',
+        margin: isMobile ? 0 : '24px 0',
+        padding: isMobile ? '24px 16px 28px' : '24px 28px 28px',
         display: 'flex', flexDirection: 'column', gap: 0,
         transition: 'background-color 400ms ease-out',
-        boxShadow: isMobile ? '0 -8px 40px rgba(0,0,0,0.1)' : '0 8px 40px rgba(0,0,0,0.1)',
+        boxShadow: '0 8px 40px rgba(0,0,0,0.1)',
+        boxSizing: 'border-box',
       }}
     >
       {/* Header */}
-      <div style={{ marginBottom: 16, paddingBottom: 14, borderBottom: `1px solid ${divider}` }}>
+      <div style={{ marginBottom: 12, paddingBottom: 0, borderBottom: 'none' }}>
         <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, marginBottom: 6 }}>Collar set</div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-          <h1 style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-0.02em', color: textPrimary, lineHeight: 1.15 }}>
+          <h1 style={{
+            fontSize: isMobile ? 32 : 22,
+            fontFamily: isMobile ? "'Mouse Memoirs','DM Sans',sans-serif" : "'DM Sans',sans-serif",
+            fontWeight: isMobile ? 400 : 500,
+            letterSpacing: isMobile ? '-0.013em' : '-0.02em',
+            color: textPrimary,
+            lineHeight: 1.15,
+          }}>
             Build your collar
           </h1>
           <span style={{ fontSize: 20, fontWeight: 500, color: textPrimary }}>€28</span>
@@ -82,7 +215,7 @@ export function ConfigPanel({
 
       {/* Step tabs */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
-        {visibleSteps.map((label, i) => {
+        {STEPS.map((label, i) => {
           const done = i < step;
           const active = i === step;
           return (
@@ -116,17 +249,9 @@ export function ConfigPanel({
         })}
       </div>
 
-      {/* Progress bar */}
-      <div style={{ height: 2, background: isDark ? 'rgba(255,255,255,0.08)' : '#F0EBE5', borderRadius: 2, marginBottom: 20 }}>
-        <div style={{
-          height: '100%', borderRadius: 2, background: '#A8D5A2',
-          width: `${((step + 1) / stepCount) * 100}%`,
-          transition: 'width 300ms ease-out',
-        }} />
-      </div>
 
       {/* Step content — keyed by step to trigger fade-in animation on change */}
-      <div key={step} className="fade-in" style={{ flex: '0 0 auto', minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain', padding: '2px 4px 4px', margin: '0 -4px' }}>
+      <div key={step} className="fade-in" style={{ flex: '0 0 auto', minHeight: 0, overflow: 'visible', padding: '2px 4px 4px', margin: '0 -4px' }}>
 
         {/* Step 0 — Colour */}
         {step === 0 && (
@@ -157,41 +282,15 @@ export function ConfigPanel({
         )}
 
         {/* Step 1 — Charms */}
-        {step === 1 && (
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, marginBottom: 14 }}>
-              Choose charms — <span style={{ textTransform: 'none', letterSpacing: 0, fontSize: 12, fontWeight: 400, color: textSecondary }}>{selectedCharms.filter(Boolean).length}/5 selected</span>
-            </div>
-            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 8, alignItems: 'flex-start' }}>
-              {ALL_CHARMS.map(c => {
-                const isSelected = selectedCharms.includes(c.id);
-                const isFull = selectedCharms.filter(Boolean).length >= 5 && !isSelected;
-                return (
-                  <button
-                    key={c.id}
-                    className={!isFull ? 'btn-press' : undefined}
-                    onClick={() => !isFull && toggleCharm(c.id)}
-                    title={c.name}
-                    style={{
-                      width: 64, height: 64, flexShrink: 0, borderRadius: 14, background: c.bg,
-                      cursor: isFull ? 'not-allowed' : 'pointer',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
-                      opacity: isFull ? 0.3 : 1,
-                      outline: 'none',
-                      border: isSelected ? `1px solid ${textPrimary}` : '1px solid transparent',
-                      transform: isSelected ? 'scale(1.06)' : 'scale(1)',
-                      transition: 'transform 180ms ease-out, box-shadow 180ms ease-out, border-color 120ms ease-out, opacity 150ms ease-out',
-                      boxShadow: isSelected ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
-                    }}
-                  >
-                    <span style={{ fontSize: 22 }}>{c.e}</span>
-                    <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)' }}>{c.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        {step === 1 && <CharmsStep
+          selectedCharms={selectedCharms}
+          toggleCharm={toggleCharm}
+          textMuted={textMuted}
+          textSecondary={textSecondary}
+          textPrimary={textPrimary}
+          borderColor={borderColor}
+          isDark={isDark}
+        />}
 
         {/* Step 2 — Size */}
         {step === 2 && (
@@ -225,42 +324,6 @@ export function ConfigPanel({
           </div>
         )}
 
-        {/* Step 3 — Engraving */}
-        {step === 3 && showEngraving && (
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, marginBottom: 14 }}>
-              Name tag <span style={{ textTransform: 'none', letterSpacing: 0, fontSize: 11, color: isDark ? 'rgba(250,247,242,0.25)' : '#B0A8A2' }}>— optional</span>
-            </div>
-            <input
-              type="text"
-              value={engraving}
-              onChange={e => setEngraving(e.target.value.slice(0, 20))}
-              placeholder="Your dog's name"
-              maxLength={20}
-              style={{
-                fontSize: 14, width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: 12,
-                border: `1.5px solid ${borderColor}`,
-                background: isDark ? 'rgba(255,255,255,0.06)' : 'white',
-                color: textPrimary, outline: 'none', transition: 'border-color 150ms ease-out',
-                fontFamily: "'DM Sans',sans-serif",
-              }}
-              onFocus={e => (e.target.style.borderColor = '#A8D5A2')}
-              onBlur={e => (e.target.style.borderColor = borderColor)}
-            />
-            <div style={{ fontSize: 11, color: textMuted, marginTop: 6 }}>{engraving.length}/20 characters</div>
-            {engraving && (
-              <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 10, background: isDark ? 'rgba(255,255,255,0.05)' : '#F3EDE6', border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#E8E3DC'}` }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                  <div style={{ width: 1.5, height: 8, background: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(61,53,48,0.2)', borderRadius: 1 }} />
-                  <div style={{ background: isDark ? 'rgba(255,255,255,0.12)' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.18)' : '1px solid #D4C9BF', borderRadius: 6, padding: '4px 10px', boxShadow: isDark ? 'none' : '0 2px 6px rgba(61,53,48,0.1)' }}>
-                    <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.04em', color: isDark ? 'rgba(250,247,242,0.8)' : '#3D3530', whiteSpace: 'nowrap' }}>{engraving}</span>
-                  </div>
-                </div>
-                <span style={{ fontSize: 12, color: textMuted }}>Tag preview</span>
-              </div>
-            )}
-          </div>
-        )}
       </div>
 
       {/* Nav buttons */}
@@ -298,20 +361,64 @@ export function ConfigPanel({
         )}
       </div>
 
-      {/* Mini summary */}
-      <div style={{ marginTop: 14, padding: '10px 14px', borderRadius: 10, background: isDark ? 'rgba(255,255,255,0.04)' : '#F3EDE6', fontSize: 12, color: textMuted, display: 'flex', gap: 12, flexWrap: 'wrap', flexShrink: 0 }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: collar.color, display: 'inline-block' }} />
-          {collar.name}
-        </span>
-        {selectedCharms.filter(Boolean).length > 0 && (
-          <span>{selectedCharms.filter(Boolean).length} charm{selectedCharms.filter(Boolean).length > 1 ? 's' : ''}</span>
-        )}
-        {size && <span>{size.split(' ')[0]}</span>}
-        {engraving && <span>"{engraving}"</span>}
+      <div
+        style={{
+          marginTop: 14,
+          padding: '14px',
+          borderRadius: 12,
+          background: isDark ? 'rgba(255,255,255,0.04)' : '#F3EDE6',
+          border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#E8E3DC'}`,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+          flexShrink: 0,
+        }}
+      >
+        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted }}>
+          Order overview
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: collar.color, display: 'inline-block' }} />
+            Collar
+          </span>
+          <span style={{ color: textPrimary, fontWeight: 500 }}>{collar.name}</span>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
+          <span>Charms</span>
+          <span style={{ color: textPrimary, fontWeight: 500 }}>
+            {selectedCharms.filter(Boolean).length} charm{selectedCharms.filter(Boolean).length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
+          <span>Size</span>
+          <span style={{ color: textPrimary, fontWeight: 500 }}>{size ? size.split(' — ')[0] : '—'}</span>
+        </div>
+
+        <div style={{ height: 1, background: divider, margin: '2px 0' }} />
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, fontWeight: 600, color: textPrimary }}>
+          <span>Total</span>
+          <span>€28</span>
+        </div>
       </div>
 
-      <TrustBadges isDark={isDark} />
+
+      {isMobile ? (
+        <div style={{ display: 'flex', gap: 4, paddingTop: 16 }}>
+          {MOBILE_FEATURES.map(f => (
+            <div key={f.text} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+              <img src={encodeURI(f.iconSrc)} alt="" aria-hidden="true" style={{ width: 64, height: 64, objectFit: 'contain' }} />
+              <span style={{ fontSize: 12, fontWeight: 500, color: '#6B6460', textAlign: 'center', fontFamily: "'DM Sans',sans-serif", lineHeight: 1.3 }}>{f.text}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <TrustBadges isDark={isDark} />
+      )}
     </div>
   );
 }

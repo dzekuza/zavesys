@@ -10,10 +10,6 @@ const FEATURES = [
     text: 'Easy to use'
   },
   {
-    iconSrc: '/Dog_Collar_Flat_Lay (3)/In_a_minimalist_logo_style_a_simple_circular_7gtMmI9p Background Removed.png',
-    text: 'Made in LT'
-  },
-  {
     iconSrc: '/Dog_Collar_Flat_Lay (3)/In_a_flat_design_style_a_light_green_heart_shape_mhu_5XWt Background Removed.png',
     text: 'Eco-friendly'
   },

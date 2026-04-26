@@ -11,6 +11,11 @@ const PRODUCT_DESCRIPTION = 'Ready for any adventure, our Waterproof Dog Collar 
 
 const INFO_TABS = [
   {
+    id: 'description',
+    label: 'Description',
+    content: PRODUCT_DESCRIPTION
+  },
+  {
     id: 'features',
     label: 'Product Features',
     content: 'Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.'
@@ -35,32 +40,22 @@ const INFO_TABS = [
 type ProductInfoTabId = typeof INFO_TABS[number]['id']
 
 export function ProductInfoTabs ({ isDark }: ProductInfoTabsProps) {
+  const [activeTab, setActiveTab] = useState<ProductInfoTabId>('features')
   const windowWidth = useWindowWidth() ?? 1200
   const isMobile = windowWidth < 768
-  const [activeTab, setActiveTab] = useState<ProductInfoTabId>(INFO_TABS[0].id)
 
   const textPrimary = isDark ? '#FAF7F2' : '#3D3530'
   const textSecondary = isDark ? 'rgba(250,247,242,0.65)' : '#6B6460'
-  const textMuted = isDark ? 'rgba(250,247,242,0.35)' : '#9B948F'
-  const borderColor = isDark ? 'rgba(255,255,255,0.12)' : '#E8E3DC'
-  const sectionBg = isDark ? '#241A16' : '#F8F4EE'
+  const textMuted = isDark ? 'rgba(250,247,242,0.45)' : '#6B6460'
+  const sectionBg = isDark ? '#241A16' : '#FFFFFF'
 
   const currentTab = INFO_TABS.find((tab) => tab.id === activeTab) || INFO_TABS[0]
 
   return (
-    <section style={{ background: sectionBg, padding: isMobile ? '24px 20px 56px' : '28px 40px 72px' }}>
+    <section style={{ background: sectionBg, padding: isMobile ? '28px 16px' : '28px 16px 36px' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto' }}>
-        <div style={{ maxWidth: 920 }}>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, marginBottom: 10 }}>
-            Description
-          </div>
-          <p style={{ margin: 0, fontSize: isMobile ? 14 : 15, lineHeight: 1.8, color: textSecondary }}>
-            {PRODUCT_DESCRIPTION}
-          </p>
-        </div>
-
-        <div style={{ marginTop: 18, borderRadius: 18, border: `1px solid ${borderColor}`, background: isDark ? 'rgba(255,255,255,0.03)' : '#FFFFFF', overflow: 'hidden' }}>
-          <div style={{ display: 'flex', gap: 8, padding: 10, borderBottom: `1px solid ${borderColor}`, overflowX: 'auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <div style={{ display: 'flex', gap: 8, overflow: 'hidden' }}>
             {INFO_TABS.map((tab) => {
               const isActive = tab.id === activeTab
               return (
@@ -69,6 +64,7 @@ export function ProductInfoTabs ({ isDark }: ProductInfoTabsProps) {
                   className='btn-press'
                   onClick={() => setActiveTab(tab.id)}
                   style={{
+                    height: 39.5,
                     padding: '10px 14px',
                     borderRadius: 10,
                     border: 'none',
@@ -87,11 +83,11 @@ export function ProductInfoTabs ({ isDark }: ProductInfoTabsProps) {
             })}
           </div>
 
-          <div style={{ padding: isMobile ? '16px 16px 18px' : '18px 20px 22px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ fontSize: 14, fontWeight: 600, color: textPrimary, marginBottom: 8 }}>
               {currentTab.label}
             </div>
-            <div style={{ fontSize: 14, lineHeight: 1.75, color: textSecondary }}>
+            <div style={{ fontSize: 14, lineHeight: '24.5px', color: textMuted }}>
               {currentTab.content}
             </div>
           </div>

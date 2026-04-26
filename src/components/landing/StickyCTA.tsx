@@ -11,8 +11,8 @@ export function StickyCTA({ visible }: { visible: boolean }) {
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 150,
       background: 'rgba(250,247,242,0.96)', backdropFilter: 'blur(16px)',
       borderTop: '1px solid #E8E3DC',
-      padding: '14px 40px',
-      display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', gap: 16,
+      padding: isMobile ? '12px 16px' : '14px 24px',
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
       transform: visible ? 'translateY(0)' : 'translateY(100%)',
       transition: 'transform 350ms ease',
       boxShadow: '0 -4px 24px rgba(61,53,48,0.08)',
@@ -30,7 +30,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           </div>
         </div>
       )}
-      <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
         <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#A8D5A2', display: 'flex', alignItems: 'center', gap: 6 }}>
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#A8D5A2', animation: 'pulse 2s ease-in-out infinite' }} />
           4 people shopping now

@@ -10,6 +10,7 @@ import { CharmGrid } from './landing/CharmGrid';
 import { PhotoSlider } from './landing/PhotoSlider';
 import { BentoSection } from './BentoSection';
 import { Reviews } from './landing/Reviews';
+import { FAQ } from './landing/FAQ';
 import { LandingFooter } from './landing/LandingFooter';
 import { StickyCTA } from './landing/StickyCTA';
 import { ExitModal } from './landing/ExitModal';
@@ -109,6 +110,7 @@ export function LandingPage() {
       <div data-animate="section" data-parallax="photo-slider"><PhotoSlider /></div>
       <div data-animate="section"><BentoSection isDark={false} /></div>
       <div data-animate="section"><Reviews /></div>
+      <div data-animate="section"><FAQ /></div>
       <div data-animate="section"><LandingFooter /></div>
 
       <StickyCTA visible={showStickyCTA} />

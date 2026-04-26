@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { COLLARS, SIZES, CartItem, Collar } from '@/lib/data';
-import { Nav } from './Nav';
+import { LandingNav } from './landing/LandingNav';
 import { CollarStage } from './CollarStage';
 import { ConfigPanel } from './ConfigPanel';
 import { ProductInfoTabs } from './ProductInfoTabs';
@@ -15,18 +15,17 @@ import { Reviews } from './landing/Reviews';
 
 export function ProductConfigurator() {
   const [isDark, setIsDark] = useState(false);
-  const [showEngraving, setShowEngraving] = useState(true);
 
   const [collar, setCollar] = useState<Collar>(COLLARS[0]);
   const [selectedCharms, setSelectedCharms] = useState<(string | null)[]>(['c1', 'c2', 'c3', null, null]);
   const [size, setSize] = useState<string>(SIZES[1]);
-  const [engraving, setEngraving] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [showUpsell, setShowUpsell] = useState(false);
 
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
+  const horizontalPadding = isMobile ? 16 : 40;
 
   const pageBg = isDark ? '#2A1E18' : '#FAF7F2';
 
@@ -41,8 +40,26 @@ export function ProductConfigurator() {
     });
   };
 
+  const clearSlot = (index: number) => {
+    setSelectedCharms(prev => { const next = [...prev]; next[index] = null; return next; });
+  };
+
+  const moveCharm = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) return;
+    setSelectedCharms(prev => {
+      if (fromIndex < 0 || toIndex < 0 || fromIndex >= prev.length || toIndex >= prev.length) return prev;
+      if (!prev[fromIndex]) return prev;
+      const next = [...prev];
+      const fromCharm = next[fromIndex];
+      const toCharm = next[toIndex];
+      next[toIndex] = fromCharm;
+      next[fromIndex] = toCharm;
+      return next;
+    });
+  };
+
   const addToCart = () => {
-    setCart(prev => [...prev, { collar, charms: [...selectedCharms], size, engraving }]);
+    setCart(prev => [...prev, { collar, charms: [...selectedCharms], size, engraving: '' }]);
     setShowUpsell(true);
   };
 
@@ -57,28 +74,28 @@ export function ProductConfigurator() {
 
   return (
     <div style={{ background: pageBg, minHeight: '100vh', transition: 'background 400ms', fontFamily: "'DM Sans',sans-serif" }}>
-      <Nav isDark={isDark} cartCount={cart.length} onCartOpen={() => setCartOpen(true)} />
+      <LandingNav topOffset={0} cartCount={cart.length} onCart={() => setCartOpen(true)} />
 
       <div
         style={{
           display: isMobile ? 'flex' : 'grid',
           flexDirection: isMobile ? 'column' : undefined,
-          gridTemplateColumns: isMobile ? undefined : 'minmax(0, 1fr) 400px',
+          gridTemplateColumns: isMobile ? undefined : 'minmax(0, 1fr) 420px',
           columnGap: isMobile ? undefined : 24,
-          minHeight: '100vh',
-          paddingTop: 0,
-          alignItems: 'start'
+          padding: isMobile ? `88px ${horizontalPadding}px 24px` : `96px ${horizontalPadding}px 32px`,
+          gap: isMobile ? 24 : 16,
+          alignItems: 'start',
+          width: '100%'
         }}
       >
-        <CollarStage collar={collar} selectedCharms={selectedCharms} isDark={isDark} engraving={engraving} />
+        <CollarStage collar={collar} selectedCharms={selectedCharms} isDark={isDark} moveCharm={moveCharm} onClearSlot={clearSlot} />
         <ConfigPanel
           collar={collar} setCollar={setCollar}
           selectedCharms={selectedCharms} toggleCharm={toggleCharm}
+          moveCharm={moveCharm}
           size={size} setSize={setSize}
-          engraving={engraving} setEngraving={setEngraving}
           onAddToCart={addToCart}
           isDark={isDark}
-          showEngraving={showEngraving}
         />
       </div>
       <ProductInfoTabs isDark={isDark} />

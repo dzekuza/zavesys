@@ -33,14 +33,17 @@ export function Nav({ isDark, cartCount, onCartOpen }: NavProps) {
         ← Back to shop
       </a>
 
-      <div style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 22, fontWeight: 500,
-        letterSpacing: '-0.03em', color: isDark ? '#FAF7F2' : '#3D3530',
-        display: 'flex', alignItems: 'center', gap: 8,
-      }}>
-        <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#A8D5A2' }} />
-        Žavesys
-      </div>
+      <a
+        href="/"
+        aria-label="Žavesys home"
+        style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+      >
+        <img
+          src="/pawcharms.svg"
+          alt="Žavesys"
+          style={{ height: 32, width: 'auto', display: 'block' }}
+        />
+      </a>
 
       <button
         onClick={onCartOpen}

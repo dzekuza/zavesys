@@ -148,6 +148,10 @@ h2 {
 .btn-press { transition: transform 100ms ease-out; }
 .btn-press:active { transform: scale(0.97); }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes ticker {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

@@ -14,9 +14,10 @@ const NAV_LINKS = [
 interface LandingNavProps {
   cartCount?: number;
   onCart?: () => void;
+  topOffset?: number;
 }
 
-export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
+export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const w = useWindowWidth() ?? 1200;
@@ -37,7 +38,7 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
   return (
     <>
       <header style={{
-        position: 'fixed', top: 36, left: 0, right: 0, zIndex: 200, height: 64,
+        position: 'fixed', top: topOffset, left: 0, right: 0, zIndex: 200, height: 64,
         background: scrolled || menuOpen ? 'rgba(250,247,242,0.97)' : 'rgba(250,247,242,0)',
         backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
         borderBottom: scrolled || menuOpen ? '1px solid #E8E3DC' : '1px solid transparent',

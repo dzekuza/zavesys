@@ -32,7 +32,7 @@ export function CharmGrid() {
           <div>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 16 }}>The charm collection</div>
             <h2 style={{ fontFamily: "'Mouse Memoirs',sans-serif", fontSize: 48, fontWeight: 400, color: '#3D3530', letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: 20 }}>
-              Your dog.<br />Your style.
+              Your dog. Your style.
             </h2>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: '#6B6460', lineHeight: 1.7, marginBottom: 32, maxWidth: 380 }}>
               Each charm clicks on in seconds and comes off just as easily. Collect them all, swap by mood, season, or occasion.
@@ -60,7 +60,7 @@ export function CharmGrid() {
               </div>
             )}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3,1fr)' : 'repeat(4,1fr)', gap: isMobile ? 10 : 16 }}>
             {ALL_CHARMS.map(c => (
               <div key={c.id}
                 data-animate="card"
@@ -80,9 +80,9 @@ export function CharmGrid() {
                   src={encodeURI(CHARM_IMAGE_BY_ID[c.id])}
                   alt=""
                   aria-hidden="true"
-                  style={{ width: 86, height: 86, objectFit: 'contain' }}
+                  style={{ width: isMobile ? 62 : 86, height: isMobile ? 62 : 86, objectFit: 'contain' }}
                 />
-                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.55)' }}>{c.name}</span>
+                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: isMobile ? 9 : 10, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.55)' }}>{c.name}</span>
               </div>
             ))}
           </div>

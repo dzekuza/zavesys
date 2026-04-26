@@ -19,7 +19,19 @@ import { ExitModal } from './landing/ExitModal';
 
 export function LandingPage() {
   const router = useRouter();
-  const [cartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const read = () => {
+      try {
+        const items = JSON.parse(localStorage.getItem('pawlette_cart') || '[]');
+        setCartCount(Array.isArray(items) ? items.length : 0);
+      } catch { setCartCount(0); }
+    };
+    read();
+    window.addEventListener('storage', read);
+    return () => window.removeEventListener('storage', read);
+  }, []);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const exitShown = useRef(false);

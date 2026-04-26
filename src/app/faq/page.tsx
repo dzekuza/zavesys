@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { Accordion } from '@/components/shared/Accordion';
@@ -74,10 +75,11 @@ const ORDERS_FAQS: AccordionItem[] = [
 
 export default function FaqPage() {
   const router = useRouter();
+  const cartCount = useCartCount();
 
   return (
     <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-      <LandingNav topOffset={0} cartCount={0} onCart={() => router.push('/cart')} />
+      <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* Hero */}
       <section className="pt-[120px] pb-12 md:pb-16 px-6 md:px-12 text-center">

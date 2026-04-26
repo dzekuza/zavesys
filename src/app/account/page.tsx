@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
@@ -473,11 +474,12 @@ function LoginCard({ onLogin }: { onLogin: () => void }) {
 
 export default function AccountPage() {
   const router = useRouter();
+  const cartCount = useCartCount();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-      <LandingNav topOffset={0} cartCount={0} onCart={() => router.push('/cart')} />
+      <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <div className="pt-[100px]">
         {isLoggedIn ? (

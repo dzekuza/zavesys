@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
@@ -30,6 +31,7 @@ function itemPrice(item: CartItem): number {
 
 export default function CartPage() {
   const router = useRouter();
+  const cartCount = useCartCount();
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
@@ -66,7 +68,7 @@ export default function CartPage() {
   if (!mounted) {
     return (
       <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-        <LandingNav topOffset={0} cartCount={0} onCart={() => router.push('/cart')} />
+        <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
       </div>
     );
   }

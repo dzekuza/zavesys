@@ -118,6 +118,7 @@ export function ProductConfigurator () {
           minHeight: isMobile ? 'auto' : '80vh',
           maxWidth: 1200,
           marginTop: isMobile ? 0 : NAV_H,
+          paddingBottom: isMobile ? 80 : 64,
         }}
       >
 

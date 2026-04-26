@@ -7,6 +7,7 @@ import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
 import { FeaturesStrip } from './landing/FeaturesStrip';
 import { ProductGrid } from './landing/ProductGrid';
+import { getLandingCollars, staticLandingCollars, type LandingCollar } from '@/lib/db';
 import { CharmGrid } from './landing/CharmGrid';
 import { PhotoSlider } from './landing/PhotoSlider';
 import { BentoSection } from './BentoSection';
@@ -22,6 +23,11 @@ export function LandingPage() {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const exitShown = useRef(false);
+  const [collars, setCollars] = useState<LandingCollar[]>(staticLandingCollars());
+
+  useEffect(() => {
+    getLandingCollars().then((data) => { if (data.length > 0) setCollars(data); });
+  }, []);
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -114,7 +120,7 @@ export function LandingPage() {
       <FloatingHero />
 
       <div data-animate="section"><FeaturesStrip variant="cream" /></div>
-      <div data-animate="section"><ProductGrid /></div>
+      <div data-animate="section"><ProductGrid collars={collars} /></div>
       <div data-animate="section"><CharmGrid /></div>
       <div data-animate="section" data-parallax="photo-slider"><PhotoSlider /></div>
       <div data-animate="section"><BentoSection isDark={false} /></div>

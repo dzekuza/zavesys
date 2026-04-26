@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
-import { getProductBySlug, PRODUCT_CATALOG } from '@/lib/catalog'
+import { getProductBySlug, getProductBySlugAsync, PRODUCT_CATALOG } from '@/lib/catalog'
+
+export const revalidate = 300
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>
@@ -13,7 +15,7 @@ export async function generateStaticParams () {
 
 export async function generateMetadata ({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
-  const product = getProductBySlug(slug)
+  const product = await getProductBySlugAsync(slug)
 
   if (!product) {
     return {
@@ -37,7 +39,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
 
 export default async function ProductPage ({ params }: ProductPageProps) {
   const { slug } = await params
-  const product = getProductBySlug(slug)
+  const product = await getProductBySlugAsync(slug)
 
   if (!product) notFound()
 

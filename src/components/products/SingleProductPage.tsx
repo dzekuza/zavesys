@@ -49,7 +49,7 @@ const DESKTOP_TABS: Array<{ id: InfoTab; label: string }> = [
   { id: 'shipping', label: 'Shipping & Returns' },
 ]
 
-const TAB_CONTENT: Record<InfoTab, string> = {
+const DEFAULT_TAB_CONTENT: Record<InfoTab, string> = {
   features:
     'Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.',
   includes:
@@ -60,11 +60,6 @@ const TAB_CONTENT: Record<InfoTab, string> = {
     'Free shipping on orders over €40. Delivered in 2–4 business days. Returns accepted within 30 days of purchase in original condition.',
 }
 
-const MOBILE_ACCORDION: AccordionItem[] = [
-  { id: 'features', title: 'Product Features', content: TAB_CONTENT.features },
-  { id: 'shipping', title: 'Shipping & Returns', content: TAB_CONTENT.shipping },
-  { id: 'warranty', title: 'Warranty', content: "12-month warranty against manufacturing defects. If something breaks, we'll replace it — no questions asked." },
-]
 
 const CARE_BULLETS = [
   { title: 'Rinse', desc: 'After every swim or muddy walk.' },
@@ -86,6 +81,19 @@ export function SingleProductPage({ product }: Props) {
 
   const isCollar = product.productType === 'collar'
   const initialCollar = COLLARS.find((c) => c.color === product.accentColor) ?? COLLARS[0]
+
+  const tabContent: Record<InfoTab, string> = {
+    features: product.features ?? DEFAULT_TAB_CONTENT.features,
+    includes: product.set_includes ?? DEFAULT_TAB_CONTENT.includes,
+    care: product.care ?? DEFAULT_TAB_CONTENT.care,
+    shipping: product.shipping ?? DEFAULT_TAB_CONTENT.shipping,
+  }
+
+  const mobileAccordion: AccordionItem[] = [
+    { id: 'features', title: 'Product Features', content: tabContent.features },
+    { id: 'shipping', title: 'Shipping & Returns', content: tabContent.shipping },
+    { id: 'warranty', title: 'Warranty', content: "12-month warranty against manufacturing defects. If something breaks, we'll replace it — no questions asked." },
+  ]
 
   const [selectedCollar, setSelectedCollar] = useState<Collar>(initialCollar)
   const [selectedSize, setSelectedSize] = useState<DisplaySize>('S')
@@ -110,8 +118,8 @@ export function SingleProductPage({ product }: Props) {
   }
 
   const collarProduct = PRODUCTS.find((p) => p.collarColor === selectedCollar.color)
-  const displayImage = isCollar ? (collarProduct?.image ?? product.image) : product.image
-  const displayName = isCollar ? (collarProduct?.name ?? product.name) : product.name
+  const displayImage = product.image || collarProduct?.image || ''
+  const displayName = product.name
   const displayBadge = isCollar ? collarProduct?.badge : product.badge
   const displayBadgeColor = collarProduct?.badgeColor
   const displayBadgeBg = collarProduct?.badgeBg
@@ -163,16 +171,16 @@ export function SingleProductPage({ product }: Props) {
             </motion.div>
             <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0.24}>
               {isMobile ? (
-                <Accordion items={MOBILE_ACCORDION} isMobile />
+                <Accordion items={mobileAccordion} isMobile />
               ) : (
-                <DesktopTabsPanel desktopTab={desktopTab} onSelect={setDesktopTab} />
+                <DesktopTabsPanel desktopTab={desktopTab} onSelect={setDesktopTab} tabContent={tabContent} />
               )}
             </motion.div>
           </section>
         ) : (
           <section
             className="bg-cream flex items-start"
-            style={{ padding: '24px 64px 64px', gap: 64 }}
+            style={{ padding: '24px 64px 64px', gap: 64, maxWidth: 1440, margin: '0 auto' }}
           >
             {/* Left: sticky image area */}
             <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0} style={{ flexShrink: 0 }}>
@@ -183,7 +191,7 @@ export function SingleProductPage({ product }: Props) {
                       {row.map((i) => (
                         <ProductImage
                           key={i}
-                          src={displayImage}
+                          src={product.images[i] ?? displayImage}
                           alt={displayName}
                           height={360}
                           width={360}
@@ -233,7 +241,7 @@ export function SingleProductPage({ product }: Props) {
               <PrimaryButton variant={added ? 'sage' : 'dark'} fullWidth onClick={handleAddToCart}>
                 {added ? '✓ Added to cart' : `${product.price} — Add to cart`}
               </PrimaryButton>
-              <DesktopTabsPanel desktopTab={desktopTab} onSelect={setDesktopTab} />
+              <DesktopTabsPanel desktopTab={desktopTab} onSelect={setDesktopTab} tabContent={tabContent} />
             </motion.div>
           </section>
         )}
@@ -244,6 +252,8 @@ export function SingleProductPage({ product }: Props) {
           style={{
             padding: isMobile ? '24px 16px' : '64px',
             gap: 16,
+            maxWidth: isMobile ? undefined : 1440,
+            margin: isMobile ? undefined : '0 auto',
           }}
         >
           {isMobile ? (
@@ -296,9 +306,11 @@ export function SingleProductPage({ product }: Props) {
 function DesktopTabsPanel({
   desktopTab,
   onSelect,
+  tabContent,
 }: {
   desktopTab: InfoTab
   onSelect: (tab: InfoTab) => void
+  tabContent: Record<InfoTab, string>
 }) {
   return (
     <div className="bg-white rounded-2xl flex flex-col" style={{ padding: '24px 16px', gap: 18 }}>
@@ -322,7 +334,7 @@ function DesktopTabsPanel({
         })}
       </div>
       <p className="m-0 text-bark-light" style={{ fontSize: 14, lineHeight: '24.5px' }}>
-        {TAB_CONTENT[desktopTab]}
+        {tabContent[desktopTab]}
       </p>
     </div>
   )

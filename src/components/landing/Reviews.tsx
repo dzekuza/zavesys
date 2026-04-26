@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { cn } from '@/lib/utils';
 
 const STAR_ICON = '/Dog_Collar_Flat_Lay_A_yellow_star_with_a_soft_green_outline_floats_HzBh2qMJ Background Removed.png';
 const INTERVAL = 3000;
@@ -20,25 +20,36 @@ const stories = [
 
 function StarRow({ rating }: { rating: number }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+    <div className="flex items-center gap-[3px]">
       {Array.from({ length: 5 }).map((_, i) => (
-        <img key={i} src={encodeURI(STAR_ICON)} alt="" aria-hidden style={{ width: 16, height: 16, objectFit: 'contain' }} />
+        <img key={i} src={encodeURI(STAR_ICON)} alt="" aria-hidden className="w-4 h-4 object-contain" />
       ))}
-      <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.9)', marginLeft: 4 }}>{rating.toFixed(1)}</span>
+      <span className="font-sans text-xs font-semibold text-white/90 ml-1">{rating.toFixed(1)}</span>
     </div>
   );
 }
 
 export function Reviews() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 640;
-  const isTablet = w < 1024;
+  const [windowWidth, setWindowWidth] = useState<number>(1200);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setWindowWidth(window.innerWidth);
+    const handler = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth < 1024;
   const perPage = isMobile ? 1 : isTablet ? 2 : 3;
   const total = stories.length;
   const maxIndex = total - perPage;
 
+  const cardW = isMobile ? 280 : isTablet ? 260 : 300;
+  const gap = 16;
+
   const [index, setIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -49,19 +60,14 @@ export function Reviews() {
 
   const startTimers = useCallback(() => {
     clearTimers();
-    setProgress(0);
     const tickMs = 30;
-    progressRef.current = setInterval(() => {
-      setProgress(p => Math.min(p + (tickMs / INTERVAL) * 100, 100));
-    }, tickMs);
+    progressRef.current = setInterval(() => {}, tickMs);
     intervalRef.current = setInterval(() => {
       setIndex(i => (i >= maxIndex ? 0 : i + 1));
-      setProgress(0);
     }, INTERVAL);
   }, [maxIndex]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     startTimers();
     return clearTimers;
   }, [startTimers]);
@@ -71,37 +77,33 @@ export function Reviews() {
     startTimers();
   };
 
-  const cardW = isMobile ? 280 : isTablet ? 260 : 300;
-  const gap = 16;
-
   return (
-    <section style={{ padding: isMobile ? '60px 0' : '100px 0', background: '#F3EDE6', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto', padding: isMobile ? '0 20px' : '0 40px' }}>
+    <section className="py-[60px] md:py-[100px] bg-surface-2 overflow-hidden">
+      <div className="max-w-[1160px] mx-auto px-5 md:px-10">
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
+        <div className="flex justify-between items-end mb-12">
           <div>
-            <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>Customer love</div>
-            <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: isMobile ? 28 : 40, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', margin: 0 }}>
+            <div className="font-sans text-[11px] font-medium tracking-[0.08em] uppercase text-bark-muted mb-3.5">
+              Customer love
+            </div>
+            <h2 className="font-sans text-[28px] md:text-[40px] font-medium tracking-[-0.02em] text-bark m-0">
               Dogs and owners approve.
             </h2>
           </div>
           {/* Arrows */}
-          <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
+          <div className="flex gap-2.5 shrink-0">
             {([[-1, '←'], [1, '→']] as const).map(([dir, label]) => (
               <button
                 key={label}
                 onClick={() => go(dir)}
                 disabled={dir === -1 ? index === 0 : index >= maxIndex}
                 aria-label={dir === -1 ? 'Previous' : 'Next'}
-                style={{
-                  width: 44, height: 44, borderRadius: '50%', border: '1.5px solid #E8E3DC',
-                  background: 'white', cursor: 'pointer', fontSize: 18, color: '#3D3530',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'background 150ms, opacity 150ms',
-                  opacity: (dir === -1 ? index === 0 : index >= maxIndex) ? 0.3 : 1,
-                }}
-                onMouseEnter={e => { if (!(e.currentTarget as HTMLButtonElement).disabled) e.currentTarget.style.background = '#F3EDE6'; }}
-                onMouseLeave={e => (e.currentTarget.style.background = 'white')}
+                className={cn(
+                  'w-11 h-11 rounded-full border-[1.5px] border-border bg-white cursor-pointer text-[18px] text-bark',
+                  'flex items-center justify-center transition-[background,opacity] duration-150',
+                  'hover:enabled:bg-surface-2',
+                  (dir === -1 ? index === 0 : index >= maxIndex) ? 'opacity-30' : 'opacity-100'
+                )}
               >
                 {label}
               </button>
@@ -110,30 +112,32 @@ export function Reviews() {
         </div>
 
         {/* Slider */}
-        <div style={{ overflow: 'hidden' }}>
+        <div className="overflow-hidden">
           <div
+            className="flex transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{
-              display: 'flex', gap, transition: 'transform 400ms cubic-bezier(0.22,1,0.36,1)',
+              gap,
               transform: `translateX(-${index * (cardW + gap)}px)`,
             }}
           >
             {stories.map(story => (
               <div
                 key={story.id}
-                style={{ flexShrink: 0, width: cardW, borderRadius: 20, overflow: 'hidden', position: 'relative', aspectRatio: '3/4' }}
+                className="shrink-0 rounded-[20px] overflow-hidden relative"
+                style={{ width: cardW, aspectRatio: '3/4' }}
               >
-                <img src={story.preview} alt={story.author} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <img src={story.preview} alt={story.author} className="w-full h-full object-cover block" />
                 {/* gradient overlay */}
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)' }} />
+                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.65)_0%,rgba(0,0,0,0.1)_50%,transparent_100%)]" />
                 {/* content */}
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 18px' }}>
+                <div className="absolute bottom-0 left-0 right-0 p-[20px_18px]">
                   <StarRow rating={story.rating} />
-                  <p style={{ margin: '8px 0 14px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, lineHeight: 1.5, color: 'rgba(255,255,255,0.92)' }}>
+                  <p className="font-sans my-2 mb-3.5 text-[13px] leading-[1.5] text-white/[0.92]">
                     &ldquo;{story.quote}&rdquo;
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <img src={story.avatar} alt={story.author} style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.5)' }} />
-                    <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>{story.author}</span>
+                  <div className="flex items-center gap-2">
+                    <img src={story.avatar} alt={story.author} className="w-7 h-7 rounded-full object-cover border-2 border-white/50" />
+                    <span className="font-sans text-xs font-medium text-white/80">{story.author}</span>
                   </div>
                 </div>
               </div>
@@ -141,19 +145,17 @@ export function Reviews() {
           </div>
         </div>
 
-
-
         {/* Dot indicators */}
-        <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginTop: 16 }}>
+        <div className="flex gap-1.5 justify-center mt-4">
           {Array.from({ length: maxIndex + 1 }).map((_, i) => (
             <button
               key={i}
               onClick={() => { setIndex(i); startTimers(); }}
               aria-label={`Go to slide ${i + 1}`}
+              className="h-1.5 rounded-[3px] border-none cursor-pointer p-0 transition-[width,background] duration-[250ms] ease-[ease]"
               style={{
-                width: i === index ? 20 : 6, height: 6, borderRadius: 3, border: 'none', cursor: 'pointer', padding: 0,
-                background: i === index ? '#3D3530' : 'rgba(61,53,48,0.2)',
-                transition: 'width 250ms ease, background 250ms ease',
+                width: i === index ? 20 : 6,
+                background: i === index ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)',
               }}
             />
           ))}

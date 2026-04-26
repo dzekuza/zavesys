@@ -163,6 +163,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem('pawlette_cart');
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setCartItems(JSON.parse(raw));
     } catch {
       // ignore parse errors

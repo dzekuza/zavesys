@@ -161,8 +161,9 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeImg, setActiveImg] = useState(0);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setActiveImg(0); }, [collar.id]);
 
   const sensors = useSensors(

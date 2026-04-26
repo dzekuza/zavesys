@@ -41,6 +41,7 @@
   --color-sky: #B8D8F4;
   --color-honey: #F9E4A0;
   --color-surface-2: #F3EDE6;
+  --color-interactive-text: #2a5a25;
 
   /* font families — generates font-sans, font-display, font-handwriting */
   --font-sans: 'DM Sans', sans-serif;
@@ -63,13 +64,15 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
+}
 
 body {
   font-family: 'DM Sans', sans-serif;

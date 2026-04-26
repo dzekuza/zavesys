@@ -1,77 +1,83 @@
 'use client';
 
 import { useState } from 'react';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { ALL_CHARMS } from '@/lib/data';
 
 export function CharmGrid() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
   const [selected, setSelected] = useState<string | null>(null);
   const selectedCharm = ALL_CHARMS.find(c => c.id === selected);
 
   return (
-    <section id="charms" style={{ padding: isMobile ? '60px 20px' : '100px 40px', background: '#FAF7F2' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 80, alignItems: 'center' }}>
+    <section id="charms" className="bg-cream px-5 py-[60px] md:px-10 md:py-[100px]">
+      <div className="mx-auto max-w-[1160px]">
+
+        {/* Header row */}
+        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 16 }}>The charm collection</div>
-            <h2 style={{ fontFamily: "'Luckiest Guy',sans-serif", fontSize: 48, fontWeight: 400, color: '#3D3530', letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: 20 }}>
+            <div className="mb-3 font-sans text-[11px] font-medium uppercase tracking-[0.08em] text-bark-muted">
+              The charm collection
+            </div>
+            <h2 className="mb-4 font-display text-[40px] font-normal leading-[1.1] tracking-[-0.02em] text-bark md:text-[48px]">
               Your dog. Your style.
             </h2>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: '#6B6460', lineHeight: 1.7, marginBottom: 32, maxWidth: 380 }}>
-              Each charm clicks on in seconds and comes off just as easily. Collect them all, swap by mood, season, or occasion.
+            <p className="max-w-[480px] font-sans text-base leading-[1.7] text-bark-light">
+              Each charm clicks on in seconds and comes off just as easily. Collect them all, swap by
+              mood, season, or occasion.
             </p>
-            <button className="btn-press"
-              style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: '#A8D5A2', color: '#2a5a25', border: '2px solid transparent', transition: 'background-color 150ms ease-out, transform 100ms ease-out' }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#8fc489')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#A8D5A2')}>
+          </div>
+          <div className="flex shrink-0 flex-col items-start gap-3 md:items-end">
+            <button
+              className="btn-press cursor-pointer rounded-full border-2 border-transparent bg-sage px-8 py-3.5 font-sans text-[15px] font-medium text-interactive-text transition-colors duration-150 ease-out hover:bg-[#8fc489]"
+            >
               Shop all charms
             </button>
             {selectedCharm && (
-              <div style={{ marginTop: 28, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: selectedCharm.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <img
-                    src={encodeURI(selectedCharm.image)}
-                    alt=""
-                    aria-hidden="true"
-                    style={{ width: 24, height: 24, objectFit: 'contain' }}
-                  />
+              <div className="flex items-center gap-3">
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-full"
+                  style={{ background: selectedCharm.bg }}
+                >
+                  <img src={encodeURI(selectedCharm.image)} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
                 </div>
                 <div>
-                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, color: '#3D3530' }}>{selectedCharm.name} charm</div>
-                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#9B948F' }}>€6 · snap-on · waterproof</div>
+                  <div className="font-sans text-sm font-medium text-bark">{selectedCharm.name} charm</div>
+                  <div className="font-sans text-xs text-bark-muted">€6 · snap-on · waterproof</div>
                 </div>
               </div>
             )}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3,1fr)' : 'repeat(4,1fr)', gap: isMobile ? 10 : 16 }}>
-            {ALL_CHARMS.map(c => (
-              <div key={c.id}
-                data-animate="card"
-                onClick={() => setSelected(c.id === selected ? null : c.id)}
-                style={{
-                  width: '100%', aspectRatio: '1', borderRadius: 16, background: c.bg,
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  cursor: 'pointer',
-                  transition: 'transform 180ms ease-out, box-shadow 180ms ease-out, outline-color 120ms ease-out',
-                  outline: c.id === selected ? '3px solid #3D3530' : '3px solid transparent',
-                  outlineOffset: 3,
-                  transform: c.id === selected ? 'scale(1.08)' : 'scale(1)',
-                  boxShadow: c.id === selected ? '0 6px 20px rgba(0,0,0,0.12)' : 'none',
-                }}
-              >
-                <img
-                  src={encodeURI(c.image)}
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: isMobile ? 62 : 86, height: isMobile ? 62 : 86, objectFit: 'contain' }}
-                />
-                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: isMobile ? 9 : 10, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.55)' }}>{c.name}</span>
-              </div>
-            ))}
-          </div>
         </div>
+
+        {/* 6-column charm grid */}
+        <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:gap-4 lg:grid-cols-6">
+          {ALL_CHARMS.map(c => (
+            <div
+              key={c.id}
+              data-animate="card"
+              onClick={() => setSelected(c.id === selected ? null : c.id)}
+              className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl"
+              style={{
+                background: c.bg,
+                transition: 'transform 180ms ease-out, box-shadow 180ms ease-out, outline-color 120ms ease-out',
+                outline: c.id === selected ? '3px solid #3D3530' : '3px solid transparent',
+                outlineOffset: 3,
+                transform: c.id === selected ? 'scale(1.08)' : 'scale(1)',
+                boxShadow: c.id === selected ? '0 6px 20px rgba(0,0,0,0.12)' : 'none',
+              }}
+            >
+              <img
+                src={encodeURI(c.image)}
+                alt=""
+                aria-hidden="true"
+                className="h-[52px] w-[52px] object-contain lg:h-[70px] lg:w-[70px]"
+              />
+              <span className="font-sans text-[8px] font-medium uppercase tracking-[0.06em] text-bark/55 md:text-[10px]">
+                {c.name}
+              </span>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

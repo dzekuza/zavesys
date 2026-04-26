@@ -1,6 +1,7 @@
 'use client';
 
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const ROW_ONE = [
   '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
@@ -21,19 +22,24 @@ const ROW_TWO = [
 ];
 
 export function PhotoSlider() {
+  const windowWidth = useWindowWidth() ?? 1200;
+  const isMobile = windowWidth < 768;
+  const cardWidth = isMobile ? 200 : 280;
+  const cardHeight = isMobile ? 250 : 340;
+
   return (
     <section style={{ background: '#FAF7F2', padding: '80px 0', overflow: 'hidden' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <InfiniteSlider gap={16} duration={30}>
           {ROW_ONE.map((src) => (
-            <div key={src} style={{ width: 280, height: 340, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
+            <div key={src} style={{ width: cardWidth, height: cardHeight, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
               <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           ))}
         </InfiniteSlider>
         <InfiniteSlider gap={16} duration={30} reverse>
           {ROW_TWO.map((src) => (
-            <div key={src} style={{ width: 280, height: 340, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
+            <div key={src} style={{ width: cardWidth, height: cardHeight, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
               <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           ))}

@@ -32,10 +32,12 @@ const INFO_TABS = [
   }
 ] as const
 
+type ProductInfoTabId = typeof INFO_TABS[number]['id']
+
 export function ProductInfoTabs ({ isDark }: ProductInfoTabsProps) {
   const windowWidth = useWindowWidth()
   const isMobile = windowWidth < 768
-  const [activeTab, setActiveTab] = useState(INFO_TABS[0].id)
+  const [activeTab, setActiveTab] = useState<ProductInfoTabId>(INFO_TABS[0].id)
 
   const textPrimary = isDark ? '#FAF7F2' : '#3D3530'
   const textSecondary = isDark ? 'rgba(250,247,242,0.65)' : '#6B6460'

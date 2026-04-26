@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { SocialTicker } from './landing/SocialTicker';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
@@ -16,6 +17,7 @@ import { StickyCTA } from './landing/StickyCTA';
 import { ExitModal } from './landing/ExitModal';
 
 export function LandingPage() {
+  const router = useRouter();
   const [cartCount] = useState(0);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -68,9 +70,16 @@ export function LandingPage() {
             sections.forEach((section) => {
               gsap.from(section, {
                 autoAlpha: 0, y: 40, duration: 0.8, ease: 'power2.out',
-                scrollTrigger: { trigger: section, start: 'top 82%', toggleActions: 'play none none reverse' },
+                scrollTrigger: { trigger: section, start: 'top 90%', toggleActions: 'play none none none', once: true },
               });
             });
+
+            const onLoad = () => ScrollTrigger.refresh();
+            if (document.readyState === 'complete') {
+              ScrollTrigger.refresh();
+            } else {
+              window.addEventListener('load', onLoad, { once: true });
+            }
 
             ScrollTrigger.batch(cards, {
               start: 'top 88%',
@@ -100,7 +109,7 @@ export function LandingPage() {
   return (
     <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif" }}>
       <SocialTicker />
-      <LandingNav cartCount={cartCount} />
+      <LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <FloatingHero />
 

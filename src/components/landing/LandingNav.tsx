@@ -44,13 +44,10 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
         backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
         borderBottom: scrolled || menuOpen ? '1px solid #E8E3DC' : '1px solid transparent',
         transition: 'background 250ms ease, backdrop-filter 250ms ease, border-color 250ms ease',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        display: 'grid', alignItems: 'center',
+        gridTemplateColumns: '1fr auto 1fr',
         padding: isMobile ? '0 20px' : '0 40px',
       }}>
-        <Link href="/" aria-label="Žavesys home" style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="/pawcharms.svg" alt="Žavesys" style={{ height: 32, width: 'auto', display: 'block' }} />
-        </Link>
-
         {!isMobile && (
           <nav style={{ display: 'flex', gap: 32 }}>
             {['Shop', 'Charms', 'About', 'Care'].map(l => (
@@ -62,8 +59,13 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
             ))}
           </nav>
         )}
+        {isMobile && <div />}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <Link href="/" aria-label="Žavesys home" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src="/pawcharms.svg" alt="Žavesys" style={{ height: 44, width: 'auto', display: 'block' }} />
+        </Link>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'flex-end' }}>
           <button onClick={onCart} aria-label="Cart" style={{ background: 'none', border: 'none', cursor: 'pointer', position: 'relative', padding: 8, color: '#3D3530' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />

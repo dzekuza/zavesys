@@ -1,15 +1,19 @@
 'use client'
 
-import { useState } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { type Collar } from '@/lib/data'
+import { Accordion } from '@/components/shared/Accordion'
 import { CharmsStep } from './config-panel/CharmsStep'
 import { ColourStep } from './config-panel/ColourStep'
-import { ConfigPanelFeatures } from './config-panel/ConfigPanelFeatures'
-import { ConfigPanelHeader } from './config-panel/ConfigPanelHeader'
-import { ConfigPanelStepTabs } from './config-panel/ConfigPanelStepTabs'
-import { OrderOverview } from './config-panel/OrderOverview'
 import { SizeStep } from './config-panel/SizeStep'
+
+const PRODUCT_ACCORDION = [
+  { id: 'description', title: 'Description', content: 'Ready for any adventure, our Waterproof Dog Collar & Leash Set combines durability, comfort, and convenience. The lightweight, adjustable collar is dirt- and odor-resistant, easy to clean, and features a safe-release buckle. Personalize it with our silicone dog charms for a custom touch.' },
+  { id: 'features',    title: 'Product Features',   content: 'Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.' },
+  { id: 'includes',   title: 'Set Includes',        content: '1 waterproof adjustable collar, 1 waterproof 5ft leash, and compatibility with silicone snap-on charms for personalization.' },
+  { id: 'care',       title: 'Care',                content: 'Rinse with water after muddy or beach walks and wipe dry with a soft cloth. Air dry flat. Avoid direct high heat to preserve shape and finish.' },
+  { id: 'shipping',   title: 'Shipping & Returns',  content: 'Fast shipping across Lithuania and EU. Free shipping on qualifying orders and easy returns within the return window if unused and in original condition.' },
+]
 
 interface ConfigPanelProps {
   collar: Collar
@@ -22,9 +26,21 @@ interface ConfigPanelProps {
   isDark: boolean
 }
 
-type Step = 0 | 1 | 2
+function SectionLabel({ children, isDark }: { children: string; isDark: boolean }) {
+  return (
+    <div style={{
+      fontFamily: "'Luckiest Guy',cursive",
+      fontSize: 15,
+      letterSpacing: '0.06em',
+      color: isDark ? '#FAF7F2' : '#3D3530',
+      marginBottom: 16,
+    }}>
+      {children}
+    </div>
+  )
+}
 
-export function ConfigPanel ({
+export function ConfigPanel({
   collar,
   setCollar,
   selectedCharms,
@@ -32,202 +48,110 @@ export function ConfigPanel ({
   size,
   setSize,
   onAddToCart,
-  isDark
+  isDark,
 }: ConfigPanelProps) {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
-  const [step, setStep] = useState<Step>(0)
 
-  const panelBg = isDark ? 'rgba(30,22,18,0.85)' : 'rgba(255,255,255,0.92)'
-  const borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#E8E3DC'
   const textPrimary = isDark ? '#FAF7F2' : '#3D3530'
   const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : '#6B6460'
   const textMuted = isDark ? 'rgba(250,247,242,0.35)' : '#9B948F'
-  const divider = isDark ? 'rgba(255,255,255,0.08)' : '#F0EBE5'
-  const isLastStep = step === 2
+  const borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#E8E3DC'
+  const divider = isDark ? 'rgba(255,255,255,0.08)' : '#EDEAE4'
+  const panelBg = isDark ? 'rgba(30,22,18,0.85)' : 'transparent'
 
-  const next = () => {
-    if (step < 2) {
-      setStep((currentStep) => (currentStep + 1) as Step)
-    }
-  }
-
-  const back = () => {
-    if (step > 0) {
-      setStep((currentStep) => (currentStep - 1) as Step)
-    }
-  }
+  const noop = () => {}
 
   return (
-    <div
-      className='config-panel'
-      style={{
-        width: isMobile ? '100%' : 400,
-        flexShrink: 0,
-        alignSelf: isMobile ? 'stretch' : 'flex-end',
-        position: isMobile ? 'relative' : 'sticky',
-        top: isMobile ? 'auto' : 80,
-        zIndex: 100,
-        background: panelBg,
-        backdropFilter: 'blur(24px)',
-        borderRadius: 24,
-        border: `1px solid ${borderColor}`,
-        margin: isMobile ? 0 : '24px 0',
-        padding: isMobile ? '24px 16px 28px' : '24px 28px 28px',
-        display: 'flex',
-        flexDirection: 'column',
-        transition: 'background-color 400ms ease-out',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.1)',
-        boxSizing: 'border-box'
-      }}
-    >
-      <ConfigPanelHeader
-        isMobile={isMobile}
-        textMuted={textMuted}
-        textPrimary={textPrimary}
-      />
+    <div style={{ display: 'flex', flexDirection: 'column', fontFamily: "'DM Sans',sans-serif" }}>
 
-      <ConfigPanelStepTabs
-        isDark={isDark}
-        step={step}
-        setStep={setStep}
-        textMuted={textMuted}
-        textPrimary={textPrimary}
-      />
-
-      <div
-        key={step}
-        className='fade-in'
-        style={{
-          flex: '0 0 auto',
-          minHeight: 0,
-          overflow: 'visible',
-          padding: '2px 4px 4px',
-          margin: '0 -4px'
-        }}
-      >
-        {step === 0 && (
-          <ColourStep
-            collar={collar}
-            next={next}
-            panelBg={panelBg}
-            setCollar={setCollar}
-            textMuted={textMuted}
-            textPrimary={textPrimary}
-            textSecondary={textSecondary}
-          />
-        )}
-
-        {step === 1 && (
-          <CharmsStep
-            borderColor={borderColor}
-            isDark={isDark}
-            selectedCharms={selectedCharms}
-            textMuted={textMuted}
-            textPrimary={textPrimary}
-            textSecondary={textSecondary}
-            toggleCharm={toggleCharm}
-          />
-        )}
-
-        {step === 2 && (
-          <SizeStep
-            borderColor={borderColor}
-            isDark={isDark}
-            next={next}
-            setSize={setSize}
-            size={size}
-            textMuted={textMuted}
-            textPrimary={textPrimary}
-          />
-        )}
-      </div>
-
-      <div style={{ display: 'flex', gap: 8, marginTop: 20, flexShrink: 0 }}>
-        {step > 0 && (
-          <button
-            className='btn-press'
-            onClick={back}
-            style={{
-              flex: '0 0 auto',
-              padding: '11px 18px',
-              borderRadius: 100,
-              border: `1.5px solid ${borderColor}`,
-              background: 'transparent',
-              color: textSecondary,
-              cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "'DM Sans',sans-serif",
-              transition: 'border-color 150ms ease-out, color 150ms ease-out, transform 100ms ease-out'
-            }}
-          >
-            ← Back
-          </button>
-        )}
-
-        {!isLastStep ? (
-          <button
-            className='btn-press'
-            onClick={next}
-            style={{
-              flex: 1,
-              padding: '12px',
-              borderRadius: 100,
-              border: 'none',
-              background: textPrimary,
-              color: isDark ? '#3D3530' : '#FAF7F2',
-              cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "'DM Sans',sans-serif",
-              transition: 'background-color 150ms ease-out, transform 100ms ease-out'
-            }}
-          >
-            Next →
-          </button>
-        ) : (
-          <button
-            className='btn-press'
-            onClick={onAddToCart}
-            style={{
-              flex: 1,
-              fontSize: 15,
-              fontWeight: 500,
-              padding: '12px',
-              borderRadius: 100,
-              border: 'none',
-              background: '#A8D5A2',
-              color: '#2a5a25',
-              cursor: 'pointer',
-              fontFamily: "'DM Sans',sans-serif",
-              transition: 'background-color 150ms ease-out, transform 100ms ease-out',
-              boxShadow: '0 4px 16px rgba(168,213,162,0.4)'
-            }}
-            onMouseEnter={(event) => {
-              event.currentTarget.style.background = '#8fc489'
-            }}
-            onMouseLeave={(event) => {
-              event.currentTarget.style.background = '#A8D5A2'
-            }}
-          >
-            Add to cart — €28
-          </button>
-        )}
-      </div>
-
-      <OrderOverview
+      {/* ── Colour ── */}
+      <ColourStep
         collar={collar}
-        divider={divider}
-        isDark={isDark}
-        selectedCharms={selectedCharms}
-        size={size}
+        next={noop}
+        panelBg={panelBg}
+        setCollar={setCollar}
         textMuted={textMuted}
         textPrimary={textPrimary}
         textSecondary={textSecondary}
       />
 
-      <ConfigPanelFeatures isDark={isDark} isMobile={isMobile} />
+      <div style={{ height: 1, background: divider, margin: '28px 0' }} />
+
+      {/* ── Charms ── */}
+      <CharmsStep
+        borderColor={borderColor}
+        isDark={isDark}
+        selectedCharms={selectedCharms}
+        textMuted={textMuted}
+        textPrimary={textPrimary}
+        textSecondary={textSecondary}
+        toggleCharm={toggleCharm}
+      />
+
+      <div style={{ height: 1, background: divider, margin: '28px 0' }} />
+
+      {/* ── Size ── */}
+      <SizeStep
+        borderColor={borderColor}
+        isDark={isDark}
+        next={noop}
+        setSize={setSize}
+        size={size}
+        textMuted={textMuted}
+        textPrimary={textPrimary}
+      />
+
+      {/* ── CTA ── */}
+      <div style={{ marginTop: 36 }}>
+        <button
+          onClick={onAddToCart}
+          style={{
+            width: '100%',
+            padding: isMobile ? '14px' : '16px',
+            borderRadius: 100,
+            border: 'none',
+            background: '#A8D5A2',
+            color: '#2a5a25',
+            cursor: 'pointer',
+            fontSize: 16,
+            fontWeight: 600,
+            fontFamily: "'DM Sans',sans-serif",
+            letterSpacing: '0.01em',
+            transition: 'background-color 150ms ease-out, transform 80ms ease-out',
+            boxShadow: '0 4px 20px rgba(168,213,162,0.45)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = '#8fc489'
+            e.currentTarget.style.transform = 'translateY(-1px)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = '#A8D5A2'
+            e.currentTarget.style.transform = 'translateY(0)'
+          }}
+          onMouseDown={e => { e.currentTarget.style.transform = 'translateY(1px)' }}
+          onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+        >
+          Add to cart — €28
+        </button>
+        <p style={{
+          textAlign: 'center',
+          fontSize: 11,
+          marginTop: 10,
+          marginBottom: 0,
+          color: textMuted,
+          fontFamily: "'DM Sans',sans-serif",
+          letterSpacing: '0.02em',
+        }}>
+          Free shipping over €50 · Made in Lithuania
+        </p>
+      </div>
+
+      {/* Product info accordion */}
+      <div style={{ marginTop: 32 }}>
+        <Accordion items={PRODUCT_ACCORDION} isMobile={isMobile} />
+      </div>
+
     </div>
   )
 }

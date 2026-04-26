@@ -44,7 +44,7 @@ export function ColourStep ({
           {collar.name}
         </span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {COLLARS.map((option) => (
           <button
             key={option.id}
@@ -54,15 +54,11 @@ export function ColourStep ({
               setTimeout(next, 200)
             }}
             style={{
-              aspectRatio: '1',
-              borderRadius: 16,
+              width: 36,
+              height: 36,
+              borderRadius: '50%',
               background: option.color,
               cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 6,
               outline: 'none',
               border: collar.id === option.id ? `3px solid ${textPrimary}` : '3px solid transparent',
               transition: 'border-color 150ms ease-out, box-shadow 200ms ease-out, transform 100ms ease-out',
@@ -70,18 +66,7 @@ export function ColourStep ({
                 ? `0 0 0 1px ${panelBg}, 0 4px 12px ${option.glowColor}`
                 : `0 2px 8px ${option.glowColor}`
             }}
-          >
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 500,
-                color: 'rgba(61,53,48,0.7)',
-                marginTop: 4
-              }}
-            >
-              {option.name}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </div>

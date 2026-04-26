@@ -39,7 +39,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
   return (
     <section
-      className={cn("relative w-full h-screen overflow-hidden flex items-center justify-center", className)}
+      className={cn("relative w-full h-screen overflow-hidden flex justify-center", isMobile ? "items-center" : "items-start", className)}
       style={{ background: "#FAF7F2" }}
     >
       {/* Background swirl — top-left pink */}
@@ -68,50 +68,45 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
       {/* ── FLOATING IMAGES — left column ── */}
 
-      {/* Sage charm — top left edge */}
-      <div className="float-c" style={{ position: "absolute", left: "2%", top: "8%", width: 110, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 40 }}>
+      {/* Sage charm — top left */}
+      <div className="float-c" style={{ position: "absolute", left: isMobile ? "2%" : "8%", top: "8%", width: 110, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 40 }}>
         <img src="/charm-z.png" alt="Sage charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Flower charm — mid left edge */}
-      <div className="float-a" style={{ position: "absolute", left: "1%", top: "36%", width: 92, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 40, animationDelay: "1.2s" }}>
+      {/* Flower charm — mid left */}
+      <div className="float-a" style={{ position: "absolute", left: isMobile ? "1%" : "6%", top: isMobile ? "8%" : "36%", width: 92, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 40, animationDelay: "1.2s" }}>
         <img src="/charm-flower.png" alt="Flower charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Star charm — lower left edge */}
-      <div className="float-d" style={{ position: "absolute", left: "2%", top: "62%", width: 96, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 40 }}>
+      {/* Star charm — lower left */}
+      <div className="float-d" style={{ position: "absolute", left: isMobile ? "2%" : "9%", top: "62%", width: 96, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 40 }}>
         <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* ── FLOATING IMAGES — right column ── */}
 
-      {/* Heart charm — top right edge */}
-      <div className="float-e" style={{ position: "absolute", right: "2%", top: "10%", width: 96, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 40 }}>
+      {/* Heart charm — top right */}
+      <div className="float-e" style={{ position: "absolute", right: isMobile ? "2%" : "8%", top: "10%", width: 96, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 40 }}>
         <img src="/charm-heart.png" alt="Heart charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Star charm — mid right edge */}
-      <div className="float-b" style={{ position: "absolute", right: "1%", top: "38%", width: 78, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 40, animationDelay: "0.9s" }}>
+      {/* Star charm — mid right */}
+      <div className="float-b" style={{ position: "absolute", right: isMobile ? "1%" : "6%", top: "38%", width: 78, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 40, animationDelay: "0.9s" }}>
         <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
-      {/* Paw charm — lower right edge */}
-      <div className="float-f" style={{ position: "absolute", right: "2%", top: "60%", width: 104, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 40 }}>
+      {/* Paw charm — lower right */}
+      <div className="float-f" style={{ position: "absolute", right: isMobile ? "2%" : "9%", top: "60%", width: 104, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 40 }}>
         <img src="/charm-paw.png" alt="Paw charm" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* ── HAND-DRAWN ANNOTATIONS ── */}
-      <svg style={{ position: "absolute", top: "14%", left: "11%", pointerEvents: "none" }} width="130" height="70" viewBox="0 0 130 70" fill="none">
+      <svg style={{ position: "absolute", top: "14%", left: isMobile ? "11%" : "17%", pointerEvents: "none" }} width="130" height="70" viewBox="0 0 130 70" fill="none">
         <text x="4" y="22" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,22)">made for</text>
         <text x="4" y="44" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,44)">your pup ♥</text>
         <path d="M 80 50 C 90 60, 100 62, 108 70" stroke="#9B948F" strokeWidth="1.4" fill="none" strokeLinecap="round" />
       </svg>
 
-      <svg style={{ position: "absolute", top: "62%", right: "10%", pointerEvents: "none" }} width="120" height="56" viewBox="0 0 120 56" fill="none">
-        <text x="4" y="22" fontFamily="'Caveat',cursive" fontSize="17" fill="#A8D5A2" transform="rotate(3,4,22)">swap in 5 sec!</text>
-        <path d="M 10 30 C 6 42, 8 50, 16 54" stroke="#A8D5A2" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-        <path d="M 16 54 L 9 48 M 16 54 L 22 47" stroke="#A8D5A2" strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
 
       {/* ── CENTRE TEXT ── */}
       <motion.div
@@ -124,12 +119,14 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           maxWidth: 520,
           margin: "0 auto",
           padding: isMobile ? "0 24px" : "0",
+          alignSelf: isMobile ? "center" : "flex-start",
+          marginTop: isMobile ? 0 : 120,
         }}
       >
         {/* Badge */}
         <motion.div
           custom={0.1} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F9E4A0", borderRadius: 100, padding: "6px 18px", fontSize: 13, fontWeight: 500, color: "#7a5010", marginBottom: 28 }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F9E4A0", borderRadius: 100, padding: "6px 18px", fontSize: 13, fontWeight: 500, color: "#7a5010", marginBottom: 24 }}
         >
           ✦ Made in Lithuania · Waterproof
         </motion.div>
@@ -137,20 +134,15 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         {/* Headline */}
         <motion.h1
           custom={0.2} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ fontFamily: "'Luckiest Guy', sans-serif", fontSize: "clamp(62px, 9vw, 78px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 20 }}
+          style={{ fontFamily: "'Luckiest Guy', sans-serif", fontSize: "clamp(62px, 9vw, 78px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 8 }}
         >
           Collars made<br />for <span style={{ color: "#A8D5A2" }}>them.</span>
         </motion.h1>
 
-        {/* Wavy underline */}
-        <svg style={{ display: "block", margin: isMobile ? "-8px auto 20px" : "-8px 0 20px", width: 110 }} viewBox="0 0 110 14" fill="none">
-          <path d="M2 9 C18 2,34 14,50 7 S82 2,108 9" stroke="#A8D5A2" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        </svg>
-
         {/* Subtext */}
         <motion.p
           custom={0.3} variants={FADE_UP} initial="hidden" animate="show"
-          style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: "0 auto 36px" }}
+          style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: "0 auto 20px" }}
         >
           Waterproof. Personalised. Swappable charms in five seconds flat.
         </motion.p>

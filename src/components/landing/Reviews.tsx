@@ -141,10 +141,7 @@ export function Reviews() {
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div style={{ marginTop: 24, height: 2, background: 'rgba(61,53,48,0.1)', borderRadius: 2 }}>
-          <div style={{ height: '100%', borderRadius: 2, background: '#3D3530', width: `${progress}%`, transition: 'width 30ms linear' }} />
-        </div>
+
 
         {/* Dot indicators */}
         <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginTop: 16 }}>

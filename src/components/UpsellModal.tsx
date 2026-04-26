@@ -37,7 +37,7 @@ export function UpsellModal({ collar, onClose, onAddCharms }: UpsellModalProps) 
           <p style={{ fontSize: 14, color: '#6B6460', lineHeight: 1.6 }}>Swap by mood, season, or occasion. Most owners buy 2–3 extras.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 24, maxHeight: 200, overflowY: 'auto' }}>
           {extras.map(c => {
             const sel = picked.includes(c.id);
             return (

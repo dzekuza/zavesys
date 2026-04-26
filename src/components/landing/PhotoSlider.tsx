@@ -29,6 +29,14 @@ export function PhotoSlider() {
 
   return (
     <section style={{ background: '#FAF7F2', padding: '80px 0', overflow: 'hidden' }}>
+      <h2 style={{
+        fontFamily: "'Luckiest Guy', cursive",
+        fontSize: isMobile ? 36 : 52,
+        color: 'var(--color-bark)',
+        textAlign: 'center',
+        marginBottom: 40,
+        letterSpacing: '0.02em',
+      }}>Your moments</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <InfiniteSlider gap={16} duration={30}>
           {ROW_ONE.map((src) => (

@@ -56,24 +56,22 @@ function SortableSlot({
   return (
     <div
       ref={setNodeRef}
-      style={{ ...style, position: 'relative', display: 'flex', alignItems: 'center', cursor: showFilled ? 'grab' : 'default' }}
+      className="relative flex items-center"
       {...(charm ? { ...attributes, ...listeners } : {})}
+      style={{ ...style, cursor: showFilled ? 'grab' : 'default' }}
     >
-      <div style={{
-        width: slotSize,
-        height: slotSize,
-        flexShrink: 0,
-        borderRadius: '50%',
-        background: showFilled ? charm!.bg : 'rgba(61,53,48,0.08)',
-        border: `2px dashed ${showFilled ? 'transparent' : 'rgba(61,53,48,0.18)'}`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transition: 'background-color 250ms ease-out',
-        userSelect: 'none',
-        WebkitUserSelect: 'none',
-        boxShadow: showFilled ? '0 4px 16px rgba(0,0,0,0.18)' : 'none',
-      }}>
+      <div
+        className="flex-shrink-0 rounded-full flex items-center justify-center select-none"
+        style={{
+          width: slotSize,
+          height: slotSize,
+          background: showFilled ? charm!.bg : 'rgba(61,53,48,0.08)',
+          border: `2px dashed ${showFilled ? 'transparent' : 'rgba(61,53,48,0.18)'}`,
+          transition: 'background-color 250ms ease-out',
+          WebkitUserSelect: 'none',
+          boxShadow: showFilled ? '0 4px 16px rgba(0,0,0,0.18)' : 'none',
+        }}
+      >
         {showFilled ? (
           <img
             src={encodeURI(charm!.image)}
@@ -83,7 +81,7 @@ function SortableSlot({
             style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }}
           />
         ) : (
-          <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.22)' }}>+</span>
+          <span className="text-lg" style={{ color: 'rgba(61,53,48,0.22)' }}>+</span>
         )}
       </div>
       {showFilled && (
@@ -91,24 +89,12 @@ function SortableSlot({
           onPointerDown={e => e.stopPropagation()}
           onClick={e => { e.stopPropagation(); onClear(); }}
           aria-label="Remove charm"
+          className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center cursor-pointer border-none p-0 z-10"
           style={{
-            position: 'absolute',
-            top: -4,
-            right: -4,
-            width: 20,
-            height: 20,
-            borderRadius: '50%',
             background: 'rgba(61,53,48,0.75)',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             color: 'rgba(255,255,255,0.85)',
             fontSize: 10,
             lineHeight: 1,
-            zIndex: 10,
-            padding: 0,
           }}
         >
           ✕
@@ -122,19 +108,17 @@ function DragPreview({ charmId, slotSize, charmSize }: { charmId: string; slotSi
   const charm = ALL_CHARMS.find(c => c.id === charmId);
   if (!charm) return null;
   return (
-    <div style={{
-      width: slotSize,
-      height: slotSize,
-      borderRadius: '50%',
-      background: charm.bg,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      opacity: 0.95,
-      transform: 'scale(1.12)',
-      boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
-      cursor: 'grabbing',
-    }}>
+    <div
+      className="rounded-full flex items-center justify-center cursor-grabbing"
+      style={{
+        width: slotSize,
+        height: slotSize,
+        background: charm.bg,
+        opacity: 0.95,
+        transform: 'scale(1.12)',
+        boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
+      }}
+    >
       <img
         src={encodeURI(charm.image)}
         alt=""
@@ -202,24 +186,24 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
   const gallery = COLLAR_GALLERY[collar.id] ?? COLLAR_GALLERY.blossom;
 
   const ssrCharms = (
-    <div style={{ display: 'flex', gap: isMobile ? 8 : 12, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+    <div className="flex items-center justify-center w-full" style={{ gap: isMobile ? 8 : 12 }}>
       {slotIds.map((_, i) => {
         const charm = selectedCharms[i] ? ALL_CHARMS.find(c => c.id === selectedCharms[i]) : null;
         return (
-          <div key={i} style={{
-            width: slotSize,
-            height: slotSize,
-            borderRadius: '50%',
-            background: charm ? charm.bg : 'rgba(61,53,48,0.08)',
-            border: `2px dashed ${charm ? 'transparent' : 'rgba(61,53,48,0.18)'}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: charm ? '0 4px 16px rgba(0,0,0,0.18)' : 'none',
-          }}>
+          <div
+            key={i}
+            className="flex-shrink-0 rounded-full flex items-center justify-center"
+            style={{
+              width: slotSize,
+              height: slotSize,
+              background: charm ? charm.bg : 'rgba(61,53,48,0.08)',
+              border: `2px dashed ${charm ? 'transparent' : 'rgba(61,53,48,0.18)'}`,
+              boxShadow: charm ? '0 4px 16px rgba(0,0,0,0.18)' : 'none',
+            }}
+          >
             {charm
               ? <img src={encodeURI(charm.image)} alt="" style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }} />
-              : <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.22)' }}>+</span>}
+              : <span className="text-lg" style={{ color: 'rgba(61,53,48,0.22)' }}>+</span>}
           </div>
         );
       })}
@@ -227,117 +211,106 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
   );
 
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: isMobile ? 12 : 16, minHeight: 0, justifyContent: showGallery ? 'flex-start' : 'center' }}>
+    <div
+      className="h-full flex flex-col min-h-0"
+      style={{ gap: isMobile ? 12 : 16, justifyContent: showGallery ? 'flex-start' : 'center' }}
+    >
 
       {/* Main image area + vertical thumbnails */}
-      {showGallery && <div style={{ flex: 1, display: 'flex', gap: 12, minHeight: 0 }}>
+      {showGallery && (
+        <div className="flex-1 flex gap-3 min-h-0">
 
+          {/* Vertical thumbnail strip — desktop only */}
+          {!isMobile && (
+            <div className="flex flex-col gap-2 flex-shrink-0">
+              {gallery.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImg(i)}
+                  aria-label={`View ${i + 1}`}
+                  className="rounded-xl overflow-hidden flex-shrink-0 p-0 cursor-pointer outline-none"
+                  style={{
+                    width: 62,
+                    height: 62,
+                    border: `2px solid ${activeImg === i ? collar.color : 'rgba(61,53,48,0.12)'}`,
+                    background: 'rgba(61,53,48,0.04)',
+                    transition: 'border-color 200ms, transform 150ms',
+                    transform: activeImg === i ? 'scale(1.04)' : 'scale(1)',
+                  }}
+                >
+                  <img src={img} alt="" draggable={false} className="w-full h-full object-cover block" />
+                </button>
+              ))}
+            </div>
+          )}
 
-        {/* Vertical thumbnail strip — desktop only */}
-        {!isMobile && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
-            {gallery.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveImg(i)}
-                aria-label={`View ${i + 1}`}
-                style={{
-                  width: 62,
-                  height: 62,
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  flexShrink: 0,
-                  border: `2px solid ${activeImg === i ? collar.color : 'rgba(61,53,48,0.12)'}`,
-                  padding: 0,
-                  cursor: 'pointer',
-                  background: 'rgba(61,53,48,0.04)',
-                  transition: 'border-color 200ms, transform 150ms',
-                  transform: activeImg === i ? 'scale(1.04)' : 'scale(1)',
-                  outline: 'none',
-                }}
-              >
-                <img src={img} alt="" draggable={false} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Main image */}
-        <div style={{
-          flex: 1,
-          position: 'relative',
-          borderRadius: isMobile ? 16 : 20,
-          overflow: 'hidden',
-          background: `linear-gradient(160deg, ${collar.bgTint} 0%, rgba(42,30,24,0.5) 100%)`,
-          minHeight: isMobile ? 260 : 0,
-        }}>
-          <img
-            key={gallery[activeImg]}
-            src={gallery[activeImg]}
-            alt={`${collar.name} collar`}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-          <div style={{
-            position: 'absolute',
-            bottom: 14,
-            left: 14,
-            background: collar.color,
-            borderRadius: 100,
-            padding: '4px 14px',
-            fontSize: 11,
-            fontWeight: 700,
-            fontFamily: "'DM Sans',sans-serif",
-            color: '#3D3530',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-          }}>
-            {collar.name}
+          {/* Main image */}
+          <div
+            className="flex-1 relative overflow-hidden"
+            style={{
+              borderRadius: isMobile ? 16 : 20,
+              background: `linear-gradient(160deg, ${collar.bgTint} 0%, rgba(42,30,24,0.5) 100%)`,
+              minHeight: isMobile ? 260 : 0,
+            }}
+          >
+            <img
+              key={gallery[activeImg]}
+              src={gallery[activeImg]}
+              alt={`${collar.name} collar`}
+              className="w-full h-full object-cover block"
+            />
+            <div
+              className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
+              style={{
+                background: collar.color,
+                padding: '4px 14px',
+                fontSize: 11,
+                color: '#3D3530',
+                letterSpacing: '0.08em',
+              }}
+            >
+              {collar.name}
+            </div>
           </div>
         </div>
-      </div>}
+      )}
 
       {/* Mobile thumbnails */}
       {showGallery && isMobile && (
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div className="flex gap-2">
           {gallery.map((img, i) => (
             <button
               key={i}
               onClick={() => setActiveImg(i)}
+              className="rounded-[10px] overflow-hidden flex-shrink-0 p-0 cursor-pointer outline-none"
               style={{
                 width: 56,
                 height: 56,
-                borderRadius: 10,
-                overflow: 'hidden',
-                flexShrink: 0,
                 border: `2px solid ${activeImg === i ? collar.color : 'rgba(61,53,48,0.12)'}`,
-                padding: 0,
-                cursor: 'pointer',
-                outline: 'none',
               }}
             >
-              <img src={img} alt="" draggable={false} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <img src={img} alt="" draggable={false} className="w-full h-full object-cover block" />
             </button>
           ))}
         </div>
       )}
 
       {/* Charm strip */}
-      <div style={{
-        background: collar.color,
-        borderRadius: isMobile ? 14 : 18,
-        padding: isMobile ? '18px 16px' : '22px 24px',
-        boxShadow: `0 0 40px ${collar.glowColor}55, 0 4px 16px rgba(0,0,0,0.12)`,
-        transition: 'background-color 400ms, box-shadow 400ms',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 12,
-        flexShrink: 0,
-      }}>
+      <div
+        className="flex flex-col items-center flex-shrink-0"
+        style={{
+          background: collar.color,
+          borderRadius: isMobile ? 14 : 18,
+          padding: isMobile ? '18px 16px' : '22px 24px',
+          boxShadow: `0 0 40px ${collar.glowColor}55, 0 4px 16px rgba(0,0,0,0.12)`,
+          transition: 'background-color 400ms, box-shadow 400ms',
+          gap: 12,
+        }}
+      >
         {mounted ? (
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <SortableContext items={slotIds} strategy={horizontalListSortingStrategy}>
-              <div style={{ display: 'flex', gap: isMobile ? 8 : 12, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+              <div className="flex items-center justify-center w-full" style={{ gap: isMobile ? 8 : 12 }}>
                 {slotIds.map((id, i) => (
                   <SortableSlot
                     key={id}
@@ -357,13 +330,10 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
             </DragOverlay>
           </DndContext>
         ) : ssrCharms}
-        <p style={{
+        <p className="font-sans uppercase m-0" style={{
           fontSize: 10,
-          margin: 0,
           color: 'rgba(61,53,48,0.42)',
-          fontFamily: "'DM Sans',sans-serif",
           letterSpacing: '0.06em',
-          textTransform: 'uppercase',
         }}>
           Drag to reorder
         </p>

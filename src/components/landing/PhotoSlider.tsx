@@ -1,7 +1,6 @@
 'use client';
 
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const ROW_ONE = [
   '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
@@ -22,33 +21,23 @@ const ROW_TWO = [
 ];
 
 export function PhotoSlider() {
-  const windowWidth = useWindowWidth() ?? 1200;
-  const isMobile = windowWidth < 768;
-  const cardWidth = isMobile ? 200 : 280;
-  const cardHeight = isMobile ? 250 : 340;
-
   return (
-    <section style={{ background: '#FAF7F2', padding: '80px 0', overflow: 'hidden' }}>
-      <h2 style={{
-        fontFamily: "'Luckiest Guy', cursive",
-        fontSize: isMobile ? 36 : 52,
-        color: 'var(--color-bark)',
-        textAlign: 'center',
-        marginBottom: 40,
-        letterSpacing: '0.02em',
-      }}>Your moments</h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <section className="bg-cream py-20 overflow-hidden">
+      <h2 className="font-display text-[36px] md:text-[52px] text-bark text-center mb-10 tracking-[0.02em]">
+        Your moments
+      </h2>
+      <div className="flex flex-col gap-4">
         <InfiniteSlider gap={16} duration={30}>
           {ROW_ONE.map((src) => (
-            <div key={src} style={{ width: cardWidth, height: cardHeight, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
-              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <div key={src} className="w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
+              <img src={src} alt="" className="w-full h-full object-cover block" />
             </div>
           ))}
         </InfiniteSlider>
         <InfiniteSlider gap={16} duration={30} reverse>
           {ROW_TWO.map((src) => (
-            <div key={src} style={{ width: cardWidth, height: cardHeight, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
-              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <div key={src} className="w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
+              <img src={src} alt="" className="w-full h-full object-cover block" />
             </div>
           ))}
         </InfiniteSlider>

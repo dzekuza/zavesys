@@ -104,55 +104,49 @@ export function ProductConfigurator () {
   const NAV_H = 72
 
   return (
-    <div style={{ background: '#FAF7F2', minHeight: '100vh', fontFamily: "'DM Sans',sans-serif" }}>
+    <div className="bg-cream min-h-screen font-sans">
       <LandingNav topOffset={0} cartCount={cart.length} onCart={() => setCartOpen(true)} />
 
       {/* ─── Configurator hero ─── */}
-      <div style={{
-        display: isMobile ? 'flex' : 'grid',
-        flexDirection: isMobile ? 'column' : undefined,
-        gridTemplateColumns: isMobile ? undefined : '1fr 440px',
-        gap: isMobile ? 0 : 32,
-        minHeight: isMobile ? 'auto' : '80vh',
-        maxWidth: 1200,
-        margin: '0 auto',
-        width: '100%',
-        marginTop: isMobile ? 0 : NAV_H,
-      }}>
+      <div
+        className="w-full mx-auto"
+        style={{
+          display: isMobile ? 'flex' : 'grid',
+          flexDirection: isMobile ? 'column' : undefined,
+          gridTemplateColumns: isMobile ? undefined : '1fr 440px',
+          gap: isMobile ? 0 : 32,
+          minHeight: isMobile ? 'auto' : '80vh',
+          maxWidth: 1200,
+          marginTop: isMobile ? 0 : NAV_H,
+        }}
+      >
 
         {/* LEFT — product gallery grid */}
-        <div style={{
-          position: isMobile ? 'relative' : 'sticky',
-          top: NAV_H,
-          height: isMobile ? 'auto' : '80vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}>
+        <div
+          className="flex flex-col overflow-hidden"
+          style={{
+            position: isMobile ? 'relative' : 'sticky',
+            top: NAV_H,
+            height: isMobile ? 'auto' : '80vh',
+          }}
+        >
 
           {/* Tab bar */}
-          <div style={{
-            position: 'relative',
-            display: 'flex',
-            gap: 4,
-            marginBottom: 16,
-            background: 'rgba(61,53,48,0.07)',
-            borderRadius: 100,
-            padding: 4,
-            width: 'fit-content',
-          }}>
+          <div
+            className="relative flex gap-1 mb-4 rounded-full p-1"
+            style={{
+              background: 'rgba(61,53,48,0.07)',
+              width: 'fit-content',
+            }}
+          >
             {(['gallery', 'preview'] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setLeftTab(tab)}
+                className="rounded-full border-none cursor-pointer font-sans font-semibold"
                 style={{
                   padding: '7px 18px',
-                  borderRadius: 100,
-                  border: 'none',
-                  cursor: 'pointer',
                   fontSize: 12,
-                  fontWeight: 600,
-                  fontFamily: "'DM Sans',sans-serif",
                   letterSpacing: '0.04em',
                   background: leftTab === tab ? '#FAF7F2' : 'transparent',
                   color: leftTab === tab ? '#3D3530' : 'rgba(61,53,48,0.45)',
@@ -167,45 +161,48 @@ export function ProductConfigurator () {
 
           {/* Gallery view */}
           {leftTab === 'gallery' && (
-            <div style={{
-              position: 'relative',
-              flex: 1,
-              minHeight: isMobile ? 320 : 0,
-              overflow: 'hidden',
-              display: 'grid',
-              gridTemplateColumns: '3fr 2fr',
-              gridTemplateRows: '1fr 1fr',
-              gap: 10,
-            }}>
+            <div
+              className="relative flex-1 overflow-hidden grid"
+              style={{
+                minHeight: isMobile ? 320 : 0,
+                gridTemplateColumns: '3fr 2fr',
+                gridTemplateRows: '1fr 1fr',
+                gap: 10,
+              }}
+            >
               {/* Featured image — spans both rows */}
-              <div style={{ gridRow: '1 / 3', borderRadius: 20, overflow: 'hidden', position: 'relative' }}>
+              <div className="rounded-[20px] overflow-hidden relative" style={{ gridRow: '1 / 3' }}>
                 <img
                   key={COLLAR_GALLERY[collar.id]?.[0]}
                   src={COLLAR_GALLERY[collar.id]?.[0]}
                   alt={`${collar.name} collar`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  className="w-full h-full object-cover block"
                 />
-                <div style={{
-                  position: 'absolute', bottom: 14, left: 14,
-                  background: collar.color, borderRadius: 100, padding: '5px 14px',
-                  fontSize: 11, fontWeight: 700, fontFamily: "'DM Sans',sans-serif",
-                  color: '#3D3530', letterSpacing: '0.08em', textTransform: 'uppercase',
-                }}>
+                <div
+                  className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
+                  style={{
+                    background: collar.color,
+                    padding: '5px 14px',
+                    fontSize: 11,
+                    color: '#3D3530',
+                    letterSpacing: '0.08em',
+                  }}
+                >
                   {collar.name}
                 </div>
               </div>
-              <div style={{ borderRadius: 16, overflow: 'hidden' }}>
-                <img src={COLLAR_GALLERY[collar.id]?.[1]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div className="rounded-2xl overflow-hidden">
+                <img src={COLLAR_GALLERY[collar.id]?.[1]} alt="" className="w-full h-full object-cover block" />
               </div>
-              <div style={{ borderRadius: 16, overflow: 'hidden' }}>
-                <img src={COLLAR_GALLERY[collar.id]?.[2]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div className="rounded-2xl overflow-hidden">
+                <img src={COLLAR_GALLERY[collar.id]?.[2]} alt="" className="w-full h-full object-cover block" />
               </div>
             </div>
           )}
 
           {/* Configurator preview */}
           {leftTab === 'preview' && (
-            <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div className="relative flex-1 flex flex-col min-h-0">
               <CollarStage
                 collar={collar}
                 selectedCharms={selectedCharms}
@@ -219,43 +216,30 @@ export function ProductConfigurator () {
         </div>
 
         {/* RIGHT — config form */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          overflowY: isMobile ? 'visible' : 'auto',
-        }}>
+        <div
+          className="flex flex-col"
+          style={{ overflowY: isMobile ? 'visible' : 'auto' }}
+        >
           {/* Heading block */}
-          <div style={{ marginBottom: 32 }}>
-            <p style={{
-              fontSize: 11,
-              fontWeight: 600,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: '#9B948F',
-              margin: '0 0 8px',
-            }}>
+          <div className="mb-8">
+            <p className="font-sans font-semibold uppercase tracking-widest text-bark-muted m-0 mb-2" style={{ fontSize: 11 }}>
               Collar Set
             </p>
-            <h1 style={{
-              fontFamily: "'Luckiest Guy',cursive",
-              fontSize: isMobile ? 34 : 40,
-              color: '#3D3530',
-              margin: '0 0 10px',
-              lineHeight: 1.05,
-              letterSpacing: '0.02em',
-            }}>
+            <h1
+              className="text-bark m-0 mb-2.5"
+              style={{
+                fontSize: isMobile ? 34 : 40,
+                lineHeight: 1.05,
+                letterSpacing: '0.02em',
+              }}
+            >
               Build your collar
             </h1>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-              <span style={{
-                fontSize: 28,
-                fontWeight: 700,
-                color: '#3D3530',
-                letterSpacing: '-0.01em',
-              }}>
+            <div className="flex items-baseline gap-2.5">
+              <span className="font-bold text-bark" style={{ fontSize: 28, letterSpacing: '-0.01em' }}>
                 €28
               </span>
-              <span style={{ fontSize: 13, color: '#9B948F' }}>
+              <span className="text-bark-muted" style={{ fontSize: 13 }}>
                 free shipping over €50
               </span>
             </div>

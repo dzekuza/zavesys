@@ -18,58 +18,66 @@ export function UpsellModal({ collar, onClose, onAddCharms }: UpsellModalProps) 
     setPicked(prev => prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(61,53,48,0.5)', backdropFilter: 'blur(4px)' }}>
-      <div className="slide-up" style={{ width: 480, background: '#FAF7F2', borderRadius: 28, padding: '40px 40px 32px', position: 'relative', boxShadow: '0 24px 80px rgba(61,53,48,0.2)' }}>
-        <button onClick={onClose} style={{ position: 'absolute', top: 18, right: 20, background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: '#9B948F', lineHeight: 1 }}>×</button>
+    <div className="fixed inset-0 z-[500] flex items-center justify-center" style={{ background: 'rgba(61,53,48,0.5)', backdropFilter: 'blur(4px)' }}>
+      <div className="slide-up w-[480px] bg-cream rounded-[28px] relative" style={{ padding: '40px 40px 32px', boxShadow: '0 24px 80px rgba(61,53,48,0.2)' }}>
+        <button
+          onClick={onClose}
+          className="absolute top-[18px] right-5 bg-transparent border-none cursor-pointer leading-none text-bark-muted"
+          style={{ fontSize: 22 }}
+        >
+          ×
+        </button>
 
         {/* Success indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, padding: '12px 16px', background: '#eef7ee', borderRadius: 12, border: '1px solid #c8e8c4' }}>
-          <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#A8D5A2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 600, color: '#2a5a25', flexShrink: 0 }}>✓</div>
+        <div className="flex items-center gap-2.5 mb-6 rounded-xl border" style={{ padding: '12px 16px', background: '#eef7ee', borderColor: '#c8e8c4' }}>
+          <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: '#A8D5A2', fontSize: 14, color: '#2a5a25' }}>✓</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#2a5a25' }}>{collar.name} collar added to cart</div>
+            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar.name} collar added to cart</div>
             <div style={{ fontSize: 12, color: '#5a9a55' }}>Your 5 included charms are ready to pick.</div>
           </div>
         </div>
 
-        <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 10 }}>Complete your set</div>
-          <h2 style={{ fontSize: 22, fontWeight: 500, color: '#3D3530', lineHeight: 1.2, marginBottom: 8 }}>Add extra charms for €6 each.</h2>
-          <p style={{ fontSize: 14, color: '#6B6460', lineHeight: 1.6 }}>Swap by mood, season, or occasion. Most owners buy 2–3 extras.</p>
+        <div className="text-center mb-6">
+          <div className="font-medium uppercase mb-2.5 text-bark-muted" style={{ fontSize: 11, letterSpacing: '0.08em' }}>Complete your set</div>
+          <h2 className="text-bark mb-2" style={{ fontSize: 22, lineHeight: 1.2 }}>Add extra charms for €6 each.</h2>
+          <p className="text-bark-light" style={{ fontSize: 14, lineHeight: 1.6 }}>Swap by mood, season, or occasion. Most owners buy 2–3 extras.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 24, maxHeight: 200, overflowY: 'auto' }}>
+        <div className="grid grid-cols-4 gap-2.5 mb-6 overflow-y-auto" style={{ maxHeight: 200 }}>
           {extras.map(c => {
             const sel = picked.includes(c.id);
             return (
               <button
                 key={c.id}
                 onClick={() => toggle(c.id)}
+                className="rounded-[14px] cursor-pointer flex flex-col items-center gap-1 font-sans"
                 style={{
-                  borderRadius: 14, background: c.bg,
+                  background: c.bg,
                   border: sel ? '2.5px solid #3D3530' : '2.5px solid transparent',
-                  padding: '12px 8px', cursor: 'pointer',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-                  transform: sel ? 'scale(1.05)' : 'scale(1)', transition: 'all 150ms',
-                  fontFamily: "'DM Sans',sans-serif",
+                  padding: '12px 8px',
+                  transform: sel ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'all 150ms',
                 }}
               >
                 <span style={{ fontSize: 24 }}>{c.e}</span>
-                <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)' }}>{c.name}</span>
+                <span className="font-medium uppercase" style={{ fontSize: 10, letterSpacing: '0.05em', color: 'rgba(61,53,48,0.6)' }}>{c.name}</span>
               </button>
             );
           })}
         </div>
 
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div className="flex gap-2.5">
           <button
             onClick={onClose}
-            style={{ flex: 1, fontSize: 14, fontWeight: 500, padding: '13px', borderRadius: 100, border: '2px solid #E8E3DC', background: 'white', color: '#6B6460', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}
+            className="flex-1 font-medium cursor-pointer rounded-full font-sans text-bark-light bg-white"
+            style={{ fontSize: 14, padding: '13px', border: '2px solid #E8E3DC' }}
           >
             No thanks
           </button>
           <button
             onClick={() => { onAddCharms(picked); onClose(); }}
-            style={{ flex: 2, fontSize: 14, fontWeight: 500, padding: '13px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}
+            className="flex-[2] font-medium cursor-pointer rounded-full border-none font-sans"
+            style={{ fontSize: 14, padding: '13px', background: '#A8D5A2', color: '#2a5a25' }}
           >
             {picked.length > 0 ? `Add ${picked.length} charm${picked.length > 1 ? 's' : ''} — +€${picked.length * 6}` : 'Go to cart →'}
           </button>

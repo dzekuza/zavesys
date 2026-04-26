@@ -26,20 +26,6 @@ interface ConfigPanelProps {
   isDark: boolean
 }
 
-function SectionLabel({ children, isDark }: { children: string; isDark: boolean }) {
-  return (
-    <div style={{
-      fontFamily: "'Luckiest Guy',cursive",
-      fontSize: 15,
-      letterSpacing: '0.06em',
-      color: isDark ? '#FAF7F2' : '#3D3530',
-      marginBottom: 16,
-    }}>
-      {children}
-    </div>
-  )
-}
-
 export function ConfigPanel({
   collar,
   setCollar,
@@ -63,7 +49,7 @@ export function ConfigPanel({
   const noop = () => {}
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', fontFamily: "'DM Sans',sans-serif" }}>
+    <div className="flex flex-col font-sans">
 
       {/* ── Colour ── */}
       <ColourStep
@@ -76,7 +62,7 @@ export function ConfigPanel({
         textSecondary={textSecondary}
       />
 
-      <div style={{ height: 1, background: divider, margin: '28px 0' }} />
+      <div className="h-px my-7" style={{ background: divider }} />
 
       {/* ── Charms ── */}
       <CharmsStep
@@ -89,7 +75,7 @@ export function ConfigPanel({
         toggleCharm={toggleCharm}
       />
 
-      <div style={{ height: 1, background: divider, margin: '28px 0' }} />
+      <div className="h-px my-7" style={{ background: divider }} />
 
       {/* ── Size ── */}
       <SizeStep
@@ -103,20 +89,15 @@ export function ConfigPanel({
       />
 
       {/* ── CTA ── */}
-      <div style={{ marginTop: 36 }}>
+      <div className="mt-9">
         <button
           onClick={onAddToCart}
+          className="w-full rounded-full border-none cursor-pointer font-sans font-semibold"
           style={{
-            width: '100%',
             padding: isMobile ? '14px' : '16px',
-            borderRadius: 100,
-            border: 'none',
             background: '#A8D5A2',
             color: '#2a5a25',
-            cursor: 'pointer',
             fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "'DM Sans',sans-serif",
             letterSpacing: '0.01em',
             transition: 'background-color 150ms ease-out, transform 80ms ease-out',
             boxShadow: '0 4px 20px rgba(168,213,162,0.45)',
@@ -134,21 +115,20 @@ export function ConfigPanel({
         >
           Add to cart — €28
         </button>
-        <p style={{
-          textAlign: 'center',
-          fontSize: 11,
-          marginTop: 10,
-          marginBottom: 0,
-          color: textMuted,
-          fontFamily: "'DM Sans',sans-serif",
-          letterSpacing: '0.02em',
-        }}>
+        <p
+          className="text-center mt-2.5 mb-0 font-sans"
+          style={{
+            fontSize: 11,
+            color: textMuted,
+            letterSpacing: '0.02em',
+          }}
+        >
           Free shipping over €50 · Made in Lithuania
         </p>
       </div>
 
       {/* Product info accordion */}
-      <div style={{ marginTop: 32 }}>
+      <div className="mt-8">
         <Accordion items={PRODUCT_ACCORDION} isMobile={isMobile} />
       </div>
 

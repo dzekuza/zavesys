@@ -1,6 +1,5 @@
 'use client';
 
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
 
@@ -33,24 +32,13 @@ const FAQS: AccordionItem[] = [
 ];
 
 export function FAQ() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-
   return (
-    <section style={{ background: '#FAF7F2', padding: isMobile ? '64px 24px' : '96px 48px' }}>
-      <div style={{ maxWidth: 720, margin: '0 auto' }}>
-        <h2 style={{
-          fontFamily: "'DM Sans',sans-serif",
-          fontSize: isMobile ? 28 : 36,
-          fontWeight: 500,
-          color: '#3D3530',
-          letterSpacing: '-0.02em',
-          marginBottom: 48,
-          marginTop: 0,
-        }}>
+    <section className="bg-cream px-6 py-16 md:px-12 md:py-24">
+      <div className="max-w-[720px] mx-auto">
+        <h2 className="font-sans text-[28px] md:text-[36px] font-medium text-bark tracking-tight mb-12 mt-0">
           Common questions
         </h2>
-        <Accordion items={FAQS} isMobile={isMobile} />
+        <Accordion items={FAQS} />
       </div>
     </section>
   );

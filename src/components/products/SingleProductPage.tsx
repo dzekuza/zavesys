@@ -117,25 +117,16 @@ export function SingleProductPage({ product }: Props) {
   const displayBadgeBg = collarProduct?.badgeBg
 
   return (
-    <div
-      style={{
-        background: 'var(--color-cream)',
-        color: 'var(--color-bark)',
-        minHeight: '100vh',
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
+    <div className="bg-cream text-bark min-h-screen font-sans">
       <LandingNav topOffset={0} />
 
       <div style={{ paddingTop: 64 }}>
         {/* ── Product hero ── */}
         {isCompactHero ? (
           <section
+            className="bg-cream flex flex-col"
             style={{
-              background: 'var(--color-cream)',
               padding: isMobile ? '24px 16px' : '32px 24px 48px',
-              display: 'flex',
-              flexDirection: 'column',
               gap: 24,
               maxWidth: isMobile ? undefined : 960,
               margin: isMobile ? undefined : '0 auto',
@@ -180,20 +171,15 @@ export function SingleProductPage({ product }: Props) {
           </section>
         ) : (
           <section
-            style={{
-              background: 'var(--color-cream)',
-              padding: '24px 64px 64px',
-              display: 'flex',
-              gap: 64,
-              alignItems: 'flex-start',
-            }}
+            className="bg-cream flex items-start"
+            style={{ padding: '24px 64px 64px', gap: 64 }}
           >
             {/* Left: sticky image area */}
             <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0} style={{ flexShrink: 0 }}>
               {isCollar ? (
-                <div style={{ position: 'sticky', top: 80, display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div className="flex flex-col" style={{ position: 'sticky', top: 80, gap: 16 }}>
                   {[[0, 1], [2, 3]].map((row, ri) => (
-                    <div key={ri} style={{ display: 'flex', gap: 16 }}>
+                    <div key={ri} className="flex" style={{ gap: 16 }}>
                       {row.map((i) => (
                         <ProductImage
                           key={i}
@@ -211,18 +197,18 @@ export function SingleProductPage({ product }: Props) {
                 </div>
               ) : (
                 <div
+                  className="flex items-center justify-center overflow-hidden"
                   style={{
                     position: 'sticky', top: 80,
                     width: 480, height: 480, borderRadius: 24,
                     background: product.accentColor,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    overflow: 'hidden',
                   }}
                 >
                   <img
                     src={displayImage}
                     alt={displayName}
-                    style={{ width: '72%', height: '72%', objectFit: 'contain' }}
+                    className="object-contain"
+                    style={{ width: '72%', height: '72%' }}
                   />
                 </div>
               )}
@@ -231,7 +217,8 @@ export function SingleProductPage({ product }: Props) {
             {/* Right: product info */}
             <motion.div
               variants={FADE_UP} initial="hidden" animate="show" custom={0.1}
-              style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}
+              className="flex-1 min-w-0 flex flex-col"
+              style={{ gap: 24 }}
             >
               <ProductInfoBlock
                 displayName={displayName}
@@ -253,11 +240,9 @@ export function SingleProductPage({ product }: Props) {
 
         {/* ── Bento section ── */}
         <section
+          className="bg-surface-2 flex flex-col"
           style={{
-            background: 'var(--color-surface-2)',
             padding: isMobile ? '24px 16px' : '64px',
-            display: 'flex',
-            flexDirection: 'column',
             gap: 16,
           }}
         >
@@ -274,12 +259,12 @@ export function SingleProductPage({ product }: Props) {
           ) : (
             <>
               {/* Row 1: Waterproof + Handmade */}
-              <div style={{ display: 'flex', gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
+              <div className="flex" style={{ gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
                 <div style={{ flex: isCompactBento ? '1 1 320px' : 1, minWidth: isCompactBento ? 320 : 0 }}><WaterproofCard /></div>
                 <div style={{ flex: isCompactBento ? '1 1 320px' : 1, minWidth: isCompactBento ? 320 : 0 }}><HandmadeCard /></div>
               </div>
               {/* Row 2: Sizing + Charm + Care */}
-              <div style={{ display: 'flex', gap: 16, alignItems: 'stretch', flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
+              <div className="flex items-stretch" style={{ gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
                 {isCollar && (
                   <div style={{ flex: isCompactBento ? '1 1 320px' : 1, minWidth: isCompactBento ? 320 : 0 }}>
                     <SizingGuide selectedSize={selectedSize} onSizeChange={setSelectedSize} sizeIndex={SIZE_INDEX} allSizes={ALL_GUIDE_SIZES} sizeDetails={SIZE_DETAILS} />
@@ -316,30 +301,19 @@ function DesktopTabsPanel({
   onSelect: (tab: InfoTab) => void
 }) {
   return (
-    <div
-      style={{
-        background: '#fff',
-        borderRadius: 16,
-        padding: '24px 16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 18,
-      }}
-    >
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+    <div className="bg-white rounded-2xl flex flex-col" style={{ padding: '24px 16px', gap: 18 }}>
+      <div className="flex gap-2 flex-wrap">
         {DESKTOP_TABS.map((tab) => {
           const active = tab.id === desktopTab
           return (
             <button
               key={tab.id}
               onClick={() => onSelect(tab.id)}
+              className="rounded-[10px] border-none cursor-pointer font-sans whitespace-nowrap"
               style={{
-                borderRadius: 10, border: 'none', cursor: 'pointer',
                 padding: '8px 12px', fontSize: 13, fontWeight: 500,
                 background: active ? 'var(--color-bark)' : '#f4efe8',
                 color: active ? 'var(--color-cream)' : 'var(--color-bark-light)',
-                fontFamily: "'DM Sans', sans-serif",
-                whiteSpace: 'nowrap',
               }}
             >
               {tab.label}
@@ -347,12 +321,7 @@ function DesktopTabsPanel({
           )
         })}
       </div>
-      <p
-        style={{
-          margin: 0, fontSize: 14,
-          color: 'var(--color-bark-light)', lineHeight: '24.5px',
-        }}
-      >
+      <p className="m-0 text-bark-light" style={{ fontSize: 14, lineHeight: '24.5px' }}>
         {TAB_CONTENT[desktopTab]}
       </p>
     </div>
@@ -371,8 +340,8 @@ function ProductImage({
   const isCharm = isCollar === false
   return (
     <div
+      className="rounded-[20px] overflow-hidden relative"
       style={{
-        borderRadius: 20, overflow: 'hidden', position: 'relative',
         height, width: width ?? '100%', flexShrink: width ? 0 : undefined,
         background: isCharm ? accentColor : undefined,
         display: isCharm ? 'flex' : undefined,
@@ -390,8 +359,8 @@ function ProductImage({
         }}
       />
       {badge && (
-        <div style={{ position: 'absolute', top: 14, right: 14, background: badgeBg, borderRadius: 20, padding: '3.5px 10px' }}>
-          <span style={{ fontSize: 10, fontWeight: 500, color: badgeColor, letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+        <div className="absolute top-3.5 right-3.5 rounded-[20px]" style={{ background: badgeBg, padding: '3.5px 10px' }}>
+          <span className="font-medium uppercase" style={{ fontSize: 10, color: badgeColor, letterSpacing: '0.6px' }}>
             {badge}
           </span>
         </div>
@@ -414,32 +383,40 @@ function ProductInfoBlock({
   onSizeChange: (s: DisplaySize) => void
 }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, minWidth: 0 }}>
+    <div className="flex flex-col min-w-0" style={{ gap: 16 }}>
       {/* Name + price */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', gap: 12, flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 0 : 8, minWidth: 0, flex: 1 }}>
-          <p style={{ margin: 0, fontSize: isMobile ? 24 : 32, fontWeight: 500, lineHeight: isMobile ? '32px' : '40px', color: 'var(--color-bark)' }}>
+      <div
+        className="flex"
+        style={{
+          justifyContent: 'space-between',
+          alignItems: isMobile ? 'flex-start' : 'flex-end',
+          gap: 12,
+          flexWrap: isMobile ? 'wrap' : 'nowrap',
+        }}
+      >
+        <div className="flex flex-col min-w-0 flex-1" style={{ gap: isMobile ? 0 : 8 }}>
+          <p className="m-0 font-medium text-bark" style={{ fontSize: isMobile ? 24 : 32, lineHeight: isMobile ? '32px' : '40px' }}>
             {displayName}
           </p>
-          <p style={{ margin: 0, fontSize: 16, lineHeight: '24px', color: 'var(--color-bark-muted)' }}>
+          <p className="m-0 text-bark-muted" style={{ fontSize: 16, lineHeight: '24px' }}>
             {product.shortDescription}
           </p>
         </div>
-        <p style={{ margin: 0, marginLeft: 'auto', fontSize: isMobile ? 20 : 24, fontWeight: 500, lineHeight: '30px', color: 'var(--color-bark)', whiteSpace: 'nowrap' }}>
+        <p className="m-0 ml-auto font-medium text-bark whitespace-nowrap" style={{ fontSize: isMobile ? 20 : 24, lineHeight: '30px' }}>
           {product.price}
         </p>
       </div>
 
       {/* Colour selector */}
       {isCollar && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="flex flex-col" style={{ gap: 12 }}>
           <SectionLabel>
             Select colour —{' '}
             <span style={{ fontWeight: 400, color: 'var(--color-bark-light)', textTransform: 'none', letterSpacing: 0 }}>
               {selectedCollar.name}
             </span>
           </SectionLabel>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <div className="flex flex-wrap" style={{ gap: 8 }}>
             {COLLARS.map((collar) => {
               const active = collar.id === selectedCollar.id
               return (
@@ -450,12 +427,12 @@ function ProductInfoBlock({
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.15 }}
+                  className="cursor-pointer p-0"
                   style={{
                     width: 48, height: 48, borderRadius: 16,
                     background: collar.color,
                     border: active ? '2px solid var(--color-bark)' : '3px solid transparent',
                     boxShadow: active ? 'none' : `0 2px 8px 0 ${collar.glowColor}`,
-                    cursor: 'pointer', padding: 0,
                   }}
                 />
               )
@@ -466,9 +443,9 @@ function ProductInfoBlock({
 
       {/* Size selector */}
       {isCollar && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="flex flex-col" style={{ gap: 12 }}>
           <SectionLabel>Size</SectionLabel>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div className="flex flex-wrap" style={{ gap: 12 }}>
             {DISPLAY_SIZES.map((size) => {
               const active = size === selectedSize
               return (
@@ -478,13 +455,13 @@ function ProductInfoBlock({
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ duration: 0.15 }}
+                  className="cursor-pointer font-sans font-medium text-center border-none"
                   style={{
-                    flex: '1 1 96px', padding: '12px 4px', borderRadius: 10, border: 'none',
+                    flex: '1 1 96px', padding: '12px 4px', borderRadius: 10,
                     background: active ? 'var(--color-bark)' : '#fff',
                     color: active ? 'var(--color-cream)' : 'rgba(45,45,45,0.87)',
-                    fontSize: 16, fontWeight: 500, cursor: 'pointer',
-                    textAlign: 'center', letterSpacing: '0.44px',
-                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 16,
+                    letterSpacing: '0.44px',
                   }}
                 >
                   {size}
@@ -502,25 +479,23 @@ function ProductInfoBlock({
 function WaterproofCard() {
   return (
     <div
-      style={{
-        background: 'var(--color-sage)', borderRadius: 20, padding: 24,
-        display: 'flex', flexDirection: 'column', gap: 24, height: '100%', boxSizing: 'border-box',
-      }}
+      className="bg-sage rounded-[20px] flex flex-col h-full box-border"
+      style={{ padding: 24, gap: 24 }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div className="flex flex-col" style={{ gap: 12 }}>
         <SectionLabel color="rgba(42,90,37,0.6)">The material</SectionLabel>
         <div style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'var(--color-interactive-text)', lineHeight: '50.4px', letterSpacing: '0.48px' }}>
-          <p style={{ margin: 0 }}>Waterproof.</p>
-          <p style={{ margin: 0 }}>No odor. No stains.</p>
+          <p className="m-0">Waterproof.</p>
+          <p className="m-0">No odor. No stains.</p>
         </div>
-        <p style={{ margin: 0, fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: '25.5px' }}>
+        <p className="m-0" style={{ fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: '25.5px' }}>
           TPU-coated nylon that shrugs off lakes, mud, and rain. Wipe with a damp cloth — it comes up looking new every time.
         </p>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <div className="flex flex-wrap" style={{ gap: 8 }}>
         {['Lakes', 'Mud', 'Rain', 'Snow'].map((tag) => (
-          <div key={tag} style={{ background: 'rgba(42,90,37,0.12)', borderRadius: 100, padding: '6px 14px' }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)' }}>{tag}</span>
+          <div key={tag} className="rounded-full" style={{ background: 'rgba(42,90,37,0.12)', padding: '6px 14px' }}>
+            <span className="font-medium" style={{ fontSize: 12, color: 'var(--color-interactive-text)' }}>{tag}</span>
           </div>
         ))}
       </div>
@@ -531,20 +506,18 @@ function WaterproofCard() {
 function HandmadeCard() {
   return (
     <div
-      style={{
-        background: 'var(--color-bark)', borderRadius: 20, padding: 24,
-        display: 'flex', flexDirection: 'column', gap: 16, height: '100%', boxSizing: 'border-box',
-      }}
+      className="bg-bark rounded-[20px] flex flex-col h-full box-border"
+      style={{ padding: 24, gap: 16 }}
     >
       <SectionLabel color="rgba(250,247,242,0.35)">Origin</SectionLabel>
       <div style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'var(--color-cream)', lineHeight: '50.4px', letterSpacing: '0.48px' }}>
-        <p style={{ margin: 0 }}>Handmade in</p>
-        <p style={{ margin: 0 }}>Vilnius, Lithuania.</p>
+        <p className="m-0">Handmade in</p>
+        <p className="m-0">Vilnius, Lithuania.</p>
       </div>
-      <p style={{ margin: 0, fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: '23.8px' }}>
+      <p className="m-0" style={{ fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: '23.8px' }}>
         Small batch. Cut and assembled by hand in our workshop. Each collar ships in a linen pouch.
       </p>
-      <p style={{ margin: 0, fontSize: 22, fontStyle: 'italic', fontWeight: 500, color: 'rgba(250,247,242,0.2)', lineHeight: '33px', letterSpacing: '-0.22px' }}>
+      <p className="m-0 italic font-medium" style={{ fontSize: 22, color: 'rgba(250,247,242,0.2)', lineHeight: '33px', letterSpacing: '-0.22px' }}>
         Vandeniui atspari.
       </p>
     </div>
@@ -554,28 +527,25 @@ function HandmadeCard() {
 function CharmCard() {
   return (
     <div
-      style={{
-        background: 'var(--color-blossom)', borderRadius: 20, padding: '32px 28px',
-        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-        minHeight: 260, gap: 24, height: '100%', boxSizing: 'border-box',
-      }}
+      className="bg-blossom rounded-[20px] flex flex-col justify-between h-full box-border"
+      style={{ padding: '32px 28px', minHeight: 260, gap: 24 }}
     >
       <div>
         <SectionLabel color="rgba(61,20,30,0.45)">Charm system</SectionLabel>
-        <p style={{ margin: '0 0 8px', fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'rgba(61,20,30,0.85)', lineHeight: '50.4px', letterSpacing: '0.48px' }}>
+        <p className="m-0 mb-2" style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'rgba(61,20,30,0.85)', lineHeight: '50.4px', letterSpacing: '0.48px' }}>
           Snaps on in 5 seconds.
         </p>
-        <p style={{ margin: 0, fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: '22.4px' }}>
+        <p className="m-0" style={{ fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: '22.4px' }}>
           Magnetic connector. No clips. No tools. No fuss.
         </p>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div className="flex items-center" style={{ gap: 8 }}>
         {['🌸', '⭐', '🦋', '🌿'].map((emoji) => (
-          <div key={emoji} style={{ width: 36, height: 36, borderRadius: 18, background: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
+          <div key={emoji} className="w-9 h-9 rounded-full flex items-center justify-center text-lg" style={{ background: 'rgba(255,255,255,0.5)' }}>
             {emoji}
           </div>
         ))}
-        <span style={{ fontSize: 12, color: 'rgba(61,20,30,0.5)', marginLeft: 4 }}>+8 more</span>
+        <span className="ml-1" style={{ fontSize: 12, color: 'rgba(61,20,30,0.5)' }}>+8 more</span>
       </div>
     </div>
   )
@@ -584,17 +554,17 @@ function CharmCard() {
 function CareCard({ isMobile }: { isMobile: boolean }) {
   if (isMobile) {
     return (
-      <div style={{ background: 'var(--color-cream)', border: '1px solid var(--color-border)', borderRadius: 20, padding: 24, display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <p style={{ margin: 0, fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'rgba(61,20,30,0.85)', lineHeight: '50.4px', letterSpacing: '0.48px' }}>
+      <div className="bg-cream rounded-[20px] flex flex-col border border-[var(--color-border)]" style={{ padding: 24, gap: 24 }}>
+        <p className="m-0" style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'rgba(61,20,30,0.85)', lineHeight: '50.4px', letterSpacing: '0.48px' }}>
           Care
         </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="flex flex-col" style={{ gap: 16 }}>
           {[[0, 1], [2, 3]].map((row, ri) => (
-            <div key={ri} style={{ display: 'flex', gap: 24 }}>
+            <div key={ri} className="flex" style={{ gap: 24 }}>
               {row.map((i) => (
-                <div key={i} style={{ flex: 1 }}>
-                  <p style={{ margin: '0 0 2px', fontSize: 13, fontWeight: 500, color: 'var(--color-bark)' }}>{CARE_BULLETS[i].title}</p>
-                  <p style={{ margin: 0, fontSize: 12, color: 'var(--color-bark-muted)', lineHeight: '18px' }}>{CARE_BULLETS[i].desc}</p>
+                <div key={i} className="flex-1">
+                  <p className="m-0 mb-0.5 font-medium text-bark" style={{ fontSize: 13 }}>{CARE_BULLETS[i].title}</p>
+                  <p className="m-0 text-bark-muted" style={{ fontSize: 12, lineHeight: '18px' }}>{CARE_BULLETS[i].desc}</p>
                 </div>
               ))}
             </div>
@@ -605,15 +575,15 @@ function CareCard({ isMobile }: { isMobile: boolean }) {
   }
 
   return (
-    <div style={{ background: 'var(--color-cream)', border: '1px solid var(--color-border)', borderRadius: 20, padding: 24, display: 'flex', flexDirection: 'column', gap: 16, height: '100%', boxSizing: 'border-box' }}>
+    <div className="bg-cream rounded-[20px] flex flex-col h-full box-border border border-[var(--color-border)]" style={{ padding: 24, gap: 16 }}>
       <SectionLabel>Care</SectionLabel>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div className="flex flex-col" style={{ gap: 12 }}>
         {CARE_BULLETS.map((item) => (
-          <div key={item.title} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-            <div style={{ width: 6, height: 6, borderRadius: 3, background: 'var(--color-sage)', flexShrink: 0, marginTop: 7 }} />
+          <div key={item.title} className="flex items-start" style={{ gap: 16 }}>
+            <div className="rounded-full bg-sage flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7 }} />
             <div>
-              <p style={{ margin: '0 0 1px', fontSize: 13, fontWeight: 500, color: 'var(--color-bark)', lineHeight: '19.5px' }}>{item.title}</p>
-              <p style={{ margin: 0, fontSize: 12, color: 'var(--color-bark-muted)', lineHeight: '18px' }}>{item.desc}</p>
+              <p className="m-0 font-medium text-bark" style={{ marginBottom: 1, fontSize: 13, lineHeight: '19.5px' }}>{item.title}</p>
+              <p className="m-0 text-bark-muted" style={{ fontSize: 12, lineHeight: '18px' }}>{item.desc}</p>
             </div>
           </div>
         ))}
@@ -636,26 +606,23 @@ function SizingGuide({ selectedSize, onSizeChange, sizeIndex, allSizes, sizeDeta
 
   return (
     <div
-      style={{
-        background: '#fff', border: '1px solid var(--color-border)', borderRadius: 20,
-        padding: 24, display: 'flex', flexDirection: 'column', gap: 12,
-        height: '100%', boxSizing: 'border-box',
-      }}
+      className="bg-white rounded-[20px] flex flex-col h-full box-border border border-[var(--color-border)]"
+      style={{ padding: 24, gap: 12 }}
     >
       <SectionLabel>Sizing guide</SectionLabel>
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10 }}>
-        <span style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'var(--color-bark)', lineHeight: '48px', letterSpacing: '0.48px' }}>
+      <div className="flex items-end" style={{ gap: 10 }}>
+        <span className="text-bark" style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, lineHeight: '48px', letterSpacing: '0.48px' }}>
           {selectedSize}
         </span>
-        <span style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: '22.5px', marginBottom: 4 }}>
+        <span className="text-bark-light mb-1" style={{ fontSize: 15, lineHeight: '22.5px' }}>
           {details.range} cm
         </span>
       </div>
-      <p style={{ margin: 0, fontSize: 13, color: 'var(--color-bark-muted)' }}>{details.breeds}</p>
-      <div style={{ background: 'var(--color-border)', borderRadius: 3, height: 6, marginTop: 4 }}>
-        <div style={{ background: 'var(--color-sage)', borderRadius: 3, height: 6, width: `${Math.max(progressPct, 8)}%`, transition: 'width 0.2s ease' }} />
+      <p className="m-0 text-bark-muted" style={{ fontSize: 13 }}>{details.breeds}</p>
+      <div className="rounded-[3px] mt-1" style={{ background: 'var(--color-border)', height: 6 }}>
+        <div className="bg-sage rounded-[3px]" style={{ height: 6, width: `${Math.max(progressPct, 8)}%`, transition: 'width 0.2s ease' }} />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+      <div className="flex justify-between mt-0.5">
         {allSizes.map((s) => {
           const isActive = s.key === selectedSize
           const isSelectable = DISPLAY_SIZES.includes(s.key as DisplaySize)
@@ -663,9 +630,10 @@ function SizingGuide({ selectedSize, onSizeChange, sizeIndex, allSizes, sizeDeta
             <button
               key={s.key}
               onClick={() => isSelectable && onSizeChange(s.key as DisplaySize)}
-              style={{ background: 'none', border: 'none', cursor: isSelectable ? 'pointer' : 'default', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: 0, fontFamily: "'DM Sans', sans-serif" }}
+              className="bg-transparent border-none flex flex-col items-center font-sans p-0"
+              style={{ cursor: isSelectable ? 'pointer' : 'default', gap: 2 }}
             >
-              <span style={{ fontSize: 12, fontWeight: 500, color: isActive ? 'var(--color-bark)' : 'var(--color-bark-muted)', lineHeight: '18px' }}>{s.key}</span>
+              <span className="font-medium" style={{ fontSize: 12, color: isActive ? 'var(--color-bark)' : 'var(--color-bark-muted)', lineHeight: '18px' }}>{s.key}</span>
               <span style={{ fontSize: 10, color: 'var(--color-bark-muted)', lineHeight: '15px' }}>{s.range}</span>
             </button>
           )
@@ -689,22 +657,25 @@ function YouMightAlsoLike({
     : [...PRODUCTS]
 
   return (
-    <section style={{ background: 'var(--color-cream)', padding: isMobile ? '64px 16px 48px' : '64px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24, gap: 12 }}>
+    <section
+      className="bg-cream"
+      style={{ padding: isMobile ? '64px 16px 48px' : '64px' }}
+    >
+      <div className="flex justify-between items-end mb-6" style={{ gap: 12 }}>
         <div>
           <SectionLabel>Recommended</SectionLabel>
-          <p style={{ margin: '8px 0 0', fontFamily: "'Luckiest Guy', cursive", fontSize: 48, color: 'var(--color-bark)', lineHeight: '52.8px', letterSpacing: '-0.96px' }}>
+          <p className="m-0 mt-2 text-bark" style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 48, lineHeight: '52.8px', letterSpacing: '-0.96px' }}>
             You might also like
           </p>
         </div>
-        <Link href="/products" style={{ textDecoration: 'none', fontSize: 14, color: 'var(--color-bark-muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+        <Link href="/products" className="no-underline flex-shrink-0 text-bark-muted" style={{ fontSize: 14, whiteSpace: 'nowrap' }}>
           View all →
         </Link>
       </div>
 
       <div
+        className="flex"
         style={{
-          display: 'flex',
           gap: 16,
           overflowX: isScrollable ? 'auto' : 'visible',
           paddingBottom: isScrollable ? 8 : 0,
@@ -719,35 +690,35 @@ function YouMightAlsoLike({
             <Link
               key={p.id}
               href={`/products/${slug}`}
+              className="no-underline text-inherit flex-shrink-0"
               style={{
-                textDecoration: 'none', color: 'inherit',
-                flexShrink: 0, width: 272,
+                width: 272,
                 scrollSnapAlign: isScrollable ? 'start' : undefined,
               }}
             >
-              <div style={{ borderRadius: 20, overflow: 'hidden', height: 200, position: 'relative' }}>
-                <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div className="rounded-[20px] overflow-hidden relative" style={{ height: 200 }}>
+                <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                 {p.badge && (
-                  <div style={{ position: 'absolute', top: 14, right: 14, background: p.badgeBg, borderRadius: 20, padding: '3.5px 10px' }}>
-                    <span style={{ fontSize: 10, fontWeight: 500, color: p.badgeColor, letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+                  <div className="absolute top-3.5 right-3.5 rounded-[20px]" style={{ background: p.badgeBg, padding: '3.5px 10px' }}>
+                    <span className="font-medium uppercase" style={{ fontSize: 10, color: p.badgeColor, letterSpacing: '0.6px' }}>
                       {p.badge}
                     </span>
                   </div>
                 )}
               </div>
               <div style={{ padding: '16px 4px 0' }}>
-                <p style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500, color: 'var(--color-bark)' }}>{p.name}</p>
-                <p style={{ margin: '0 0 12px', fontSize: 13, color: 'var(--color-bark-muted)' }}>{p.desc}</p>
-                <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
-                  <div style={{ width: 14, height: 14, borderRadius: 7, background: p.collarColor, border: '1px solid rgba(61,53,48,0.15)' }} />
+                <p className="m-0 mb-1 font-medium text-bark" style={{ fontSize: 15 }}>{p.name}</p>
+                <p className="m-0 mb-3 text-bark-muted" style={{ fontSize: 13 }}>{p.desc}</p>
+                <div className="flex mb-3.5" style={{ gap: 6 }}>
+                  <div className="w-3.5 h-3.5 rounded-full" style={{ background: p.collarColor, border: '1px solid rgba(61,53,48,0.15)' }} />
                   {p.charms.slice(0, 4).map((c, i) => (
-                    <div key={i} style={{ width: 12, height: 12, borderRadius: 6, background: c.bg, border: '1px solid rgba(61,53,48,0.12)', alignSelf: 'center' }} />
+                    <div key={i} className="w-3 h-3 rounded-full self-center" style={{ background: c.bg, border: '1px solid rgba(61,53,48,0.12)' }} />
                   ))}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 18, fontWeight: 500, color: 'var(--color-bark)' }}>
+                <div className="flex justify-between items-center">
+                  <span className="font-medium text-bark" style={{ fontSize: 18 }}>
                     {p.price}{' '}
-                    <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--color-bark-muted)' }}>· 5 charms</span>
+                    <span className="font-normal text-bark-muted" style={{ fontSize: 12 }}>· 5 charms</span>
                   </span>
                   <PrimaryButton variant="sage" size="sm">Add to cart</PrimaryButton>
                 </div>

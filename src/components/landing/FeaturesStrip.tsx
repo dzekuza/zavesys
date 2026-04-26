@@ -17,23 +17,23 @@ const FEATURES = [
     iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_blue_icon_depicts_a_simple_square_box_k_3i4pxx Background Removed.png',
     text: 'Free delivery'
   }
-]
+];
 
 export function FeaturesStrip({ variant }: { variant: 'cream' | 'bold' }) {
-  const textColor = variant === 'bold' ? 'rgba(250,247,242,0.6)' : '#6B6460';
-
   return (
-    <div style={{ padding: '20px 40px' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto', display: 'flex', justifyContent: 'space-around', gap: 20, flexWrap: 'wrap' }}>
+    <div className="px-10 py-5">
+      <div className="max-w-[1160px] mx-auto flex justify-around gap-5 flex-wrap">
         {FEATURES.map(f => (
-          <div key={f.text} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center' }}>
+          <div key={f.text} className="flex flex-col items-center gap-2.5 text-center">
             <img
               src={encodeURI(f.iconSrc)}
               alt=""
               aria-hidden="true"
-              style={{ width: 64, height: 64, objectFit: 'contain', flexShrink: 0 }}
+              className="w-16 h-16 object-contain shrink-0"
             />
-            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, color: textColor }}>{f.text}</span>
+            <span className={`font-sans text-sm font-medium ${variant === 'bold' ? 'text-cream/60' : 'text-bark-light'}`}>
+              {f.text}
+            </span>
           </div>
         ))}
       </div>

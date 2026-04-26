@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
@@ -31,8 +30,6 @@ function itemPrice(item: CartItem): number {
 
 export default function CartPage() {
   const router = useRouter();
-  const width = useWindowWidth() ?? 1200;
-  const isMobile = width < 768;
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
@@ -65,72 +62,40 @@ export default function CartPage() {
   const total = subtotal + shipping;
   const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
 
-  // Don't render cart contents until mounted to avoid hydration mismatch
   if (!mounted) {
     return (
-      <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
+      <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
         <LandingNav topOffset={0} cartCount={0} onCart={() => router.push('/cart')} />
       </div>
     );
   }
 
   return (
-    <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartItems.length} onCart={() => router.push('/cart')} />
 
-      <main style={{ paddingTop: 100, paddingBottom: 80 }}>
-        <div style={{
-          maxWidth: 1100,
-          margin: '0 auto',
-          padding: isMobile ? '0 20px' : '0 40px',
-        }}>
+      <main className="pt-[100px] pb-20">
+        <div className="max-w-[1100px] mx-auto px-5 md:px-10">
+
           {/* Page heading */}
-          <h1 style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 32 : 48,
-            color: 'var(--color-bark)',
-            margin: '0 0 8px',
-            letterSpacing: '0.02em',
-          }}>
+          <h1 className="text-[32px] md:text-[48px] mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
             Your Cart
           </h1>
 
           {cartItems.length > 0 && (
-            <p style={{ color: 'var(--color-bark)', opacity: 0.6, fontSize: 15, margin: '0 0 40px' }}>
+            <p className="text-[15px] mb-10 opacity-60" style={{ color: 'var(--color-bark)' }}>
               {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}
             </p>
           )}
 
           {cartItems.length === 0 ? (
-            /* ── Empty state ── */
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingTop: 60,
-              paddingBottom: 80,
-              gap: 24,
-              textAlign: 'center',
-            }}>
-              <span style={{ fontSize: 96, lineHeight: 1 }}>🐾</span>
-              <h2 style={{
-                fontFamily: "'Luckiest Guy', cursive",
-                fontSize: isMobile ? 26 : 36,
-                color: 'var(--color-bark)',
-                margin: 0,
-                letterSpacing: '0.02em',
-              }}>
+            /* Empty state */
+            <div className="flex flex-col items-center justify-center pt-[60px] pb-20 gap-6 text-center">
+              <span className="text-[96px] leading-none">🐾</span>
+              <h2 className="text-[26px] md:text-[36px] m-0" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
                 Your cart is empty
               </h2>
-              <p style={{
-                color: 'var(--color-bark)',
-                opacity: 0.6,
-                fontSize: 16,
-                maxWidth: 360,
-                lineHeight: 1.6,
-                margin: 0,
-              }}>
+              <p className="text-[16px] max-w-[360px] leading-relaxed m-0 opacity-60" style={{ color: 'var(--color-bark)' }}>
                 Build a collar your dog will actually be excited to wear.
               </p>
               <PrimaryButton href="/configure" variant="sage" size="lg">
@@ -138,184 +103,114 @@ export default function CartPage() {
               </PrimaryButton>
             </div>
           ) : (
-            /* ── Two-column layout ── */
-            <div style={{
-              display: 'flex',
-              flexDirection: isMobile ? 'column' : 'row',
-              gap: isMobile ? 32 : 40,
-              alignItems: 'flex-start',
-            }}>
+            /* Two-column layout */
+            <div className="flex flex-col md:flex-row gap-8 md:gap-10 items-start">
+
               {/* Left: Items list */}
-              <div style={{ flex: isMobile ? 'none' : '2', width: isMobile ? '100%' : 'auto' }}>
+              <div className="w-full md:flex-[2]">
+
                 {/* Free shipping progress bar */}
                 {amountToFreeShipping > 0 && (
-                  <div style={{
-                    background: 'white',
-                    border: '1.5px solid rgba(61,53,48,0.1)',
-                    borderRadius: 16,
-                    padding: '16px 20px',
-                    marginBottom: 24,
-                  }}>
-                    <p style={{
-                      fontSize: 14,
-                      color: 'var(--color-bark)',
-                      margin: '0 0 10px',
-                      fontWeight: 500,
-                    }}>
+                  <div className="bg-white rounded-2xl p-4 mb-6" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
+                    <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
                       Add <strong>€{amountToFreeShipping.toFixed(2)}</strong> more for free shipping 🚚
                     </p>
-                    <div style={{
-                      height: 8,
-                      background: 'rgba(61,53,48,0.1)',
-                      borderRadius: 100,
-                      overflow: 'hidden',
-                    }}>
-                      <div style={{
-                        height: '100%',
-                        width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
-                        background: 'var(--color-sage)',
-                        borderRadius: 100,
-                        transition: 'width 0.4s ease',
-                      }} />
+                    <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
+                      <div
+                        className="h-full rounded-full transition-[width] duration-[400ms] ease-[ease]"
+                        style={{
+                          width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
+                          background: 'var(--color-sage)',
+                        }}
+                      />
                     </div>
                   </div>
                 )}
 
                 {amountToFreeShipping === 0 && (
-                  <div style={{
-                    background: 'rgba(168,213,162,0.18)',
-                    border: '1.5px solid var(--color-sage)',
-                    borderRadius: 16,
-                    padding: '12px 20px',
-                    marginBottom: 24,
-                    fontSize: 14,
-                    color: 'var(--color-bark)',
-                    fontWeight: 600,
-                  }}>
+                  <div
+                    className="rounded-2xl px-5 py-3 mb-6 text-[14px] font-semibold"
+                    style={{
+                      background: 'rgba(168,213,162,0.18)',
+                      border: '1.5px solid var(--color-sage)',
+                      color: 'var(--color-bark)',
+                    }}
+                  >
                     You qualify for free shipping! 🎉
                   </div>
                 )}
 
                 {/* Cart items */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div className="flex flex-col gap-4">
                   {cartItems.map((item, index) => {
                     const charmCount = collarCharmCount(item);
                     const price = itemPrice(item);
                     return (
-                      <div key={index} style={{
-                        background: 'white',
-                        border: '1.5px solid rgba(61,53,48,0.1)',
-                        borderRadius: 20,
-                        padding: isMobile ? '18px 16px' : '20px 24px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 18,
-                        position: 'relative',
-                      }}>
+                      <div
+                        key={index}
+                        className="bg-white rounded-[20px] px-4 py-[18px] md:px-6 md:py-5 flex items-center gap-[18px] relative"
+                        style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}
+                      >
                         {/* Colour swatch */}
-                        <div style={{
-                          width: 52,
-                          height: 52,
-                          borderRadius: '50%',
-                          background: item.collar.color,
-                          flexShrink: 0,
-                          boxShadow: `0 2px 12px ${item.collar.color}88`,
-                          border: '2px solid rgba(255,255,255,0.8)',
-                        }} />
+                        <div
+                          className="w-[52px] h-[52px] rounded-full shrink-0"
+                          style={{
+                            background: item.collar.color,
+                            boxShadow: `0 2px 12px ${item.collar.color}88`,
+                            border: '2px solid rgba(255,255,255,0.8)',
+                          }}
+                        />
 
                         {/* Item details */}
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{
-                            fontFamily: "'Luckiest Guy', cursive",
-                            fontSize: 17,
-                            color: 'var(--color-bark)',
-                            margin: '0 0 6px',
-                            letterSpacing: '0.02em',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          }}>
+                        <div className="flex-1 min-w-0">
+                          <p
+                            className="text-[17px] mb-1.5 truncate"
+                            style={{ color: 'var(--color-bark)', letterSpacing: '0.02em', fontFamily: "'Luckiest Guy', cursive" }}
+                          >
                             Collar Set — {item.collar.name}
                           </p>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+                          <div className="flex flex-wrap gap-1.5 items-center">
                             {/* Size badge */}
-                            <span style={{
-                              display: 'inline-block',
-                              background: 'rgba(61,53,48,0.08)',
-                              color: 'var(--color-bark)',
-                              fontSize: 12,
-                              fontWeight: 600,
-                              padding: '3px 10px',
-                              borderRadius: 100,
-                            }}>
+                            <span
+                              className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
+                              style={{ background: 'rgba(61,53,48,0.08)', color: 'var(--color-bark)' }}
+                            >
                               {item.size}
                             </span>
                             {/* Charm count badge */}
                             {charmCount > 0 && (
-                              <span style={{
-                                display: 'inline-block',
-                                background: 'rgba(168,213,162,0.25)',
-                                color: 'var(--color-bark)',
-                                fontSize: 12,
-                                fontWeight: 600,
-                                padding: '3px 10px',
-                                borderRadius: 100,
-                              }}>
+                              <span
+                                className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
+                                style={{ background: 'rgba(168,213,162,0.25)', color: 'var(--color-bark)' }}
+                              >
                                 {charmCount} {charmCount === 1 ? 'charm' : 'charms'}
                               </span>
                             )}
                             {/* Engraving badge */}
                             {item.engraving && (
-                              <span style={{
-                                display: 'inline-block',
-                                background: 'rgba(249,228,160,0.4)',
-                                color: 'var(--color-bark)',
-                                fontSize: 12,
-                                fontWeight: 600,
-                                padding: '3px 10px',
-                                borderRadius: 100,
-                              }}>
-                                "{item.engraving}"
+                              <span
+                                className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
+                                style={{ background: 'rgba(249,228,160,0.4)', color: 'var(--color-bark)' }}
+                              >
+                                &ldquo;{item.engraving}&rdquo;
                               </span>
                             )}
                           </div>
                         </div>
 
                         {/* Price + remove */}
-                        <div style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'flex-end',
-                          gap: 8,
-                          flexShrink: 0,
-                        }}>
-                          <span style={{
-                            fontFamily: "'Luckiest Guy', cursive",
-                            fontSize: 20,
-                            color: 'var(--color-bark)',
-                            letterSpacing: '0.01em',
-                          }}>
+                        <div className="flex flex-col items-end gap-2 shrink-0">
+                          <span
+                            className="text-[20px]"
+                            style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
+                          >
                             €{price.toFixed(2)}
                           </span>
                           <button
                             onClick={() => removeItem(index)}
                             aria-label="Remove item"
-                            style={{
-                              background: 'rgba(61,53,48,0.07)',
-                              border: 'none',
-                              borderRadius: '50%',
-                              width: 28,
-                              height: 28,
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: 14,
-                              color: 'var(--color-bark)',
-                              fontWeight: 700,
-                              flexShrink: 0,
-                              transition: 'background 0.15s',
-                            }}
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-[14px] font-bold shrink-0 cursor-pointer border-none transition-[background] duration-150"
+                            style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
                           >
                             ×
                           </button>
@@ -326,137 +221,93 @@ export default function CartPage() {
                 </div>
 
                 {/* Continue shopping */}
-                <div style={{ marginTop: 24 }}>
-                  <Link href="/configure" style={{
-                    color: 'var(--color-bark)',
-                    fontSize: 14,
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    opacity: 0.75,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                  }}>
+                <div className="mt-6">
+                  <Link
+                    href="/configure"
+                    className="text-[14px] font-semibold no-underline opacity-75 inline-flex items-center gap-1.5"
+                    style={{ color: 'var(--color-bark)' }}
+                  >
                     ← Continue Shopping
                   </Link>
                 </div>
               </div>
 
               {/* Right: Order summary */}
-              <div style={{
-                flex: isMobile ? 'none' : '1',
-                width: isMobile ? '100%' : 'auto',
-                position: isMobile ? 'static' : 'sticky',
-                top: 120,
-              }}>
-                <div style={{
-                  background: 'white',
-                  border: '1.5px solid rgba(61,53,48,0.1)',
-                  borderRadius: 24,
-                  padding: '28px 28px 32px',
-                }}>
-                  <p style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 16,
-                    fontWeight: 600,
-                    color: 'var(--color-bark)',
-                    margin: '0 0 24px',
-                    letterSpacing: '0',
-                  }}>
+              <div className="w-full md:flex-1 md:sticky md:top-[120px]">
+                <div className="bg-white rounded-3xl px-7 pt-7 pb-8" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
+                  <p className="text-[16px] font-semibold mb-6" style={{ color: 'var(--color-bark)' }}>
                     Order Summary
                   </p>
 
                   {/* Line items */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 15, color: 'var(--color-bark)', opacity: 0.7 }}>
+                  <div className="flex flex-col gap-[14px]">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
                         Subtotal ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
                       </span>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--color-bark)' }}>
+                      <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
                         €{subtotal.toFixed(2)}
                       </span>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 15, color: 'var(--color-bark)', opacity: 0.7 }}>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
                         Shipping
                       </span>
                       {shipping === 0 ? (
-                        <span style={{ fontSize: 15, fontWeight: 600, color: '#4CAF50' }}>
+                        <span className="text-[15px] font-semibold" style={{ color: '#4CAF50' }}>
                           Free
                         </span>
                       ) : (
-                        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--color-bark)' }}>
+                        <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
                           €{shipping.toFixed(2)}
                         </span>
                       )}
                     </div>
 
                     {/* Divider */}
-                    <div style={{
-                      height: 1,
-                      background: 'rgba(61,53,48,0.1)',
-                      margin: '6px 0',
-                    }} />
+                    <div className="h-px my-1.5" style={{ background: 'rgba(61,53,48,0.1)' }} />
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: 15,
-                        fontWeight: 700,
-                        color: 'var(--color-bark)',
-                      }}>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[15px] font-bold" style={{ color: 'var(--color-bark)' }}>
                         Total
                       </span>
-                      <span style={{
-                        fontFamily: "'Luckiest Guy', cursive",
-                        fontSize: 22,
-                        color: 'var(--color-bark)',
-                        letterSpacing: '0.01em',
-                      }}>
+                      <span
+                        className="text-[22px]"
+                        style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
+                      >
                         €{total.toFixed(2)}
                       </span>
                     </div>
                   </div>
 
-                  {/* Free shipping progress inside summary on mobile if not shown above */}
-                  {isMobile && amountToFreeShipping > 0 && (
-                    <div style={{ marginTop: 20 }}>
-                      <p style={{ fontSize: 13, color: 'var(--color-bark)', opacity: 0.65, margin: '0 0 8px' }}>
+                  {/* Free shipping progress inside summary on mobile */}
+                  {amountToFreeShipping > 0 && (
+                    <div className="mt-5 md:hidden">
+                      <p className="text-[13px] opacity-65 mb-2" style={{ color: 'var(--color-bark)' }}>
                         €{amountToFreeShipping.toFixed(2)} away from free shipping
                       </p>
-                      <div style={{
-                        height: 6,
-                        background: 'rgba(61,53,48,0.1)',
-                        borderRadius: 100,
-                        overflow: 'hidden',
-                      }}>
-                        <div style={{
-                          height: '100%',
-                          width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
-                          background: 'var(--color-sage)',
-                          borderRadius: 100,
-                        }} />
+                      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
+                        <div
+                          className="h-full rounded-full"
+                          style={{
+                            width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
+                            background: 'var(--color-sage)',
+                          }}
+                        />
                       </div>
                     </div>
                   )}
 
                   {/* CTA */}
-                  <div style={{ marginTop: 28 }}>
+                  <div className="mt-7">
                     <PrimaryButton href="/checkout" variant="sage" size="lg" fullWidth>
                       Proceed to Checkout
                     </PrimaryButton>
                   </div>
 
                   {/* Trust note */}
-                  <p style={{
-                    fontSize: 13,
-                    color: 'var(--color-bark)',
-                    opacity: 0.65,
-                    textAlign: 'center',
-                    margin: '14px 0 0',
-                    lineHeight: 1.5,
-                  }}>
+                  <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed" style={{ color: 'var(--color-bark)' }}>
                     Secure checkout · Ships from Vilnius 🇱🇹
                   </p>
                 </div>

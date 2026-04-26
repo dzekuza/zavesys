@@ -1,6 +1,5 @@
 'use client';
 
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { useRouter } from 'next/navigation';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
@@ -75,82 +74,41 @@ const ORDERS_FAQS: AccordionItem[] = [
 
 export default function FaqPage() {
   const router = useRouter();
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
 
   return (
-    <div
-      style={{
-        background: 'var(--color-cream)',
-        minHeight: '100vh',
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
+    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={0} onCart={() => router.push('/cart')} />
 
       {/* Hero */}
-      <section
-        style={{
-          paddingTop: 120,
-          paddingBottom: isMobile ? 48 : 64,
-          paddingLeft: isMobile ? 24 : 48,
-          paddingRight: isMobile ? 24 : 48,
-          textAlign: 'center',
-        }}
-      >
-        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+      <section className="pt-[120px] pb-12 md:pb-16 px-6 md:px-12 text-center">
+        <div className="max-w-[640px] mx-auto">
           {/* Section label */}
           <span
-            style={{
-              display: 'inline-block',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--color-bark)',
-              opacity: 0.5,
-              marginBottom: 16,
-            }}
+            className="inline-block text-[12px] font-semibold tracking-[0.12em] uppercase opacity-50 mb-4"
+            style={{ color: 'var(--color-bark)' }}
           >
             FAQ
           </span>
 
           {/* Heading */}
           <h1
-            style={{
-              fontFamily: "'Luckiest Guy', cursive",
-              fontSize: isMobile ? 48 : 72,
-              fontWeight: 400,
-              color: 'var(--color-bark)',
-              lineHeight: 1.05,
-              letterSpacing: '0.01em',
-              margin: '0 0 20px',
-            }}
+            className="text-[48px] md:text-[72px] font-normal leading-[1.05] mb-5"
+            style={{ color: 'var(--color-bark)', letterSpacing: '0.01em' }}
           >
             Got questions?
           </h1>
 
           {/* Subtext */}
           <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: isMobile ? 16 : 18,
-              color: 'var(--color-bark)',
-              opacity: 0.65,
-              lineHeight: 1.6,
-              margin: 0,
-            }}
+            className="text-[16px] md:text-[18px] opacity-65 leading-relaxed m-0"
+            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
           >
             Everything you need to know about Pawlette collars, charms, and
             orders. Can&apos;t find an answer?{' '}
             <a
               href="mailto:hello@pawlette.lt"
-              style={{
-                color: 'var(--color-bark)',
-                textDecoration: 'underline',
-                textUnderlineOffset: 3,
-              }}
+              className="underline underline-offset-[3px]"
+              style={{ color: 'var(--color-bark)' }}
             >
               Drop us a message.
             </a>
@@ -159,102 +117,44 @@ export default function FaqPage() {
       </section>
 
       {/* FAQ columns */}
-      <section
-        style={{
-          maxWidth: 1120,
-          margin: '0 auto',
-          padding: isMobile ? '0 24px 80px' : '0 48px 120px',
-        }}
-      >
-        {isMobile ? (
-          /* Single column on mobile */
-          <div>
-            <CategoryBlock
-              title="Product"
-              accent="var(--color-sage)"
-              items={PRODUCT_FAQS}
-              isMobile={isMobile}
-            />
-            <div style={{ height: 48 }} />
-            <CategoryBlock
-              title="Orders & Shipping"
-              accent="var(--color-sage)"
-              items={ORDERS_FAQS}
-              isMobile={isMobile}
-            />
-          </div>
-        ) : (
-          /* Two columns on desktop */
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 64,
-              alignItems: 'start',
-            }}
-          >
-            <CategoryBlock
-              title="Product"
-              accent="var(--color-sage)"
-              items={PRODUCT_FAQS}
-              isMobile={isMobile}
-            />
-            <CategoryBlock
-              title="Orders & Shipping"
-              accent="var(--color-sage)"
-              items={ORDERS_FAQS}
-              isMobile={isMobile}
-            />
-          </div>
-        )}
+      <section className="max-w-[1120px] mx-auto px-6 md:px-12 pb-20 md:pb-[120px]">
+        {/* Single column on mobile, two columns on desktop */}
+        <div className="block md:grid md:grid-cols-2 md:gap-16 md:items-start">
+          <CategoryBlock
+            title="Product"
+            accent="var(--color-sage)"
+            items={PRODUCT_FAQS}
+          />
+          <div className="h-12 md:hidden" />
+          <CategoryBlock
+            title="Orders &amp; Shipping"
+            accent="var(--color-sage)"
+            items={ORDERS_FAQS}
+          />
+        </div>
       </section>
 
       {/* Bottom CTA band */}
       <section
-        style={{
-          background: 'var(--color-bark)',
-          padding: isMobile ? '48px 24px' : '64px 48px',
-          textAlign: 'center',
-        }}
+        className="px-6 md:px-12 py-12 md:py-16 text-center"
+        style={{ background: 'var(--color-bark)' }}
       >
         <p
-          style={{
-            fontFamily: "'Caveat', cursive",
-            fontSize: isMobile ? 22 : 28,
-            color: 'var(--color-sage)',
-            margin: '0 0 8px',
-            letterSpacing: '0.01em',
-          }}
+          className="text-[22px] md:text-[28px] mb-2"
+          style={{ color: 'var(--color-sage)', fontFamily: "'Caveat', cursive", letterSpacing: '0.01em' }}
         >
           Still not sure?
         </p>
         <h2
-          style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 32 : 44,
-            fontWeight: 400,
-            color: 'var(--color-cream)',
-            margin: '0 0 24px',
-            letterSpacing: '0.01em',
-          }}
+          className="font-normal mb-6"
+          style={{ color: 'var(--color-cream)', fontSize: 'clamp(32px, 5vw, 44px)', letterSpacing: '0.01em' }}
         >
           We&apos;re happy to help.
         </h2>
         <a
           href="mailto:hello@pawlette.lt"
-          style={{
-            display: 'inline-block',
-            background: 'var(--color-sage)',
-            color: 'var(--color-bark)',
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 700,
-            fontSize: 15,
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-            textDecoration: 'none',
-            padding: '14px 32px',
-            borderRadius: 100,
-          }}
+          className="inline-block font-bold text-[15px] tracking-[0.04em] uppercase no-underline px-8 py-[14px] rounded-full"
+          style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           Email us
         </a>
@@ -265,43 +165,31 @@ export default function FaqPage() {
   );
 }
 
-/* ── Internal helper ── */
+/* Internal helper */
 
 interface CategoryBlockProps {
   title: string;
   accent: string;
   items: AccordionItem[];
-  isMobile: boolean;
 }
 
-function CategoryBlock({ title, accent, items, isMobile }: CategoryBlockProps) {
+function CategoryBlock({ title, accent, items }: CategoryBlockProps) {
   return (
     <div>
-      {/* Category label with sage underline accent */}
-      <div style={{ marginBottom: 32 }}>
+      <div className="mb-8">
         <h2
-          style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 22 : 26,
-            fontWeight: 400,
-            color: 'var(--color-bark)',
-            margin: '0 0 8px',
-            letterSpacing: '0.01em',
-          }}
+          className="text-[22px] md:text-[26px] font-normal mb-2"
+          style={{ color: 'var(--color-bark)', letterSpacing: '0.01em' }}
         >
           {title}
         </h2>
         <div
-          style={{
-            width: 40,
-            height: 3,
-            borderRadius: 2,
-            background: accent,
-          }}
+          className="w-10 h-[3px] rounded-[2px]"
+          style={{ background: accent }}
         />
       </div>
 
-      <Accordion items={items} isMobile={isMobile} />
+      <Accordion items={items} isMobile={false} />
     </div>
   );
 }

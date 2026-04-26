@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
   { label: 'Shop collars', href: '/products' },
@@ -21,8 +21,6 @@ interface LandingNavProps {
 export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -30,50 +28,56 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  // lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  const active = scrolled || menuOpen;
+
   return (
     <>
-      <header style={{
-        position: 'fixed', top: topOffset, left: 0, right: 0, zIndex: 200, height: 64,
-        background: scrolled || menuOpen ? 'rgba(250,247,242,0.97)' : 'rgba(250,247,242,0)',
-        backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
-        borderBottom: scrolled || menuOpen ? '1px solid #E8E3DC' : '1px solid transparent',
-        transition: 'background 250ms ease, backdrop-filter 250ms ease, border-color 250ms ease',
-        display: 'grid', alignItems: 'center',
-        gridTemplateColumns: '1fr auto 1fr',
-        padding: isMobile ? '0 20px' : '0 40px',
-      }}>
-        {!isMobile && (
-          <nav style={{ display: 'flex', gap: 32 }}>
-            {['Shop', 'Charms', 'About', 'Care'].map(l => (
-              <a key={l} href={`#${l.toLowerCase()}`}
-                style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, color: '#9B948F', textDecoration: 'none', transition: 'color 150ms' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#3D3530')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#9B948F')}
-              >{l}</a>
-            ))}
-          </nav>
+      <header
+        style={{ top: topOffset }}
+        className={cn(
+          'fixed left-0 right-0 z-[200] h-16 grid items-center grid-cols-[1fr_auto_1fr] px-5 md:px-10',
+          'transition-[background,backdrop-filter,border-color] duration-250 ease-[ease]',
+          'border-b',
+          active
+            ? 'bg-cream/97 backdrop-blur-[16px] border-border'
+            : 'bg-transparent backdrop-blur-none border-transparent'
         )}
-        {isMobile && <div />}
+      >
+        {/* Desktop nav links */}
+        <nav className="hidden md:flex gap-8">
+          {['Shop', 'Charms', 'About', 'Care'].map(l => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              className="font-sans text-sm font-medium text-bark-muted no-underline transition-colors duration-150 hover:text-bark"
+            >
+              {l}
+            </a>
+          ))}
+        </nav>
 
-        <Link href="/" aria-label="Žavesys home" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src="/pawcharms.svg" alt="Žavesys" style={{ height: 44, width: 'auto', display: 'block' }} />
+        {/* Mobile spacer */}
+        <div className="md:hidden" />
+
+        <Link href="/" aria-label="Žavesys home" className="flex items-center justify-center">
+          <img src="/pawcharms.svg" alt="Žavesys" className="h-11 w-auto block" />
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'flex-end' }}>
-          <button onClick={onCart} aria-label="Cart" style={{ background: 'none', border: 'none', cursor: 'pointer', position: 'relative', padding: 8, color: '#3D3530' }}>
+        <div className="flex items-center gap-1 justify-end">
+          {/* Cart button */}
+          <button onClick={onCart} aria-label="Cart" className="relative p-2 bg-transparent border-0 cursor-pointer text-bark">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
             {cartCount > 0 && (
-              <span style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', background: '#A8D5A2', color: '#2a5a25', fontSize: 10, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Sans',sans-serif" }}>
+              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-sage text-interactive-text text-[10px] font-semibold flex items-center justify-center font-sans">
                 {cartCount}
               </span>
             )}
@@ -84,11 +88,20 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: '#3D3530', display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'center', justifyContent: 'center', width: 36, height: 36 }}
+            className="bg-transparent border-0 cursor-pointer p-2 text-bark flex flex-col gap-[5px] items-center justify-center w-9 h-9"
           >
-            <span style={{ display: 'block', width: 20, height: 1.5, background: '#3D3530', borderRadius: 2, transition: 'transform 250ms ease, opacity 250ms ease', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }} />
-            <span style={{ display: 'block', width: 20, height: 1.5, background: '#3D3530', borderRadius: 2, transition: 'opacity 250ms ease', opacity: menuOpen ? 0 : 1 }} />
-            <span style={{ display: 'block', width: 20, height: 1.5, background: '#3D3530', borderRadius: 2, transition: 'transform 250ms ease, opacity 250ms ease', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }} />
+            <span
+              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-[ease]"
+              style={{ transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }}
+            />
+            <span
+              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-opacity duration-250 ease-[ease]"
+              style={{ opacity: menuOpen ? 0 : 1 }}
+            />
+            <span
+              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-[ease]"
+              style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }}
+            />
           </button>
         </div>
       </header>
@@ -96,48 +109,37 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
       {/* Full-screen menu overlay */}
       <div
         aria-hidden={!menuOpen}
+        className="fixed inset-0 z-[199] bg-cream flex flex-col justify-center px-10 transition-opacity duration-250 ease-[ease]"
         style={{
-          position: 'fixed', inset: 0, zIndex: 199,
-          background: '#FAF7F2',
-          display: 'flex', flexDirection: 'column', justifyContent: 'center',
-          padding: '0 40px',
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? 'auto' : 'none',
-          transition: 'opacity 250ms ease',
         }}
       >
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <nav className="flex flex-col gap-2">
           {NAV_LINKS.map((link, i) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
+              className="font-display text-[clamp(36px,8vw,64px)] text-bark no-underline leading-[1.15] transition-[color,transform] duration-150 ease-[ease] block hover:text-sage"
               style={{
-                fontFamily: "'Luckiest Guy',sans-serif",
-                fontSize: 'clamp(36px, 8vw, 64px)',
-                fontWeight: 400,
-                color: '#3D3530',
-                textDecoration: 'none',
-                lineHeight: 1.15,
-                transition: 'color 150ms ease, transform 150ms ease',
-                display: 'block',
                 transform: menuOpen ? 'translateY(0)' : 'translateY(16px)',
                 transitionDelay: menuOpen ? `${i * 40}ms` : '0ms',
               }}
-              onMouseEnter={e => { e.currentTarget.style.color = '#A8D5A2'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#3D3530'; }}
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div style={{ position: 'absolute', bottom: 40, left: 40, right: 40, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: '#9B948F' }}>Made in Vilnius, Lithuania</span>
-          <a href="mailto:hello@pawcharms.lt" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: '#9B948F', textDecoration: 'none' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#3D3530')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#9B948F')}
-          >hello@pawcharms.lt</a>
+        <div className="absolute bottom-10 left-10 right-10 flex justify-between items-center">
+          <span className="font-sans text-[13px] text-bark-muted">Made in Vilnius, Lithuania</span>
+          <a
+            href="mailto:hello@pawcharms.lt"
+            className="font-sans text-[13px] text-bark-muted no-underline transition-colors duration-150 hover:text-bark"
+          >
+            hello@pawcharms.lt
+          </a>
         </div>
       </div>
     </>

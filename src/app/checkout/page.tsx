@@ -3,49 +3,25 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LandingNav } from '@/components/landing/LandingNav';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import type { CartItem } from '@/lib/data';
 
 const COLLAR_PRICE = 28;
 const SHIPPING_THRESHOLD = 50;
 const SHIPPING_COST = 4.99;
 
-function inputStyle(focused: boolean): React.CSSProperties {
-  return {
-    width: '100%',
-    boxSizing: 'border-box',
-    borderRadius: 10,
-    border: focused ? '1.5px solid var(--color-bark)' : '1.5px solid #E8E3DC',
-    padding: '10px 14px',
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: 14,
-    color: 'var(--color-bark)',
-    background: '#fff',
-    outline: 'none',
-    transition: 'border-color 0.18s',
-  };
-}
-
-function cardStyle(): React.CSSProperties {
-  return {
-    background: '#fff',
-    borderRadius: 16,
-    padding: 24,
-    marginBottom: 20,
-    boxShadow: '0 1px 4px rgba(61,53,48,0.06)',
-  };
+function inputBaseClass(focused: boolean) {
+  return [
+    'w-full box-border rounded-[10px] px-[14px] py-[10px]',
+    'text-[14px] bg-white outline-none transition-[border-color] duration-[180ms]',
+    focused
+      ? 'border-[1.5px] border-[var(--color-bark,#3D3530)]'
+      : 'border-[1.5px] border-[#E8E3DC]',
+  ].join(' ');
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{
-      fontFamily: "'DM Sans', sans-serif",
-      fontSize: 15,
-      fontWeight: 700,
-      color: 'var(--color-bark)',
-      letterSpacing: '0',
-      marginBottom: 16,
-    }}>
+    <div className="text-[15px] font-bold mb-4" style={{ color: 'var(--color-bark)' }}>
       {children}
     </div>
   );
@@ -70,15 +46,11 @@ function InputField({
 }) {
   const [focused, setFocused] = useState(false);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <label style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: 12,
-        fontWeight: 600,
-        color: '#9B948F',
-        letterSpacing: '0.04em',
-        textTransform: 'uppercase',
-      }}>
+    <div className="flex flex-col gap-1.5">
+      <label
+        className="text-[12px] font-semibold uppercase tracking-[0.04em]"
+        style={{ color: '#9B948F' }}
+      >
         {label}
       </label>
       <input
@@ -90,9 +62,12 @@ function InputField({
         autoComplete={autoComplete}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        className={inputBaseClass(focused)}
         style={{
-          ...inputStyle(focused),
-          ...(disabled ? { background: '#F5F2EE', color: '#9B948F', cursor: 'not-allowed' } : {}),
+          color: disabled ? '#9B948F' : 'var(--color-bark)',
+          background: disabled ? '#F5F2EE' : '#fff',
+          cursor: disabled ? 'not-allowed' : undefined,
+          fontFamily: "'DM Sans', sans-serif",
         }}
       />
     </div>
@@ -112,15 +87,11 @@ function SelectField({
 }) {
   const [focused, setFocused] = useState(false);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <label style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: 12,
-        fontWeight: 600,
-        color: '#9B948F',
-        letterSpacing: '0.04em',
-        textTransform: 'uppercase',
-      }}>
+    <div className="flex flex-col gap-1.5">
+      <label
+        className="text-[12px] font-semibold uppercase tracking-[0.04em]"
+        style={{ color: '#9B948F' }}
+      >
         {label}
       </label>
       <select
@@ -128,8 +99,10 @@ function SelectField({
         onChange={e => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        className={inputBaseClass(focused)}
         style={{
-          ...inputStyle(focused),
+          color: 'var(--color-bark)',
+          fontFamily: "'DM Sans', sans-serif",
           appearance: 'none',
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239B948F' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
           backgroundRepeat: 'no-repeat',
@@ -159,27 +132,23 @@ function CharmBubbles({ charms }: { charms: (string | null)[] }) {
   const filled = charms.filter(Boolean);
   if (!filled.length) return null;
   return (
-    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 4 }}>
+    <div className="flex gap-1 flex-wrap mt-1">
       {filled.map((c, i) => (
-        <span key={i} style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 16,
-          background: '#F5F2EE',
-          borderRadius: 8,
-          padding: '2px 6px',
-          lineHeight: 1,
-        }}>{c}</span>
+        <span
+          key={i}
+          className="text-[16px] rounded-lg px-1.5 py-0.5 leading-none"
+          style={{ background: '#F5F2EE', fontFamily: "'DM Sans', sans-serif" }}
+        >
+          {c}
+        </span>
       ))}
     </div>
   );
 }
 
 export default function CheckoutPage() {
-  const width = useWindowWidth() ?? 1200;
-  const isMobile = width < 768;
   const router = useRouter();
 
-  // Form state
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -189,7 +158,6 @@ export default function CheckoutPage() {
   const [postal, setPostal] = useState('');
   const [country, setCountry] = useState('LT');
 
-  // Cart
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
@@ -227,297 +195,158 @@ export default function CheckoutPage() {
     { value: 'US', label: 'United States' },
   ];
 
-  // ── Form column
+  const cardClass = 'bg-white rounded-2xl p-6 mb-5 shadow-[0_1px_4px_rgba(61,53,48,0.06)]';
+
   const formColumn = (
-    <div style={{ flex: isMobile ? undefined : '3 1 0', minWidth: 0 }}>
+    <div className="md:flex-[3] min-w-0">
       {/* Contact */}
-      <div style={cardStyle()}>
+      <div className={cardClass}>
         <SectionTitle>Contact</SectionTitle>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <InputField
-            label="Email address"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={setEmail}
-            autoComplete="email"
-          />
-          <InputField
-            label="Phone number"
-            type="tel"
-            placeholder="+370 600 00000"
-            value={phone}
-            onChange={setPhone}
-            autoComplete="tel"
-          />
+        <div className="flex flex-col gap-3.5">
+          <InputField label="Email address" type="email" placeholder="you@example.com" value={email} onChange={setEmail} autoComplete="email" />
+          <InputField label="Phone number" type="tel" placeholder="+370 600 00000" value={phone} onChange={setPhone} autoComplete="tel" />
         </div>
       </div>
 
       {/* Shipping address */}
-      <div style={cardStyle()}>
+      <div className={cardClass}>
         <SectionTitle>Shipping address</SectionTitle>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <InputField
-              label="First name"
-              placeholder="Mia"
-              value={firstName}
-              onChange={setFirstName}
-              autoComplete="given-name"
-            />
-            <InputField
-              label="Last name"
-              placeholder="Kowalski"
-              value={lastName}
-              onChange={setLastName}
-              autoComplete="family-name"
-            />
+        <div className="flex flex-col gap-3.5">
+          <div className="grid grid-cols-2 gap-3">
+            <InputField label="First name" placeholder="Mia" value={firstName} onChange={setFirstName} autoComplete="given-name" />
+            <InputField label="Last name" placeholder="Kowalski" value={lastName} onChange={setLastName} autoComplete="family-name" />
           </div>
-          <InputField
-            label="Address"
-            placeholder="Gedimino pr. 1"
-            value={address}
-            onChange={setAddress}
-            autoComplete="street-address"
-          />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <InputField
-              label="City"
-              placeholder="Vilnius"
-              value={city}
-              onChange={setCity}
-              autoComplete="address-level2"
-            />
-            <InputField
-              label="Postal code"
-              placeholder="01103"
-              value={postal}
-              onChange={setPostal}
-              autoComplete="postal-code"
-            />
+          <InputField label="Address" placeholder="Gedimino pr. 1" value={address} onChange={setAddress} autoComplete="street-address" />
+          <div className="grid grid-cols-2 gap-3">
+            <InputField label="City" placeholder="Vilnius" value={city} onChange={setCity} autoComplete="address-level2" />
+            <InputField label="Postal code" placeholder="01103" value={postal} onChange={setPostal} autoComplete="postal-code" />
           </div>
-          <SelectField
-            label="Country"
-            value={country}
-            onChange={setCountry}
-            options={COUNTRIES}
-          />
+          <SelectField label="Country" value={country} onChange={setCountry} options={COUNTRIES} />
         </div>
       </div>
 
       {/* Payment */}
-      <div style={cardStyle()}>
+      <div className={cardClass}>
         <SectionTitle>Payment</SectionTitle>
 
         {/* Stripe badge */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 7,
-          marginBottom: 16,
-          color: '#9B948F',
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 13,
-        }}>
+        <div className="flex items-center gap-[7px] mb-4 text-[13px]" style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}>
           <LockIcon />
           <span>Secure payment via Stripe</span>
         </div>
 
         {/* Fake card UI */}
-        <div style={{
-          background: 'linear-gradient(135deg, var(--color-bark) 0%, #5C4E47 100%)',
-          borderRadius: 14,
-          padding: '22px 22px 18px',
-          marginBottom: 18,
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
+        <div
+          className="rounded-[14px] px-[22px] pt-[22px] pb-[18px] mb-[18px] relative overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, var(--color-bark) 0%, #5C4E47 100%)' }}
+        >
           {/* decorative circles */}
-          <div style={{
-            position: 'absolute', top: -30, right: -30,
-            width: 100, height: 100, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.05)',
-          }} />
-          <div style={{
-            position: 'absolute', bottom: -20, right: 40,
-            width: 70, height: 70, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.04)',
-          }} />
+          <div className="absolute -top-[30px] -right-[30px] w-[100px] h-[100px] rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
+          <div className="absolute -bottom-[20px] right-[40px] w-[70px] h-[70px] rounded-full" style={{ background: 'rgba(255,255,255,0.04)' }} />
 
-          <div style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 11,
-            color: 'rgba(255,255,255,0.55)',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            marginBottom: 18,
-          }}>
+          <div className="text-[11px] uppercase tracking-[0.12em] mb-[18px]" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'DM Sans', sans-serif" }}>
             Pawlette
           </div>
-          <div style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 16,
-            letterSpacing: '0.2em',
-            color: 'rgba(255,255,255,0.9)',
-            marginBottom: 18,
-          }}>
+          <div className="text-[16px] tracking-[0.2em] mb-[18px]" style={{ color: 'rgba(255,255,255,0.9)', fontFamily: "'DM Sans', sans-serif" }}>
             •••• •••• •••• ••••
           </div>
-          <div style={{ display: 'flex', gap: 24 }}>
+          <div className="flex gap-6">
             <div>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em', fontFamily: "'DM Sans', sans-serif" }}>CARD HOLDER</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontFamily: "'DM Sans', sans-serif" }}>Your Name</div>
+              <div className="text-[9px] uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.45)', fontFamily: "'DM Sans', sans-serif" }}>CARD HOLDER</div>
+              <div className="text-[12px]" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: "'DM Sans', sans-serif" }}>Your Name</div>
             </div>
             <div>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em', fontFamily: "'DM Sans', sans-serif" }}>EXPIRES</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontFamily: "'DM Sans', sans-serif" }}>MM / YY</div>
+              <div className="text-[9px] uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.45)', fontFamily: "'DM Sans', sans-serif" }}>EXPIRES</div>
+              <div className="text-[12px]" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: "'DM Sans', sans-serif" }}>MM / YY</div>
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <InputField
-            label="Card number"
-            placeholder="1234 5678 9012 3456"
-            disabled
-          />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <InputField
-              label="Expiry date"
-              placeholder="MM / YY"
-              disabled
-            />
-            <InputField
-              label="CVC"
-              placeholder="•••"
-              disabled
-            />
+        <div className="flex flex-col gap-3.5">
+          <InputField label="Card number" placeholder="1234 5678 9012 3456" disabled />
+          <div className="grid grid-cols-2 gap-3">
+            <InputField label="Expiry date" placeholder="MM / YY" disabled />
+            <InputField label="CVC" placeholder="•••" disabled />
           </div>
         </div>
 
-        <div style={{
-          marginTop: 14,
-          padding: '10px 14px',
-          background: '#F5F2EE',
-          borderRadius: 10,
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 12,
-          color: '#9B948F',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-        }}>
+        <div
+          className="mt-3.5 px-[14px] py-[10px] rounded-[10px] text-[12px] flex items-center gap-1.5"
+          style={{ background: '#F5F2EE', color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+        >
           <LockIcon />
           Payment fields are powered by Stripe — your card details are never stored by Pawlette.
         </div>
       </div>
 
-      {/* Submit on mobile — rendered inside form column so it sits naturally */}
-      {isMobile && (
-        <button
-          onClick={handlePlaceOrder}
-          style={{
-            width: '100%',
-            background: 'var(--color-sage)',
-            color: 'var(--color-bark)',
-            border: 'none',
-            borderRadius: 14,
-            padding: '16px 24px',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 17,
-            fontWeight: 700,
-            letterSpacing: '0',
-            cursor: 'pointer',
-            marginBottom: 40,
-            boxShadow: '0 4px 16px rgba(168,213,162,0.4)',
-          }}
-        >
-          Place order — €{total.toFixed(2)}
-        </button>
-      )}
+      {/* Submit on mobile */}
+      <button
+        onClick={handlePlaceOrder}
+        className="w-full md:hidden rounded-[14px] px-6 py-4 text-[17px] font-bold cursor-pointer border-none mb-10"
+        style={{
+          background: 'var(--color-sage)',
+          color: 'var(--color-bark)',
+          fontFamily: "'DM Sans', sans-serif",
+          boxShadow: '0 4px 16px rgba(168,213,162,0.4)',
+        }}
+      >
+        Place order — €{total.toFixed(2)}
+      </button>
     </div>
   );
 
-  // ── Summary column
   const summaryColumn = (
-    <div style={{ flex: isMobile ? undefined : '2 1 0', width: isMobile ? '100%' : undefined, minWidth: 0 }}>
-      <div style={{
-        ...cardStyle(),
-        position: isMobile ? 'static' : 'sticky',
-        top: 100,
-        marginBottom: isMobile ? 20 : 0,
-      }}>
+    <div className="w-full md:flex-[2] min-w-0">
+      <div
+        className="bg-white rounded-2xl p-6 shadow-[0_1px_4px_rgba(61,53,48,0.06)] md:sticky md:top-[100px]"
+      >
         <SectionTitle>Order summary</SectionTitle>
 
-        {/* Items */}
         {cartItems.length === 0 ? (
-          <div style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
-            color: '#9B948F',
-            padding: '12px 0',
-            textAlign: 'center',
-          }}>
+          <div
+            className="text-[14px] py-3 text-center"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+          >
             Your cart is empty
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 20 }}>
+          <div className="flex flex-col gap-3.5 mb-5">
             {cartItems.map((item, i) => (
-              <div key={i} style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: 12,
-              }}>
+              <div key={i} className="flex items-start gap-3">
                 {/* Collar colour swatch */}
-                <div style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 12,
-                  background: item.collar.bgTint,
-                  flexShrink: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1.5px solid #E8E3DC',
-                }}>
-                  <div style={{
-                    width: 24,
-                    height: 8,
-                    borderRadius: 4,
-                    background: item.collar.color,
-                  }} />
+                <div
+                  className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center"
+                  style={{ background: item.collar.bgTint, border: '1.5px solid #E8E3DC' }}
+                >
+                  <div
+                    className="w-6 h-2 rounded"
+                    style={{ background: item.collar.color }}
+                  />
                 </div>
 
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    color: 'var(--color-bark)',
-                  }}>
+                <div className="flex-1 min-w-0">
+                  <div
+                    className="text-[14px] font-semibold"
+                    style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+                  >
                     {item.collar.name} collar
                     {item.size ? ` — ${item.size}` : ''}
                   </div>
                   {item.engraving && (
-                    <div style={{
-                      fontFamily: "'Caveat', cursive",
-                      fontSize: 13,
-                      color: '#9B948F',
-                      marginTop: 2,
-                    }}>
-                      "{item.engraving}"
+                    <div
+                      className="text-[13px] mt-0.5"
+                      style={{ color: '#9B948F', fontFamily: "'Caveat', cursive" }}
+                    >
+                      &ldquo;{item.engraving}&rdquo;
                     </div>
                   )}
                   <CharmBubbles charms={item.charms} />
                 </div>
 
-                <div style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: 'var(--color-bark)',
-                  whiteSpace: 'nowrap',
-                }}>
+                <div
+                  className="text-[14px] font-semibold whitespace-nowrap"
+                  style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+                >
                   €{(COLLAR_PRICE + (item.extra ? 5 : 0)).toFixed(2)}
                 </div>
               </div>
@@ -526,168 +355,113 @@ export default function CheckoutPage() {
         )}
 
         {/* Divider */}
-        <div style={{ height: 1, background: '#E8E3DC', marginBottom: 16 }} />
+        <div className="h-px mb-4" style={{ background: '#E8E3DC' }} />
 
         {/* Totals */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: '#9B948F' }}>
-              Subtotal
-            </span>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: 'var(--color-bark)' }}>
-              €{subtotal.toFixed(2)}
-            </span>
+        <div className="flex flex-col gap-2.5">
+          <div className="flex justify-between items-center">
+            <span className="text-[14px]" style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}>Subtotal</span>
+            <span className="text-[14px]" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>€{subtotal.toFixed(2)}</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: '#9B948F' }}>
-              Shipping
-            </span>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: shipping === 0 && subtotal > 0 ? '#5A9E54' : 'var(--color-bark)' }}>
+          <div className="flex justify-between items-center">
+            <span className="text-[14px]" style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}>Shipping</span>
+            <span
+              className="text-[14px]"
+              style={{ color: shipping === 0 && subtotal > 0 ? '#5A9E54' : 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+            >
               {subtotal === 0 ? '—' : shipping === 0 ? 'Free' : `€${shipping.toFixed(2)}`}
             </span>
           </div>
           {subtotal > 0 && shipping > 0 && (
-            <div style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              color: '#9B948F',
-              background: '#F5F2EE',
-              borderRadius: 8,
-              padding: '7px 10px',
-            }}>
+            <div
+              className="text-[12px] rounded-lg px-[10px] py-[7px]"
+              style={{ color: '#9B948F', background: '#F5F2EE', fontFamily: "'DM Sans', sans-serif" }}
+            >
               Add €{(SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping
             </div>
           )}
         </div>
 
         {/* Divider */}
-        <div style={{ height: 1, background: '#E8E3DC', margin: '16px 0' }} />
+        <div className="h-px my-4" style={{ background: '#E8E3DC' }} />
 
         {/* Total */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <span style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 15,
-            fontWeight: 700,
-            color: 'var(--color-bark)',
-          }}>
+        <div className="flex justify-between items-center mb-5">
+          <span className="text-[15px] font-bold" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>
             Total
           </span>
-          <span style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: 20,
-            color: 'var(--color-bark)',
-            letterSpacing: '0.02em',
-          }}>
+          <span
+            className="text-[20px]"
+            style={{ color: 'var(--color-bark)', letterSpacing: '0.02em', fontFamily: "'Luckiest Guy', cursive" }}
+          >
             €{total.toFixed(2)}
           </span>
         </div>
 
-        {/* Submit button — only on desktop */}
-        {!isMobile && (
-          <button
-            onClick={handlePlaceOrder}
-            style={{
-              width: '100%',
-              background: 'var(--color-sage)',
-              color: 'var(--color-bark)',
-              border: 'none',
-              borderRadius: 14,
-              padding: '16px 24px',
-              fontFamily: "'Luckiest Guy', cursive",
-              fontSize: 18,
-              letterSpacing: '0.04em',
-              cursor: 'pointer',
-              boxShadow: '0 4px 16px rgba(168,213,162,0.4)',
-              transition: 'transform 0.12s, box-shadow 0.12s',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)';
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(168,213,162,0.5)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(168,213,162,0.4)';
-            }}
-          >
-            Place order — €{total.toFixed(2)}
-          </button>
-        )}
+        {/* Submit button — desktop only */}
+        <button
+          onClick={handlePlaceOrder}
+          className="hidden md:block w-full rounded-[14px] px-6 py-4 text-[18px] cursor-pointer border-none transition-[transform,box-shadow] duration-[120ms]"
+          style={{
+            background: 'var(--color-sage)',
+            color: 'var(--color-bark)',
+            fontFamily: "'Luckiest Guy', cursive",
+            letterSpacing: '0.04em',
+            boxShadow: '0 4px 16px rgba(168,213,162,0.4)',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)';
+            (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(168,213,162,0.5)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
+            (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(168,213,162,0.4)';
+          }}
+        >
+          Place order — €{total.toFixed(2)}
+        </button>
 
         {/* Trust note */}
-        <div style={{
-          marginTop: 14,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 6,
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 12,
-          color: '#9B948F',
-        }}>
+        <div
+          className="mt-3.5 flex items-center justify-center gap-1.5 text-[12px]"
+          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+        >
           <LockIcon />
-          SSL encrypted — safe & secure checkout
+          SSL encrypted — safe &amp; secure checkout
         </div>
       </div>
     </div>
   );
 
   return (
-    <div style={{
-      background: 'var(--color-cream)',
-      minHeight: '100vh',
-      fontFamily: "'DM Sans', sans-serif",
-    }}>
+    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartItems.length} onCart={() => {}} />
 
-      <div style={{ paddingTop: 80 }}>
+      <div className="pt-20">
         {/* Page header */}
-        <div style={{
-          maxWidth: 960,
-          margin: '0 auto',
-          padding: isMobile ? '28px 16px 0' : '40px 24px 0',
-        }}>
-          <h1 style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 28 : 36,
-            color: 'var(--color-bark)',
-            letterSpacing: '0.04em',
-            margin: '0 0 6px',
-          }}>
+        <div className="max-w-[960px] mx-auto px-4 md:px-6 pt-7 md:pt-10">
+          <h1
+            className="text-[28px] md:text-[36px] mb-1.5"
+            style={{ color: 'var(--color-bark)', letterSpacing: '0.04em' }}
+          >
             Checkout
           </h1>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 15,
-            color: 'rgba(61,53,48,0.55)',
-            margin: '0 0 28px',
-          }}>
+          <p className="text-[15px] mb-7 opacity-55" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>
             Almost there — fill in your details to complete your order.
           </p>
         </div>
 
         {/* Two-column layout */}
-        <div style={{
-          maxWidth: 960,
-          margin: '0 auto',
-          padding: isMobile ? '0 16px 40px' : '0 24px 60px',
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          gap: isMobile ? 0 : 28,
-          alignItems: 'flex-start',
-        }}>
+        <div className="max-w-[960px] mx-auto px-4 md:px-6 pb-10 md:pb-[60px] flex flex-col md:flex-row md:gap-7 items-start">
           {/* On mobile: summary first, then form */}
-          {isMobile ? (
-            <>
-              {summaryColumn}
-              {formColumn}
-            </>
-          ) : (
-            <>
-              {formColumn}
-              {summaryColumn}
-            </>
-          )}
+          <div className="contents md:hidden">
+            {summaryColumn}
+            {formColumn}
+          </div>
+          <div className="hidden md:contents">
+            {formColumn}
+            {summaryColumn}
+          </div>
         </div>
       </div>
     </div>

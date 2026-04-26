@@ -5,26 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Tab = 'orders' | 'profile' | 'addresses' | 'wishlist';
-
-// ─── Shared input style ───────────────────────────────────────────────────────
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  borderRadius: 10,
-  border: '1.5px solid #E8E3DC',
-  padding: '10px 14px',
-  fontFamily: "'DM Sans', sans-serif",
-  fontSize: 14,
-  color: 'var(--color-bark)',
-  background: '#fff',
-  outline: 'none',
-  boxSizing: 'border-box',
-};
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -54,77 +38,46 @@ const MOCK_ADDRESS = {
   country: 'Lithuania',
 };
 
+const inputClass =
+  'w-full rounded-[10px] border-[1.5px] border-[#E8E3DC] px-[14px] py-[10px] text-[14px] bg-white outline-none box-border';
+
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function OrderCard({ order }: { order: (typeof MOCK_ORDERS)[number] }) {
   return (
     <div
-      style={{
-        background: '#fff',
-        border: '1.5px solid #E8E3DC',
-        borderRadius: 16,
-        padding: '20px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 20,
-        marginBottom: 16,
-      }}
+      className="bg-white rounded-2xl px-6 py-5 flex items-center gap-5 mb-4"
+      style={{ border: '1.5px solid #E8E3DC' }}
     >
       {/* Color swatch */}
       <div
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: 12,
-          background: order.color,
-          flexShrink: 0,
-        }}
+        className="w-12 h-12 rounded-xl shrink-0"
+        style={{ background: order.color }}
       />
-      <div style={{ flex: 1 }}>
+      <div className="flex-1">
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 600,
-            fontSize: 15,
-            color: 'var(--color-bark)',
-            marginBottom: 4,
-          }}
+          className="font-semibold text-[15px] mb-1"
+          style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           {order.name}
         </div>
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 13,
-            color: '#9B948F',
-          }}
+          className="text-[13px]"
+          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
         >
           Order #{order.id} · {order.date}
         </div>
       </div>
-      <div style={{ textAlign: 'right', flexShrink: 0 }}>
+      <div className="text-right shrink-0">
         <div
-          style={{
-            display: 'inline-block',
-            background: '#E8F5E6',
-            color: '#3A7A35',
-            borderRadius: 20,
-            padding: '3px 12px',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 12,
-            fontWeight: 600,
-            marginBottom: 6,
-          }}
+          className="inline-block rounded-[20px] px-3 py-[3px] text-[12px] font-semibold mb-1.5"
+          style={{ background: '#E8F5E6', color: '#3A7A35', fontFamily: "'DM Sans', sans-serif" }}
         >
           {order.status}
         </div>
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
-            fontWeight: 700,
-            color: 'var(--color-bark)',
-          }}
+          className="text-[14px] font-bold"
+          style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           {order.price}
         </div>
@@ -137,13 +90,8 @@ function TabOrders() {
   return (
     <div>
       <h2
-        style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: 26,
-          color: 'var(--color-bark)',
-          marginBottom: 24,
-          letterSpacing: '0.02em',
-        }}
+        className="text-[26px] mb-6"
+        style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
       >
         Your Orders
       </h2>
@@ -167,51 +115,36 @@ function TabProfile() {
   return (
     <div>
       <h2
-        style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: 26,
-          color: 'var(--color-bark)',
-          marginBottom: 24,
-          letterSpacing: '0.02em',
-        }}
+        className="text-[26px] mb-6"
+        style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
       >
         Profile
       </h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 440 }}>
+      <div className="flex flex-col gap-4 max-w-[440px]">
         <div>
           <label
-            style={{
-              display: 'block',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              fontWeight: 600,
-              color: '#9B948F',
-              marginBottom: 6,
-            }}
+            className="block text-[13px] font-semibold mb-1.5"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
           >
             Full name
           </label>
           <input
-            style={inputStyle}
+            className={inputClass}
+            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
           <label
-            style={{
-              display: 'block',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              fontWeight: 600,
-              color: '#9B948F',
-              marginBottom: 6,
-            }}
+            className="block text-[13px] font-semibold mb-1.5"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
           >
             Email address
           </label>
           <input
-            style={inputStyle}
+            className={inputClass}
+            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -219,19 +152,11 @@ function TabProfile() {
         </div>
         <button
           onClick={handleSave}
+          className="mt-2 self-start px-7 py-3 rounded-xl font-bold text-[15px] cursor-pointer border-none transition-[background] duration-200"
           style={{
-            marginTop: 8,
-            padding: '12px 28px',
             background: saved ? '#7bbf74' : 'var(--color-sage)',
             color: 'var(--color-bark)',
-            border: 'none',
-            borderRadius: 12,
             fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 700,
-            fontSize: 15,
-            cursor: 'pointer',
-            transition: 'background 0.2s',
-            alignSelf: 'flex-start',
           }}
         >
           {saved ? 'Saved!' : 'Save changes'}
@@ -245,62 +170,31 @@ function TabAddresses() {
   return (
     <div>
       <h2
-        style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: 26,
-          color: 'var(--color-bark)',
-          marginBottom: 24,
-          letterSpacing: '0.02em',
-        }}
+        className="text-[26px] mb-6"
+        style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
       >
         Addresses
       </h2>
       {/* Saved address card */}
       <div
-        style={{
-          background: '#fff',
-          border: '1.5px solid #E8E3DC',
-          borderRadius: 16,
-          padding: '20px 24px',
-          marginBottom: 16,
-          maxWidth: 380,
-          position: 'relative',
-        }}
+        className="bg-white rounded-2xl px-6 py-5 mb-4 max-w-[380px] relative"
+        style={{ border: '1.5px solid #E8E3DC' }}
       >
         <div
-          style={{
-            position: 'absolute',
-            top: 16,
-            right: 16,
-            background: '#E8F5E6',
-            color: '#3A7A35',
-            borderRadius: 20,
-            padding: '2px 10px',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 11,
-            fontWeight: 600,
-          }}
+          className="absolute top-4 right-4 rounded-[20px] px-[10px] py-[2px] text-[11px] font-semibold"
+          style={{ background: '#E8F5E6', color: '#3A7A35', fontFamily: "'DM Sans', sans-serif" }}
         >
           Default
         </div>
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 700,
-            fontSize: 15,
-            color: 'var(--color-bark)',
-            marginBottom: 6,
-          }}
+          className="font-bold text-[15px] mb-1.5"
+          style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           {MOCK_ADDRESS.name}
         </div>
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
-            color: '#9B948F',
-            lineHeight: 1.6,
-          }}
+          className="text-[14px] leading-relaxed"
+          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
         >
           {MOCK_ADDRESS.line1}
           <br />
@@ -311,16 +205,11 @@ function TabAddresses() {
       </div>
       {/* Add address button */}
       <button
+        className="px-6 py-[11px] rounded-xl font-semibold text-[14px] cursor-pointer bg-transparent"
         style={{
-          padding: '11px 24px',
-          background: 'transparent',
           border: '1.5px solid var(--color-bark)',
-          borderRadius: 12,
-          fontFamily: "'DM Sans', sans-serif",
-          fontWeight: 600,
-          fontSize: 14,
           color: 'var(--color-bark)',
-          cursor: 'pointer',
+          fontFamily: "'DM Sans', sans-serif",
         }}
       >
         + Add address
@@ -333,64 +222,32 @@ function TabWishlist() {
   return (
     <div>
       <h2
-        style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: 26,
-          color: 'var(--color-bark)',
-          marginBottom: 24,
-          letterSpacing: '0.02em',
-        }}
+        className="text-[26px] mb-6"
+        style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
       >
         Wishlist
       </h2>
       <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '60px 24px',
-          background: '#fff',
-          border: '1.5px solid #E8E3DC',
-          borderRadius: 16,
-          textAlign: 'center',
-        }}
+        className="flex flex-col items-center justify-center px-6 py-[60px] bg-white rounded-2xl text-center"
+        style={{ border: '1.5px solid #E8E3DC' }}
       >
-        <div style={{ fontSize: 48, marginBottom: 16 }}>🐾</div>
+        <div className="text-[48px] mb-4">🐾</div>
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 16,
-            fontWeight: 600,
-            color: 'var(--color-bark)',
-            marginBottom: 8,
-          }}
+          className="text-[16px] font-semibold mb-2"
+          style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           Nothing saved yet
         </div>
         <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
-            color: '#9B948F',
-            marginBottom: 24,
-          }}
+          className="text-[14px] mb-6"
+          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
         >
           Browse our collars and charm sets and save your favourites.
         </div>
         <Link
           href="/products"
-          style={{
-            display: 'inline-block',
-            padding: '12px 28px',
-            background: 'var(--color-sage)',
-            color: 'var(--color-bark)',
-            borderRadius: 12,
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 700,
-            fontSize: 14,
-            textDecoration: 'none',
-          }}
+          className="inline-block px-7 py-3 rounded-xl font-bold text-[14px] no-underline"
+          style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           Shop products
         </Link>
@@ -409,219 +266,97 @@ const NAV_ITEMS: { id: Tab; label: string; icon: string }[] = [
 ];
 
 function Dashboard({
-  width,
   onLogout,
 }: {
-  width: number;
   onLogout: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<Tab>('orders');
-  const isMobile = width < 768;
 
   const sidebar = (
-    <div
-      style={{
-        width: isMobile ? '100%' : 240,
-        flexShrink: 0,
-      }}
-    >
+    <div className="w-full md:w-[240px] shrink-0">
       {/* Avatar + name */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: isMobile ? 'row' : 'column',
-          alignItems: isMobile ? 'center' : 'center',
-          gap: isMobile ? 16 : 12,
-          padding: isMobile ? '0 0 20px' : '0 0 32px',
-          marginBottom: isMobile ? 0 : 8,
-        }}
-      >
+      <div className="flex flex-row md:flex-col items-center gap-4 md:gap-3 pb-5 md:pb-8 mb-0 md:mb-2">
         <div
-          style={{
-            width: isMobile ? 52 : 72,
-            height: isMobile ? 52 : 72,
-            borderRadius: '50%',
-            background: 'var(--color-sage)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 18 : 26,
-            color: 'var(--color-bark)',
-            flexShrink: 0,
-          }}
+          className="rounded-full flex items-center justify-center shrink-0 w-[52px] h-[52px] md:w-[72px] md:h-[72px] text-[18px] md:text-[26px]"
+          style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'Luckiest Guy', cursive" }}
         >
           RG
         </div>
-        {!isMobile && (
-          <div style={{ textAlign: 'center' }}>
-            <div
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 700,
-                fontSize: 15,
-                color: 'var(--color-bark)',
-              }}
-            >
-              Rysard G.
-            </div>
-            <div
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 12,
-                color: '#9B948F',
-                marginTop: 2,
-              }}
-            >
-              Pawlette Member
-            </div>
+        <div className="md:text-center">
+          <div
+            className="font-bold text-[15px]"
+            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+          >
+            Rysard G.
           </div>
-        )}
-        {isMobile && (
-          <div>
-            <div
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 700,
-                fontSize: 15,
-                color: 'var(--color-bark)',
-              }}
-            >
-              Rysard G.
-            </div>
-            <div
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 12,
-                color: '#9B948F',
-              }}
-            >
-              Pawlette Member
-            </div>
+          <div
+            className="text-[12px] mt-0.5"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+          >
+            Pawlette Member
           </div>
-        )}
+        </div>
       </div>
 
       {/* Nav items */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: isMobile ? 'row' : 'column',
-          gap: isMobile ? 4 : 4,
-          overflowX: isMobile ? 'auto' : 'visible',
-          paddingBottom: isMobile ? 4 : 0,
-        }}
-      >
+      <div className="flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible pb-1 md:pb-0">
         {NAV_ITEMS.map((item) => {
           const isActive = activeTab === item.id;
           return (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
+              className="flex items-center gap-2.5 rounded-xl border-none cursor-pointer text-left whitespace-nowrap text-[14px] transition-[background,color] duration-150 px-[14px] py-[9px] md:px-4 md:py-[11px]"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: isMobile ? '9px 14px' : '11px 16px',
-                borderRadius: 12,
-                border: 'none',
                 background: isActive ? 'var(--color-sage)' : 'transparent',
                 color: isActive ? 'var(--color-bark)' : '#9B948F',
-                fontFamily: "'DM Sans', sans-serif",
                 fontWeight: isActive ? 700 : 500,
-                fontSize: 14,
-                cursor: 'pointer',
-                textAlign: 'left',
-                whiteSpace: 'nowrap',
-                transition: 'background 0.15s, color 0.15s',
+                fontFamily: "'DM Sans', sans-serif",
               }}
             >
-              <span style={{ fontSize: 15 }}>{item.icon}</span>
+              <span className="text-[15px]">{item.icon}</span>
               {item.label}
             </button>
           );
         })}
       </div>
 
-      {/* Sign out — desktop only inline, mobile after content */}
-      {!isMobile && (
-        <button
-          onClick={onLogout}
-          style={{
-            marginTop: 32,
-            padding: '10px 16px',
-            borderRadius: 12,
-            border: '1.5px solid #E8E3DC',
-            background: 'transparent',
-            color: '#9B948F',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 13,
-            fontWeight: 500,
-            cursor: 'pointer',
-            width: '100%',
-            textAlign: 'left',
-          }}
-        >
-          Sign out
-        </button>
-      )}
+      {/* Sign out — desktop only */}
+      <button
+        onClick={onLogout}
+        className="hidden md:block mt-8 px-4 py-[10px] rounded-xl bg-transparent text-[13px] font-medium cursor-pointer w-full text-left"
+        style={{ border: '1.5px solid #E8E3DC', color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+      >
+        Sign out
+      </button>
     </div>
   );
 
   const content = (
-    <div style={{ flex: 1, minWidth: 0 }}>
+    <div className="flex-1 min-w-0">
       {activeTab === 'orders' && <TabOrders />}
       {activeTab === 'profile' && <TabProfile />}
       {activeTab === 'addresses' && <TabAddresses />}
       {activeTab === 'wishlist' && <TabWishlist />}
 
-      {isMobile && (
-        <button
-          onClick={onLogout}
-          style={{
-            marginTop: 32,
-            padding: '12px 20px',
-            borderRadius: 12,
-            border: '1.5px solid #E8E3DC',
-            background: 'transparent',
-            color: '#9B948F',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 13,
-            fontWeight: 500,
-            cursor: 'pointer',
-            width: '100%',
-          }}
-        >
-          Sign out
-        </button>
-      )}
+      <button
+        onClick={onLogout}
+        className="md:hidden mt-8 px-5 py-3 rounded-xl bg-transparent text-[13px] font-medium cursor-pointer w-full"
+        style={{ border: '1.5px solid #E8E3DC', color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+      >
+        Sign out
+      </button>
     </div>
   );
 
   return (
-    <div
-      style={{
-        maxWidth: 900,
-        margin: '0 auto',
-        padding: isMobile ? '0 16px 60px' : '0 24px 80px',
-        display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? 24 : 48,
-        alignItems: 'flex-start',
-      }}
-    >
+    <div className="max-w-[900px] mx-auto px-4 md:px-6 pb-[60px] md:pb-20 flex flex-col md:flex-row gap-6 md:gap-12 items-start">
       {sidebar}
       {/* Vertical divider on desktop */}
-      {!isMobile && (
-        <div
-          style={{
-            width: 1,
-            alignSelf: 'stretch',
-            background: '#E8E3DC',
-            flexShrink: 0,
-          }}
-        />
-      )}
+      <div
+        className="hidden md:block w-px self-stretch shrink-0"
+        style={{ background: '#E8E3DC' }}
+      />
       {content}
     </div>
   );
@@ -640,63 +375,36 @@ function LoginCard({ onLogin }: { onLogin: () => void }) {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: 440,
-        width: '100%',
-        margin: '0 auto',
-        padding: '0 16px 80px',
-      }}
-    >
+    <div className="max-w-[440px] w-full mx-auto px-4 pb-20">
       <div
-        style={{
-          background: '#fff',
-          border: '1.5px solid #E8E3DC',
-          borderRadius: 24,
-          padding: '40px 36px',
-        }}
+        className="bg-white rounded-3xl px-9 py-10"
+        style={{ border: '1.5px solid #E8E3DC' }}
       >
         {/* Heading */}
         <h1
-          style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: 32,
-            color: 'var(--color-bark)',
-            marginBottom: 8,
-            letterSpacing: '0.02em',
-            textAlign: 'center',
-          }}
+          className="text-[32px] mb-2 text-center"
+          style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
         >
           Welcome back
         </h1>
         <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 15,
-            color: '#9B948F',
-            textAlign: 'center',
-            marginBottom: 32,
-          }}
+          className="text-[15px] text-center mb-8"
+          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
         >
           Sign in to manage your orders and profile.
         </p>
 
         {/* Email */}
-        <div style={{ marginBottom: 16 }}>
+        <div className="mb-4">
           <label
-            style={{
-              display: 'block',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              fontWeight: 600,
-              color: '#9B948F',
-              marginBottom: 6,
-            }}
+            className="block text-[13px] font-semibold mb-1.5"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
           >
             Email address
           </label>
           <input
-            style={inputStyle}
+            className={inputClass}
+            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
             type="email"
             placeholder="you@example.com"
             value={email}
@@ -706,21 +414,16 @@ function LoginCard({ onLogin }: { onLogin: () => void }) {
         </div>
 
         {/* Password */}
-        <div style={{ marginBottom: 28 }}>
+        <div className="mb-7">
           <label
-            style={{
-              display: 'block',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              fontWeight: 600,
-              color: '#9B948F',
-              marginBottom: 6,
-            }}
+            className="block text-[13px] font-semibold mb-1.5"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
           >
             Password
           </label>
           <input
-            style={inputStyle}
+            className={inputClass}
+            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
             type="password"
             placeholder="••••••••"
             value={password}
@@ -732,58 +435,31 @@ function LoginCard({ onLogin }: { onLogin: () => void }) {
         {/* Sign in button */}
         <button
           onClick={handleSignIn}
-          style={{
-            width: '100%',
-            padding: '13px 0',
-            background: 'var(--color-sage)',
-            color: 'var(--color-bark)',
-            border: 'none',
-            borderRadius: 12,
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 700,
-            fontSize: 15,
-            cursor: 'pointer',
-            marginBottom: 20,
-          }}
+          className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none mb-5"
+          style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
           Sign in
         </button>
 
         {/* Divider */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            marginBottom: 20,
-          }}
-        >
-          <div style={{ flex: 1, height: 1, background: '#E8E3DC' }} />
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex-1 h-px" style={{ background: '#E8E3DC' }} />
           <span
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              color: '#9B948F',
-            }}
+            className="text-[13px]"
+            style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
           >
             or
           </span>
-          <div style={{ flex: 1, height: 1, background: '#E8E3DC' }} />
+          <div className="flex-1 h-px" style={{ background: '#E8E3DC' }} />
         </div>
 
         {/* Create account button */}
         <button
+          className="w-full py-[13px] rounded-xl font-semibold text-[15px] cursor-pointer bg-transparent"
           style={{
-            width: '100%',
-            padding: '13px 0',
-            background: 'transparent',
-            color: 'var(--color-bark)',
             border: '1.5px solid var(--color-bark)',
-            borderRadius: 12,
+            color: 'var(--color-bark)',
             fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 600,
-            fontSize: 15,
-            cursor: 'pointer',
           }}
         >
           Create account
@@ -797,22 +473,15 @@ function LoginCard({ onLogin }: { onLogin: () => void }) {
 
 export default function AccountPage() {
   const router = useRouter();
-  const width = useWindowWidth() ?? 1200;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <div
-      style={{
-        background: 'var(--color-cream)',
-        minHeight: '100vh',
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
+    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={0} onCart={() => router.push('/cart')} />
 
-      <div style={{ paddingTop: 100 }}>
+      <div className="pt-[100px]">
         {isLoggedIn ? (
-          <Dashboard width={width} onLogout={() => setIsLoggedIn(false)} />
+          <Dashboard onLogout={() => setIsLoggedIn(false)} />
         ) : (
           <LoginCard onLogin={() => setIsLoggedIn(true)} />
         )}
